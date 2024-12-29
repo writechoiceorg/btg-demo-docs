@@ -1,0 +1,64 @@
+---
+id: post-transfer-internal
+title: "Process a transfer to internal account"
+description: "This method is called to send a single instance of internal tranfer to be processed by our infrastructure."
+sidebar_label: "Process a transfer to internal account"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: reference/transactions/btg-pactual-banking-as-a-service-transactions
+custom_edit_url: null
+proxy: https://proxy.writechoice.io/
+---
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Process a transfer to internal account"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/transfer/internal"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+This method is called to send a single instance of internal tranfer to be processed by our infrastructure.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"title":"TransferRequest","required":["accountFrom","accountTo","amount","branchFrom","branchTo","clientRequestId"],"type":"object","properties":{"clientRequestId":{"description":"Unique identifier provided by the client. Can be used in response corelation.","type":"string"},"branchFrom":{"description":"Sender Bank Account Branch","maxLength":4,"type":"integer"},"accountFrom":{"description":"Sender account number","type":"integer"},"branchTo":{"description":"Receiver Bank Account Branch","maxLength":4,"type":"integer"},"accountTo":{"description":"Receiver account number","type":"integer"},"amount":{"description":"Amount in cents to be transfered. Example: 100 = R$1.00","type":"number"}}},"examples":{"Example":{"value":{"clientRequestId":"bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca4","branchFrom":20,"accountFrom":340475,"branchTo":1,"accountTo":288761,"amount":50000}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"content":{"application/json":{"schema":{"title":"PactualSingleResponse","description":"Default response body for create single resource apis.","required":["body","version","status"],"type":"object","properties":{"body":{"description":"Body with clientRequestId and pactualId.","properties":{"clientRequestId":{"type":"string"},"pactualId":{"type":"string"}},"required":["clientRequestId","pactualId"],"type":"object","example":{"clientRequestId":"4a068fe4-97c2-4c58-9abb-76f94d293ad0","pactualId":"8cde0465-1579-4e1c-8cae-07096ebd7fcc"},"title":"SingleResponseBody"},"version":{"description":"The api version.","type":"string"},"status":{"description":"The http status code.","type":"integer"}},"example":{"version":"1.0","status":200,"body":{"clientRequestId":"daf17267-f26d-43e5-baef-074bb67c95c8","pactualId":"ad21c1a9-feb5-43b2-8b82-1e93b7cf5d50"}}},"examples":{"Example":{"value":{"version":"string","status":202,"body":{"clientRequestId":"bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca5","pactualId":"bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca4"}}}}}},"description":"OK"},"500":{"content":{"application/json":{"schema":{"title":"PactualErrorResponse","description":"Default response body in case of any errors.","type":"object","properties":{"version":{"description":"Api version.","type":"string"},"status":{"description":"Http status code.","type":"string"},"errors":{"description":"Array of errors.","type":"array","items":{"type":"object","properties":{"errorCode":{"type":"string"},"message":{"type":"string"}}}}},"example":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is required."},{"errorCode":"PCE002","message":"The field 'taxId' is incorrect."}]}},"examples":{"InternalServerErrorExample":{"value":{"version":"1.0.0","status":500,"errors":[{"errorCode":"PIE001","message":"Internal server error"}]}}}}},"description":"Internal server error responses."}}}
+>
+  
+</StatusCodes>
+
+
+      

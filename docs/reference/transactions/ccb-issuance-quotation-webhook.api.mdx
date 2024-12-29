@@ -1,0 +1,72 @@
+---
+id: ccb-issuance-quotation-webhook
+title: "Webhooks (CcbIssuanceQuotation)"
+description: "We send a webhook for every change in a CCB Issuance Quotation status. You can check de possible status values [here](#section/CCB-Issuance-Quotation-Status)."
+sidebar_label: "Webhooks (CcbIssuanceQuotation)"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "event api-method"
+info_path: reference/transactions/btg-pactual-banking-as-a-service-transactions
+custom_edit_url: null
+proxy: https://proxy.writechoice.io/
+---
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Webhooks (CcbIssuanceQuotation)"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"event"}
+  path={"webhook"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+We send a webhook for every change in a CCB Issuance Quotation status. You can check de possible status values [here](#section/CCB-Issuance-Quotation-Status).
+
+You can sign this webhook in the logged area of this portal or via [API](https://developer.btgpactual.com/doccm#tag/Webhook), with the entity ```CcbIssuanceQuotation```.
+You can also configure the security validation method for the requests, which can be either ```mTLS Certificate``` or ```Hash Signature (HMAC SHA256 Hash)```.
+
+For more information on the security validation methods, check the ```AUTHORIZATIONS``` section below.
+
+For more information on webhooks, see the [Webhook Documentation](https://developer.btgpactual.com/doccm#tag/Webhook).
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"description":"CCB Quotation Entity","required":["body"],"allOf":[{"description":"BaaS Entity Envelope","required":["pactualId","clientRequestId","createTimestamp","lastUpdateTimestamp","status","entity"],"type":"object","properties":{"pactualId":{"format":"uuid","description":"Unique resource identificator (uuid) generated by api.","type":"string","title":"PactualId"},"clientRequestId":{"description":"The unique transaction identification given by the client side. This value can't be repeated.","type":"string","title":"ClientRequestId"},"createTimestamp":{"format":"date-time","description":"The string representation of the Timestamp that the record was created (UTC).","pattern":"yyyy-MM-ddTHH:mm:ssZ","type":"string","title":"CreateTimestamp"},"lastUpdateTimestamp":{"format":"date-time","description":"The string representation of the Timestamp that the record was last updated (UTC).","pattern":"yyyy-MM-ddTHH:mm:ssZ","type":"string","title":"LastUpdateTimestamp"},"status":{"description":"The operation status.","type":"string","title":"Status"},"entity":{"description":"Operation Contract Entity.","type":"string","title":"Entity"},"tags":{"nullable":true,"description":"Tags that can be sent by the client, it will be saved on the Entity, use as a metadata field","uniqueItems":true,"type":"array","items":{"type":"string"},"example":["tag1","tag2"],"title":"Tags"},"errorCode":{"description":"The error code.","type":"string","title":"ErrorCode"},"errorDescription":{"description":"The error description.","type":"string","title":"ErrorDescription"}},"title":"EntityEnvelope"},{"type":"object","properties":{"body":{"required":["productProfileId","executionId","disbursementDate","firstPaymentDate","requestedAmount"],"properties":{"productProfileId":{"nullable":true,"type":"string"},"executionId":{"nullable":true,"type":"string"},"simulationLastUpdate":{"nullable":true,"type":"string"},"disbursementDate":{"nullable":true,"type":"string"},"firstPaymentDate":{"nullable":true,"type":"string"},"requestedAmount":{"format":"double","type":"number"},"paymentDay":{"format":"int32","type":"integer"},"minimumInstalments":{"format":"int32","type":"integer"},"maximumInstalments":{"format":"int32","type":"integer"},"monthlyInterestRate":{"format":"double","type":"number"},"annualInterestRate":{"format":"double","type":"number"},"calculationType":{"nullable":true,"type":"string"},"valorizationMethod":{"nullable":true,"type":"string"},"counterPartyType":{"nullable":true,"type":"string"},"iofFinance":{"type":"boolean"},"amortizationFrequencyCode":{"nullable":true,"type":"string"},"interestIndexCode":{"nullable":true,"type":"string"},"interestFrequencyCode":{"nullable":true,"type":"string"},"operations":{"nullable":true,"type":"array","items":{"type":"object","properties":{"operationId":{"nullable":true,"type":"string"},"instalmentCount":{"format":"int32","type":"integer"},"amount":{"format":"double","type":"number"},"principal":{"format":"double","type":"number"},"disbursementAmount":{"format":"double","type":"number"},"instalmentAmount":{"format":"double","type":"number"},"cetRate":{"format":"double","type":"number"},"iof":{"type":"object","properties":{"iofTotalAmount":{"format":"double","type":"number"},"dailyRate":{"format":"double","type":"number"},"additionalRate":{"format":"double","type":"number"},"pprIOF":{"format":"double","type":"number"}},"additionalProperties":false,"title":"CcbIssuanceIofDetails"},"pprDisbursement":{"format":"double","type":"number"},"fees":{"nullable":true,"type":"array","items":{"type":"object","properties":{"amount":{"format":"double","type":"number"},"pmt":{"format":"double","type":"number"},"grossValue":{"format":"double","type":"number"},"code":{"nullable":true,"type":"string"},"percentage":{"format":"double","type":"number"},"isFinanciable":{"type":"boolean"},"isGrossupable":{"type":"boolean"},"isDebitable":{"type":"boolean"}},"additionalProperties":false,"title":"CcbIssuanceFee"}},"cashFlows":{"nullable":true,"type":"array","items":{"type":"object","properties":{"index":{"format":"int32","type":"integer"},"balance":{"format":"double","type":"number"},"amortization":{"format":"double","type":"number"},"interestAmount":{"format":"double","type":"number"},"iofAmount":{"format":"double","type":"number"},"amount":{"format":"double","type":"number"},"mainTicket":{"format":"double","type":"number"},"incorporateDays":{"nullable":true,"type":"string"},"incorporationFlag":{"type":"boolean"},"startAccrual":{"nullable":true,"type":"string"},"endAccrual":{"nullable":true,"type":"string"},"paymentDate":{"nullable":true,"type":"string"}},"title":"CcbIssuanceCashFlow"}}},"additionalProperties":false,"title":"CcbIssuanceOperation"}}},"additionalProperties":false,"title":"CcbIssuanceQuotationEntity"}}}],"title":"CcbIssuanceQuotationEntityEnvelope"}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"2XX":{"description":"Return any 2XX status to indicate that the data was received successfully"}}}
+>
+  
+</StatusCodes>
+
+
+      

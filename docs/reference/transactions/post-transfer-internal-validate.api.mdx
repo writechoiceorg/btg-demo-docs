@@ -1,0 +1,64 @@
+---
+id: post-transfer-internal-validate
+title: "Process a internal transfer to validated destination account"
+description: "This method is called to send internal transfers to validate the destination account."
+sidebar_label: "Process a internal transfer to validated destination account"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: reference/transactions/btg-pactual-banking-as-a-service-transactions
+custom_edit_url: null
+proxy: https://proxy.writechoice.io/
+---
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Process a internal transfer to validated destination account"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/transfer/internal/destination-validate"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+This method is called to send internal transfers to validate the destination account.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"title":"TransferRequest","required":["accountFrom","accountTo","amount","branchFrom","branchTo","clientRequestId"],"type":"object","properties":{"clientRequestId":{"description":"Unique identifier provided by the client. Can be used in response corelation.","type":"string"},"branchFrom":{"description":"Sender Bank Account Branch","maxLength":4,"type":"integer"},"accountFrom":{"description":"Sender account number","type":"integer"},"branchTo":{"description":"Receiver Bank Account Branch","maxLength":4,"type":"integer"},"accountTo":{"description":"Receiver account number","type":"integer"},"amount":{"description":"Amount in cents to be transfered. Example: 100 = R$1.00","type":"number"}}},"examples":{"Example":{"value":{"clientRequestId":"bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca4","branchFrom":20,"accountFrom":340475,"branchTo":1,"accountTo":288761,"amount":50000}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"content":{"application/json":{"schema":{"title":"PactualSingleResponse","description":"Default response body for create single resource apis.","required":["body","version","status"],"type":"object","properties":{"body":{"description":"Body with clientRequestId and pactualId.","properties":{"clientRequestId":{"type":"string"},"pactualId":{"type":"string"}},"required":["clientRequestId","pactualId"],"type":"object","example":{"clientRequestId":"4a068fe4-97c2-4c58-9abb-76f94d293ad0","pactualId":"8cde0465-1579-4e1c-8cae-07096ebd7fcc"},"title":"SingleResponseBody"},"version":{"description":"The api version.","type":"string"},"status":{"description":"The http status code.","type":"integer"}},"example":{"version":"1.0","status":200,"body":{"clientRequestId":"daf17267-f26d-43e5-baef-074bb67c95c8","pactualId":"ad21c1a9-feb5-43b2-8b82-1e93b7cf5d50"}}},"examples":{"Example":{"value":{"version":"string","status":202,"body":{"clientRequestId":"bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca5","pactualId":"bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca4"}}}}}},"description":"OK"},"500":{"content":{"application/json":{"schema":{"title":"PactualErrorResponse","description":"Default response body in case of any errors.","type":"object","properties":{"version":{"description":"Api version.","type":"string"},"status":{"description":"Http status code.","type":"string"},"errors":{"description":"Array of errors.","type":"array","items":{"type":"object","properties":{"errorCode":{"type":"string"},"message":{"type":"string"}}}}},"example":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is required."},{"errorCode":"PCE002","message":"The field 'taxId' is incorrect."}]}},"examples":{"InternalServerErrorExample":{"value":{"version":"1.0.0","status":500,"errors":[{"errorCode":"PIE001","message":"Internal server error"}]}}}}},"description":"Internal server error responses."}}}
+>
+  
+</StatusCodes>
+
+
+      

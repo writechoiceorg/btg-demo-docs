@@ -1,0 +1,64 @@
+---
+id: pix-brcode-parse
+title: "Open the BR code information using the emv string."
+description: "This endpoint returns the PIX static or dynamic BR code information parsed from the emv string."
+sidebar_label: "Open the BR code information using the emv string."
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: reference/pix-indirect/btg-pactual-banking-as-a-service-pix-indirect-participant
+custom_edit_url: null
+proxy: https://proxy.writechoice.io/
+---
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Open the BR code information using the emv string."}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/pix/brcode/parse"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+This endpoint returns the PIX static or dynamic BR code information parsed from the emv string.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"description":"The QRCode string representation.","content":{"application/json":{"schema":{"title":"Root Type for QRCodeParseRequest","description":"","type":"object","properties":{"emv":{"description":"The QRCode emv string.","type":"string"}},"example":{"emv":"string"}},"examples":{"StaticBRCode":{"value":{"emv":"00020126580014br.gov.bcb.pix0136e9df7396-21cc-4e39-b154-77109689646b520400005303986540510.255802BR5913Fulano de Tal6014Rio de Janeiro62130509churrasco6304A5CA"}}}}},"required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"content":{"application/json":{"schema":{"title":"Root Type for PixStaticBRCodeEnvelope","description":"","type":"object","properties":{"body":{"description":"The StaticQRCode data.","properties":{"countryCode":{"type":"string"},"emvqrcps":{"type":"string"},"merchantAccountInformation":{"type":"object","properties":{"additionalInformation":{"type":"string"},"gui":{"type":"string"},"key":{"type":"string"}}},"merchantCategoryCode":{"format":"int32","type":"integer"},"merchantCity":{"type":"string"},"merchantName":{"type":"string"},"payloadFormatIndicator":{"type":"string"},"postalCode":{"type":"string"},"transactionAmount":{"format":"double","type":"number"},"transactionCurrency":{"format":"int32","type":"integer"},"transactionIdentification":{"type":"string"}},"title":"PixBRCode","type":"object","example":{"countryCode":"BR","emvqrcps":"00020126650014br.gov.bcb.pix0119mvleandro@gmail.com0220Obrigado por comprar520454995303986540510.255802BR5908Capas BR6014Rio de Janeiro61082020030062260522s85jI26SKUGlYaRkuRJP4g63044A32","merchantAccountInformation":{"additionalInformation":"Obrigado por comprar","key":"mvleandro@gmail.com","withdrawalServiceProvider":"12345678"},"merchantCategoryCode":5499,"merchantCity":"Rio de Janeiro","merchantName":"Capas BR","payloadFormatIndicator":"01","postalCode":"20200300","transactionAmount":10.25,"transactionCurrency":986,"transactionIdentification":"s85jI26SKUGlYaRkuRJP4g"}},"status":{"format":"int32","description":"The HTTP response code.","type":"integer"},"version":{"description":"The api version.","type":"string"}},"example":{"body":{"countryCode":"BR","emvqrcps":"00020126620014br.gov.bcb.pix0116fulano@gmail.com0220Obrigado por comprar520458425303986540510.555802BR5910Pipocas RJ6014Rio de Janeiro61082077000062260522YUbBYsRdtUyD2HG4AlZzHQ6304D8F1","merchantAccountInformation":{"additionalInformation":"Obrigado por comprar","gui":"br.gov.bcb.pix","key":"fulano@gmail.com","withdrawalServiceProvider":"12345678"},"merchantCategoryCode":5842,"merchantCity":"Rio de Janeiro","merchantName":"Pipocas RJ","payloadFormatIndicator":"01","postalCode":"20770000","transactionAmount":10.55,"transactionCurrency":986,"transactionIdentification":"YUbBYsRdtUyD2HG4AlZzHQ"},"status":200,"version":"1.0.0"}},"examples":{"PixStaticBRCode":{"value":{"version":"1.0.0","status":200,"body":{"payloadFormatIndicator":"01","merchantAccountInformation":{"gui":"br.gov.bcb.pix","key":"fulano@gmail.com","additionalInformation":"Obrigado por comprar"},"merchantCategoryCode":5842,"transactionCurrency":986,"transactionAmount":10.55,"countryCode":"BR","merchantName":"Pipocas RJ","merchantCity":"Rio de Janeiro","postalCode":"20770000","transactionIdentification":"YUbBYsRdtUyD2HG4AlZzHQ","emvqrcps":"00020126620014br.gov.bcb.pix0116fulano@gmail.com0220Obrigado por comprar520458425303986540510.555802BR5910Pipocas RJ6014Rio de Janeiro61082077000062260522YUbBYsRdtUyD2HG4AlZzHQ6304D8F1"}}},"PixDynamicBRCode":{"value":{"version":"1.0.0","status":200,"body":{"pointOfInitiationMethod":"12","merchantAccountInformation":{"url":"https://api.sandbox.developer.btgpactual.com/v1/p/d/7fdf644e57a048ce8383f65115535c68","gui":"br.gov.bcb.pix"},"payloadFormatIndicator":"01","merchantCategoryCode":10,"transactionCurrency":986,"transactionAmount":10.25,"countryCode":"BR","merchantName":"Ecommerce S.A.","merchantCity":"Rio de Janeiro","transactionIdentification":"7fdf644e57a048ce8383f65115535c68","emvqrcps":"00020101021226980014br.gov.bcb.pix2576api.sandbox.developer.btgpactual.com/v1/p/d/7fdf644e57a048ce8383f65115535c68520400105303986540510.255802BR5914Ecommerce S.A.6014Rio de Janeiro623605327fdf644e57a048ce8383f65115535c686304C2CA"}}}}}},"description":"OK"},"400":{"content":{"application/json":{"schema":{"title":"PactualErrorResponse","description":"Default response body in case of any errors.","type":"object","properties":{"version":{"description":"Api version.","type":"string"},"status":{"description":"Http status code.","type":"string"},"errors":{"description":"Array of errors.","type":"array","items":{"type":"object","properties":{"errorCode":{"type":"string"},"message":{"type":"string"}}}}},"example":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is required."},{"errorCode":"PCE002","message":"The field 'taxId' is incorrect."}]}},"examples":{"BadRequestExample":{"value":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is mandatory."},{"errorCode":"PCE001","message":"The field 'accountNumber' is mandatory."}]}}}}},"description":"A BadRequest response."},"401":{"description":"Response when a request is not authorized for the user."},"403":{"description":"Response when the resource can not be accessed by the user."},"429":{"description":"Too many requests. Try wait and call again later."},"500":{"content":{"application/json":{"schema":{"title":"PactualErrorResponse","description":"Default response body in case of any errors.","type":"object","properties":{"version":{"description":"Api version.","type":"string"},"status":{"description":"Http status code.","type":"string"},"errors":{"description":"Array of errors.","type":"array","items":{"type":"object","properties":{"errorCode":{"type":"string"},"message":{"type":"string"}}}}},"example":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is required."},{"errorCode":"PCE002","message":"The field 'taxId' is incorrect."}]}},"examples":{"InternalServerErrorExample":{"value":{"version":"1.0.0","status":500,"errors":[{"errorCode":"PIE001","message":"Internal server error"}]}}}}},"description":"Internal server error responses."},"504":{"description":"Received a timeout of an internal api. Check if the resource is created using the search api or by receiving a webhook notification."}}}
+>
+  
+</StatusCodes>
+
+
+      

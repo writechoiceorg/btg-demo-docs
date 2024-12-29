@@ -1,0 +1,4831 @@
+openapi: 3.0.1
+info:
+  title: BTG Pactual Banking as a Service (Commom Methods)
+  version: 2.0.0
+  description: "Digital plataform developed by BTG Pactual engineers as an on demand banking service provider.\r\n\r\n[**Documentation Hub**](https://developer.btgpactual.com/dochub)  \r\n    - [Commom Methods](https://developer.btgpactual.com/doccm)  \r\n    - [Onboarding](https://developer.btgpactual.com/docob)  \r\n    - [Transactions](https://developer.btgpactual.com/doctr)  \r\n    - [PIX Commom Funcionalities](https://developer.btgpactual.com/docpc)  \r\n    - [PIX Indirect Participant](https://developer.btgpactual.com/docpi)  \r\n    - [PIX Merchant Clients](https://developer.btgpactual.com/docpm)  \r\n\r\n|BaaS Commom Methods API| |\r\n|------------------------|-------------------------------|\r\n|Sandbox |https://api.sandbox.developer.btgpactual.com/cm|\r\n|Sandbox (with mTLS) |https://sandbox.developer.api.btgpactual.com/cm|\r\n|Production |https://api.developer.btgpactual.com/cm|\r\n|Production (with mTLS) |https://developer.api.btgpactual.com/cm|\r\n\r\n\r\n## Response Envelopes\r\n\r\nAll our responses follow the same pattern. They are sent respecting a default response envelope as shown bellow.\r\n```\r\n# Default Envelope\r\n{\r\n    \"version\": \"0.1.0\",\r\n    \"status\": 204\r\n}\r\n\r\n# Envelope with response body\r\n{\r\n    \"version\": \"0.1.0\",\r\n    \"status\": 201,\r\n    \"body\": {\r\n        \"exampleValue\": \"30306294\"\r\n    }\r\n}\r\n\r\n```\r\n\r\n## Error Messages\r\n\r\nAll errors returned from one of ours APIs will follow the same pattern as shown bellow. They will be always contained in an invelope as the example. \r\n\r\n\r\n```\r\n# Default Envelope\r\n{\r\n    \"status\": 404,\r\n    \"version\": \"1.0.0\"\r\n}\r\n\r\n# Envelope with optional error codes\r\n{\r\n    \"version\": \"1.0.0\",\r\n    \"status\": 400,\r\n    \"errors\": [\r\n        {\r\n            \"errorCode\": \"PCE001\",\r\n            \"message\": \"The field 'name' is mandatory.\"\r\n        }\r\n    ]\r\n}\r\n```\r\n"
+  contact:
+    name: BTG Pactual Team
+    url: https://developer.btgpactual.com
+    email: baas@btgpactual.com
+servers:
+  - url: https://api.sandbox.developer.btgpactual.com/cm
+    description: BaaS API (Sandbox)
+  - url: https://sandbox.developer.api.btgpactual.com/cm
+    description: BaaS API (Sandbox with mTLS)
+  - url: https://api.developer.btgpactual.com/cm
+    description: BaaS API (Production)
+  - url: https://developer.api.btgpactual.com/cm
+    description: BaaS API (Production with mTLS)
+paths:
+  /authentication/token:
+    post:
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OauthTokenRequest'
+              required:
+                - client_id
+                - client_secret
+                - grant_type
+              properties:
+                client_id:
+                  description: Client Id
+                  type: string
+                client_secret:
+                  description: Client secret key
+                  type: string
+                grant_type:
+                  description: OAuth2 grant type (This endpoint allow only 'client_credentials')
+                  default: client_credentials
+                  type: string
+            examples:
+              Default:
+                value: client_id=[YourClientId]&client_secret=[YourSecret]&grant_type=client_credentials
+        required: true
+      tags:
+        - Authentication
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+                required:
+                  - access_token
+                  - expires_in
+                  - token_type
+                properties:
+                  token_type:
+                    description: '"bearer" means that this token is valid to access the API by Authorization Http Header'
+                    type: string
+                  expires_in:
+                    format: int32
+                    description: Token expiration time in seconds
+                    type: integer
+                  access_token:
+                    description: The access token
+                    type: string
+          description: Success
+        '400':
+          description: Bad request (Invalid credentials or 'grant_type' invalid)
+        '401':
+          description: Unauthorized (Invalid credentials)
+        '403':
+          description: Forbidden (Credentials Locked)
+      security: []
+      operationId: authentication/token
+      summary: Get new access token
+      description: |-
+        You will need to authorize the API to access your BTG Pactual account.
+        The authorization flow follows the JSON Web Token (JWT) for OAuth 2.0 Client Authentication standard, to ensure security while allowing you full access to your own account.
+
+        Every access token is valid for 20 minutes, after which you can request a new one.
+
+        Sample request:
+
+            POST /Token
+             Content-Type: application/x-www-form-urlencoded
+             client_id=[YourClientId]&client_secret=[YourSecret]&grant_type=client_credentials
+  /account:
+    get:
+      tags:
+        - Account
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountsResponse'
+              examples:
+                Example:
+                  value:
+                    version: 0.1.0
+                    status: 200
+                    body:
+                      items:
+                        - accountId: 4577589b-13ae-414c-a60a-3899c947f5ab
+                          clientId: 25165204-7539-4742-a52d-bb95e9161bcc
+                          account: 299967
+                          branch: 20
+                          bank: 208
+                          taxId: '12345678901'
+                          name: Person name
+                          personType: 0
+                          accountType: 0
+                          status: CREATED
+                          bankBranchAccount: 20820263067
+                          createTimestamp: '2020-04-24T19:05:06.424Z'
+                          lastUpdateTimestamp: '2020-04-24T19:05:06.424Z'
+                          beneficiaryTreatyCode: '637229317262028056'
+                          defaultAccount: true
+          description: OK
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-account-accounts-info
+      summary: Get information from all accounts
+      description: This endpoint returns account information.
+  /account/{accountId}:
+    get:
+      tags:
+        - Account
+      parameters:
+        - name: accountId
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+              examples:
+                Example:
+                  value:
+                    version: 0.1.0
+                    status: 200
+                    body:
+                      accountId: 4577589b-13ae-414c-a60a-3899c947f5ab
+                      clientId: 25165204-7539-4742-a52d-bb95e9161bcc
+                      account: 299967
+                      branch: 20
+                      bank: 208
+                      taxId: '12345678901'
+                      name: Person name
+                      personType: 0
+                      accountType: 0
+                      status: CREATED
+                      bankBranchAccount: 20820263067
+                      createTimestamp: '2020-04-24T19:05:06.424Z'
+                      lastUpdateTimestamp: '2020-04-24T19:05:06.424Z'
+                      beneficiaryTreatyCode: '637229317262028056'
+                      defaultAccount: true
+          description: OK
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-account-accountId
+      summary: Get account information
+      description: This endpoint returns the account information of the given accountId passed as a parameter.
+  /account/{accountId}/balance:
+    get:
+      tags:
+        - Account
+      parameters:
+        - name: accountId
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+              examples:
+                Example:
+                  value:
+                    version: 1.3.2
+                    status: 200
+                    body:
+                      balance: 10546497520
+                      availableBalance: 10546497520
+                      blockedAmount: 0
+                      account: 12345678
+                      searchDate: 20219-08-04 22:22:22
+                      accountId: XXXXXXXX-bd55-4a34-81c0-bb2a04b9ff84
+          description: OK
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-account-accountId-balance
+      summary: Get account balance
+      description: This endpoint returns the account balance of the given accountId passed as a parameter ant the time of these request following the UTC pattern.
+  /account/movement:
+    get:
+      tags:
+        - Account
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountMovementResponse'
+              examples:
+                Example:
+                  value:
+                    version: 1.0.2
+                    status: 200
+                    body:
+                      totalItems: 10
+                      perPage: 9
+                      totalPageItems: 9
+                      currentPage: 1
+                      items:
+                        - type: Debit
+                          date: '2020-08-06T14:49:35'
+                          amount: -999964181
+                          movementDescription: Debit Transfer
+                          movementId: 77341119
+                          accountId: 293d185c-XXXX-XXXX-8c24-e93fcc44c6f6
+                        - type: Credit
+                          date: '2020-08-06T14:49:54'
+                          amount: 10000
+                          movementDescription: Credit Transfer
+                          movementId: 77841119
+                          accountId: 293d185c-XXXX-4b6c-8c24-e93fcc44c6f6
+          description: Success
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example:
+                  value:
+                    version: 1.0.0
+                    status: 400
+                    errors:
+                      - errorCode: PCE001
+                        message: The field 'accountId' is mandatory.
+          description: Bad Request
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: true
+      security:
+        - BaaSAuthorizer: []
+      operationId: account-movement
+      summary: Get list of financial transactions regarding an account
+      description: This method returns all the financial transactions of an account with pagination.
+    parameters:
+      - name: accountId
+        description: Account Unique Identificator
+        schema:
+          type: string
+        in: query
+        required: true
+      - name: startDate
+        description: Start date for the search
+        schema:
+          type: string
+        in: query
+        required: true
+      - name: endDate
+        description: Max date for the search
+        schema:
+          type: string
+        in: query
+        required: true
+      - name: pageNumber
+        description: Start page number
+        schema:
+          type: integer
+        in: query
+        required: true
+      - name: perPage
+        description: Number of items per page
+        schema:
+          type: integer
+        in: query
+        required: true
+  /account/movement/export:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountMovementExportRequestBody'
+            examples:
+              Request Body:
+                value:
+                  clientRequestId: string
+                  tags:
+                    - string
+                  accountId: XXXX5f64-5717-XXXX-b3fc-XXXX3f66afa6
+                  startDate: string
+                  endDate: string
+        required: true
+      tags:
+        - Account
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleResponse'
+          description: Success
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example:
+                  value:
+                    version: 1.0.0
+                    status: 400
+                    errors:
+                      - errorCode: PCE001
+                        message: The field 'accountId' is mandatory.
+          description: Bad Request
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbiden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: true
+      security:
+        - BaaSAuthorizer: []
+      operationId: account-movement-export
+      summary: Request an Account Movements Export File
+      description: This method creates a dawnloadable CSV file containing all the financial transactions of an account given a period of time. It readies and stores the file for future download.
+  /account/movement/export/{pactualId}:
+    get:
+      tags:
+        - Account
+      parameters:
+        - name: pactualId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example:
+                  value:
+                    version: 1.0.0
+                    status: 400
+                    errors:
+                      - errorCode: PCE001
+                        message: The field 'accountId' is mandatory.
+          description: Bad Request
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbiden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: true
+      security:
+        - BaaSAuthorizer: []
+      operationId: account-movement-register
+      summary: Get the Account Movements Exported File Information
+      description: This method returns the Account Movements Exported file information associated with the given pactualId.
+  /account/movement/export/download/{pactualId}:
+    get:
+      tags:
+        - Account
+      parameters:
+        - name: pactualId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example:
+                  value:
+                    version: 1.0.0
+                    status: 400
+                    errors:
+                      - errorCode: PCE001
+                        message: The field 'accountId' is mandatory.
+          description: Bad Request
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbiden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: true
+      security:
+        - BaaSAuthorizer: []
+      operationId: account-movement-export-download
+      summary: Download the Account Movements Exported File
+      description: This method returns the file associated with the given pactualId.
+  /account/movement/position/{accountId}/{positionDate}:
+    get:
+      tags:
+        - Account
+      parameters:
+        - name: accountId
+          schema:
+            type: string
+          in: path
+          required: true
+        - name: positionDate
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleResponse'
+              examples:
+                Exemplo:
+                  value:
+                    version: 1.0.0
+                    status: 200
+                    body:
+                      AccountNumber: '0035255561'
+                      PositionDate: '2024-12-18'
+                      CreateDate: '2024-12-18T10:00:00.000000'
+                      Position:
+                        AccountNumber: '0035255561'
+                        Agency: 2
+                        PositionDate: '2024-12-18T00:00:00'
+                        IsBlocked: false
+                        TotalAmmount: 12345678.9
+                        SummaryAccounts:
+                          - MarketName: Renda Variável
+                            MarketAbbreviation: RV
+                            PositionDate: '2024-12-17T00:00:00Z'
+                            EndPositionValue: 12345678.9
+                            StartPositionValue: 1000000
+                            IsBlocked: false
+                        InvestmentFund:
+                          - ShareValue: 15.1234567
+                            Fund:
+                              FundName: NEW FUND NAME
+                              FundType: ABERTURA
+                              SecurityCode: 3001234
+                              FundCGECode: 123456
+                              FundCNPJCode: '12345678000109'
+                              ManagedPortfolio: false
+                              DatePortfolio: '2024-12-17T00:00:00Z'
+                              ManagerName: NEW MANAGER NAME
+                              ManagerCGECode: 654321
+                              FundLiquidity: '7'
+                              BenchMark: NEW BENCHMARK
+                              AccountNumber: '005678901'
+                              EsTipoPortfolio: 1
+                              TipoCvm: 5
+                              FinancialAplicationDays: '1'
+                              SubscriptionlAplicationDays: '2'
+                              SubscriptionlDischargeDays: '3'
+                            Blocked: false
+                            Acquisition:
+                              - CostPrice: 10.1234567
+                                IncomeTax: 200
+                                VirtualIOF: 10
+                                NetAssetValue: 2000
+                                GrossAssetValue: 2200
+                                AcquisitionDate: '2024-07-01T00:00:00Z'
+                                NumberOfShares: 150.123456
+                                AcquisitionNumber: 2
+                                OrigemAmortizacao: false
+                                CostValue: 1500
+                                CotaCetipada: false
+                                PercentageYield: 80
+                            AcquisitionUsufruct: []
+                            Collateral: []
+                            CotaCetipadaFundoExterno: false
+                            PositionDate: '2024-12-18T00:00:00Z'
+                            ProcessingDateTime: '2024-12-18T12:00:00.000Z'
+                        Equities:
+                          - StockPositions:
+                              - Ticker: NEW1
+                                Description: NEW COMPANY ON
+                                Quantity: 1000
+                                MarketPrice: 10
+                                PrevClose: 9.5
+                                GrossValue: 10000
+                                IsBlocked: true
+                                CostPrice: 8
+                                ISINCode: BRNEW1ACNOR8
+                                IncomeTax: 100
+                                InitialInvestimentValue: 8000
+                                Issuer: New Issuer
+                                SectorCode: 100
+                                SectorDescription: NEW SECTOR
+                                SecurityCode: 1000
+                                QuantityPendingSettlement: 100
+                                IsFII: true
+                                TickerInfo:
+                                  LastTradePrice: 10
+                                  ChangePercent: 5
+                                  LastTradeTime: '2024-12-18T10:00:00'
+                                AveragePrice:
+                                  Price: 9
+                                  Adjustable: true
+                                  Proceeds: 500
+                                  AccumulatedProceeds: 1000
+                                  TotalProceeds: 1500
+                                AccountingGroups:
+                                  - Code: Default
+                                    Name: Default
+                                    Quantity: 1000
+                                    AcquisitionAveragePrice: 0
+                                    TypeGroup: 1
+                                    GrossValue: 10000
+                                ReferenceAsset:
+                                  SecurityCode: 0
+                                InterfaceDate: '2024-12-17T00:00:00Z'
+                                PreferenceToIncome: 'ON'
+                                FirstDealingDate: '2024-01-01T00:00:00Z'
+                                ReferencePrice: 9.5
+                                QuotingFactor: 1
+                                IssuerCge: '12345'
+                                EquityTypeDescription: ACOES NOMINATIVAS
+                                ManualPrice: true
+                                PaidProceeds: 0
+                                ProvisionedProceeds: 0
+                        PendingSettlements:
+                          - Equities:
+                              - Ticker: NEW1
+                                SecurityCode: 1000
+                                Description: DIVIDENDOS - NEW COMPANY ON
+                                FinancialValue: 1000
+                                SettlementDate: '2024-12-25T00:00:00Z'
+                                Transaction: PROVENTO
+                                InterfaceDate: '2024-12-17T00:00:00Z'
+                        Cash:
+                          - CashCollateral:
+                              - CollateralDescription: New Collateral
+                                FinancialValue: 1000
+                                Custodian: New Custodian
+                                CustodianCode: 2
+                                IsReservedBlocked: true
+                            CurrentAccount:
+                              Value: 0
+                              PositionDate: '2023-09-15T00:00:00'
+                        EventCreateDate: '2024-12-18T10:00:00.000000'
+                      Transaction:
+                        AccountNumber: '0035255561'
+                        DataInterface: '2024-12-18T00:00:00'
+          description: Success
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example:
+                  value:
+                    version: 1.0.0
+                    status: 400
+                    errors:
+                      - errorCode: PCE001
+                        message: The field 'accountId' is mandatory.
+          description: Bad Request
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbiden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: account-movement-position
+      summary: Get account movement position
+      description: This method returns movement position associated with the given accountId.
+  /contact:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactRequest'
+        required: true
+      tags:
+        - Contact
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleResponse'
+          description: OK
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: contact-post
+      summary: Post a contact
+      description: This method is called to post a contact.
+  /contact/{pactualId}:
+    get:
+      tags:
+        - Contact
+      parameters:
+        - name: pactualId
+          description: Id of Operation
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactResponse'
+          description: OK
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: contact-get
+      summary: Get a contact
+      description: This method is called to get a contact.
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactRequest'
+        required: true
+      tags:
+        - Contact
+      parameters:
+        - name: pactualId
+          description: Id of Operation
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleResponse'
+          description: OK
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: contact-put
+      summary: Put a contact
+      description: This method is called to put a contact.
+    delete:
+      tags:
+        - Contact
+      parameters:
+        - name: pactualId
+          description: Id of Operation
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '204':
+          description: OK - No Content
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: contact-delete
+      summary: Delete a contact
+      description: This method is called to delete a contact.
+  /contact/search:
+    get:
+      tags:
+        - Contact
+      parameters:
+        - name: contactType
+          schema:
+            type: string
+          in: query
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactsResponse'
+          description: OK
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: contact-search
+      summary: Search contacts
+      description: This method is called to search contacts.
+  /contact/types:
+    get:
+      tags:
+        - Contact
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+          description: OK
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: contact-type
+      summary: Get contact types
+      description: This method is called to get contact types.
+  /destination-account:
+    get:
+      tags:
+        - Destination Account
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DestAccountListResponse'
+          description: Success
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-destination-account
+      summary: Get destination account information
+      description: This endpoint returns the information regarding all destination accounts from the requesting user.
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DestAccountRequest'
+        required: true
+      tags:
+        - Destination Account
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DestAccountResponse'
+          description: Success
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: post-destination-account
+      summary: Create a destination Account
+      description: Use this method to create a destination account.
+  /destination-account/{id}:
+    get:
+      tags:
+        - Destination Account
+      parameters:
+        - name: id
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DestAccountResponse'
+          description: Success
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-destination-account-id
+      summary: Get information from a specific destination account
+      description: This endpoint returns the information of a specific destination account by passing the accounts ID.
+    delete:
+      tags:
+        - Destination Account
+      parameters:
+        - name: id
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '204':
+          description: OK
+      security:
+        - BaaSAuthorizer: []
+      operationId: delete-destination-account-id
+      summary: Delete destination account information
+      description: This endpoint deletes a destination account by passing it's ID.
+  /financial-transaction/search:
+    get:
+      tags:
+        - Financial Transactions
+      parameters:
+        - examples:
+            sortBy:
+              value: lastUpdateTimestamp
+          name: sortBy
+          description: 'The field to use to sort the items. Default: createTimestamp.'
+          schema:
+            type: string
+          in: query
+        - examples:
+            date:
+              value: '2020-02-01T00:00:00.000Z'
+            dateAndTime:
+              value: '2020-02-01T10:00:00.000Z'
+          name: dateFrom
+          description: 'Filter resources created from this date. Acceptable formats: yyyy-MM-dd or yyyy-MM-ddTHHH:mm-ss. All date and times are save in UTC.'
+          schema:
+            type: string
+          in: query
+        - examples:
+            date:
+              value: '2020-02-01T00:00:00.000Z'
+            dateAndTime:
+              value: '2020-02-01T10:00:00.000Z'
+          name: dateTo
+          description: 'Filter resources created up to this date. Acceptable formats: yyyy-MM-dd or yyyy-MM-ddTHHH:mm-ss. All date and times are save in UTC.'
+          schema:
+            type: string
+          in: query
+        - examples:
+            limit:
+              value: '20'
+          name: limit
+          description: 'The number of total returned items. Default: 10. Max: 100.'
+          schema:
+            type: integer
+          in: query
+        - examples:
+            start:
+              value: '0'
+          name: start
+          description: 'The position of first returned item. Default: 0.'
+          schema:
+            type: integer
+          in: query
+        - examples:
+            status:
+              value: CONFIRMED
+          name: status
+          description: Status to filter. Can be repeated.
+          schema:
+            type: string
+          in: query
+        - name: tag
+          description: Tag to filter. Can be repeated.
+          schema:
+            type: string
+          in: query
+        - examples:
+            Amount:
+              value: '1035'
+          name: body.amount
+          description: Search by the financial transaction amount.
+          schema:
+            type: integer
+          in: query
+        - examples:
+            CashIn:
+              value: CashIn
+          name: body.cashDirection
+          description: Search by the cash direction.
+          schema:
+            enum:
+              - CashIn
+              - CashOut
+            type: string
+          in: query
+        - name: body.financialType
+          description: Search by financialType.
+          schema:
+            enum:
+              - UndefinedType
+              - Bankslip
+              - Utilities
+              - Tef
+              - Ted
+              - Doc
+              - TedSalary
+              - CardBankslip
+              - TedBankslip
+              - Pix
+              - TefMerchantAccount
+              - PmtoEmissorCreden
+              - PmtoCredenSubcredenInstDomicilio
+              - DevInstDomicilioCredenSubcreden
+              - AjusteAntecipCredenSubcredenEmissor
+              - AntecipCredenSubcredenInstDomicilio
+            type: string
+          in: query
+        - name: body.movementId
+          description: Search by movementId.
+          schema:
+            type: string
+          in: query
+        - examples:
+            dateTimeField:
+              value: createTimestamp
+          name: dateTimeField
+          description: 'The field to use to filter the items by date time. The value must be "createTimestamp" or "lastUpdateTimestamp". Default: createTimestamp.'
+          schema:
+            type: string
+          in: query
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FinancialTransactionSearchResponse'
+              examples:
+                FinancialTransactionSearchResponseExample:
+                  value:
+                    version: 1.0.0
+                    status: 200
+                    body:
+                      totalFound: 1
+                      totalReturned: 1
+                      startingFrom: 0
+                      items:
+                        - pactualId: 056c9c93-5087-43aa-ae40-07084b642fe6
+                          clientRequestId: 09e160d5-21e2-4056-b04e-f23ad46a8fcg_a945755f1b5c4c40b26731d1a2f3ce31_CashOut
+                          createTimestamp: '2020-08-18T23:28:10.2550466+00:00'
+                          lastUpdateTimestamp: '2020-08-18T23:28:10.2555754+00:00'
+                          entity: FinancialTransaction
+                          status: CONFIRMED
+                          body:
+                            financialType: Tef
+                            cashDirection: CashOut
+                            movementId: '12921885'
+                            amount: 1000
+                            debitParty:
+                              bank: 208
+                              branch: 20
+                              account: 42161
+                              name: Fulano de tal
+                              taxId: 2693240304
+                              personType: F
+                              accountType: CC
+                            creditParty:
+                              bank: 208
+                              branch: 1
+                              account: 3731460
+                              name: ALPHA SERVICOS LTDA
+                              taxId: '28384557000122'
+                              personType: J
+                              accountType: CC
+                          tags: []
+          description: The search response.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbiden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+      security:
+        - BaaSAuthorizer: []
+      operationId: financial-transaction-search
+      summary: Financial transaction search (max 10,000 hits)
+      description: Use to search financial transactions. (you cannot page through more than 10,000 hits. To page through more hits, use the /financial-transaction/search/to-scroll.)
+  /financial-transaction/search/to-scroll:
+    get:
+      tags:
+        - Financial Transactions
+      parameters:
+        - examples:
+            sortBy:
+              value: lastUpdateTimestamp
+          name: sortBy
+          description: 'The field to use to sort the items. Default: createTimestamp.'
+          schema:
+            type: string
+          in: query
+        - examples:
+            date:
+              value: '2020-02-01T00:00:00.000Z'
+            dateAndTime:
+              value: '2020-02-01T10:00:00.000Z'
+          name: dateFrom
+          description: 'Filter resources created from this date. Acceptable formats: yyyy-MM-dd or yyyy-MM-ddTHHH:mm-ss. All date and times are save in UTC.'
+          schema:
+            type: string
+          in: query
+        - examples:
+            date:
+              value: '2020-02-01T00:00:00.000Z'
+            dateAndTime:
+              value: '2020-02-01T10:00:00.000Z'
+          name: dateTo
+          description: 'Filter resources created up to this date. Acceptable formats: yyyy-MM-dd or yyyy-MM-ddTHHH:mm-ss. All date and times are save in UTC.'
+          schema:
+            type: string
+          in: query
+        - examples:
+            limit:
+              value: '20'
+          name: limit
+          description: 'The number of total returned items. Default: 10. Max: 100.'
+          schema:
+            type: integer
+          in: query
+        - examples:
+            status:
+              value: CONFIRMED
+          name: status
+          description: Status to filter. Can be repeated.
+          schema:
+            type: string
+          in: query
+        - name: tag
+          description: Tag to filter. Can be repeated.
+          schema:
+            type: string
+          in: query
+        - examples:
+            Amount:
+              value: '1035'
+          name: body.amount
+          description: Search by the financial transaction amount.
+          schema:
+            type: integer
+          in: query
+        - examples:
+            CashIn:
+              value: CashIn
+          name: body.cashDirection
+          description: Search by the cash direction.
+          schema:
+            enum:
+              - CashIn
+              - CashOut
+            type: string
+          in: query
+        - name: body.financialType
+          description: Search by financialType.
+          schema:
+            enum:
+              - UndefinedType
+              - Bankslip
+              - Utilities
+              - Tef
+              - Ted
+              - Doc
+              - TedSalary
+              - CardBankslip
+              - TedBankslip
+              - Pix
+              - TefMerchantAccount
+              - PmtoEmissorCreden
+              - PmtoCredenSubcredenInstDomicilio
+              - DevInstDomicilioCredenSubcreden
+              - AjusteAntecipCredenSubcredenEmissor
+              - AntecipCredenSubcredenInstDomicilio
+            type: string
+          in: query
+        - name: body.movementId
+          description: Search by movementId.
+          schema:
+            type: string
+          in: query
+        - examples:
+            dateTimeField:
+              value: createTimestamp
+          name: dateTimeField
+          description: 'The field to use to filter the items by date time. The value must be "createTimestamp" or "lastUpdateTimestamp". Default: createTimestamp.'
+          schema:
+            type: string
+          in: query
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FinancialTransactionSearchResponse'
+              examples:
+                FinancialTransactionSearchResponseExample:
+                  value:
+                    version: 1.0.0
+                    status: 200
+                    body:
+                      totalFound: 1
+                      totalReturned: 1
+                      scrollId: DXF1ZXJ5QW5kRmV0Y2gBAAAAAAAAAD4WYm9laVYtZndUQlNsdDcwakFMNjU1QQ==
+                      items:
+                        - pactualId: 056c9c93-5087-43aa-ae40-07084b642fe6
+                          clientRequestId: 09e160d5-21e2-4056-b04e-f23ad46a8fcg_a945755f1b5c4c40b26731d1a2f3ce31_CashOut
+                          createTimestamp: '2020-08-18T23:28:10.2550466+00:00'
+                          lastUpdateTimestamp: '2020-08-18T23:28:10.2555754+00:00'
+                          entity: FinancialTransaction
+                          status: CONFIRMED
+                          body:
+                            financialType: Tef
+                            cashDirection: CashOut
+                            movementId: '12921885'
+                            amount: 1000
+                            debitParty:
+                              bank: 208
+                              branch: 20
+                              account: 42161
+                              name: Fulano de tal
+                              taxId: 2693240304
+                              personType: F
+                              accountType: CC
+                            creditParty:
+                              bank: 208
+                              branch: 1
+                              account: 3731460
+                              name: ALPHA SERVICOS LTDA
+                              taxId: '28384557000122'
+                              personType: J
+                              accountType: CC
+                          tags: []
+          description: The search response.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbiden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+      security:
+        - BaaSAuthorizer: []
+      operationId: financial-transaction-search-toscroll
+      summary: Financial transaction search (only more then 10,000 hits)
+      description: |-
+        Use to search financial transactions. (use this operation to page through more than 10,000 hits. For less, use the /financial-transaction/search)
+
+        After the search request, use scroll (/financial-transaction/search/scroll) to request the next batch of results. The time between each request must be less than 2 minutes.
+  /financial-transaction/search/scroll:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScrollRequest'
+      tags:
+        - Financial Transactions
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FinancialTransactionSearchResponse'
+              examples:
+                FinancialTransactionSearchResponseExample:
+                  value:
+                    version: 1.0.0
+                    status: 200
+                    body:
+                      totalFound: 1
+                      totalReturned: 1
+                      scrollId: DXF1ZXJ5QW5kRmV0Y2gBAAAAAAAAAD4WYm9laVYtZndUQlNsdDcwakFMNjU1QQ==
+                      items:
+                        - pactualId: 056c9c93-5087-43aa-ae40-07084b642fe6
+                          clientRequestId: 09e160d5-21e2-4056-b04e-f23ad46a8fcg_a945755f1b5c4c40b26731d1a2f3ce31_CashOut
+                          createTimestamp: '2020-08-18T23:28:10.2550466+00:00'
+                          lastUpdateTimestamp: '2020-08-18T23:28:10.2555754+00:00'
+                          entity: FinancialTransaction
+                          status: CONFIRMED
+                          body:
+                            financialType: Tef
+                            cashDirection: CashOut
+                            movementId: '12921885'
+                            amount: 1000
+                            debitParty:
+                              bank: 208
+                              branch: 20
+                              account: 42161
+                              name: Fulano de tal
+                              taxId: 2693240304
+                              personType: F
+                              accountType: CC
+                            creditParty:
+                              bank: 208
+                              branch: 1
+                              account: 3731460
+                              name: ALPHA SERVICOS LTDA
+                              taxId: '28384557000122'
+                              personType: J
+                              accountType: CC
+                          tags: []
+          description: The search response.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbiden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+      security:
+        - BaaSAuthorizer: []
+      operationId: financial-transaction-search-scroll
+      summary: Next batch of results (Financial transaction search)
+      description: |-
+        Retrieves the next batch of results of financial transaction search (/financial-transaction/search/to-scroll).
+
+        The time between each request must be less than 2 minutes.
+
+        The results that are returned from a scroll request reflect the state of the data at the time that the initial search request. Subsequent changes will only affect later search requests.
+  /monitoring/alert/subscription:
+    get:
+      tags:
+        - Monitoring
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertListBodyResponse'
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbiden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+      operationId: list-alerts
+      summary: List all Alert Subscriptions
+      description: This endpoint must be used to list all alert subscriptions.
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlertCreateRequest'
+      tags:
+        - Monitoring
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertBodyResponse'
+              examples:
+                Example:
+                  value:
+                    version: 1.0.0
+                    status: 201
+                    body:
+                      id: 40d4b812-1ced-4122-bbdb-488b5f0fb30e
+                      clientId: 72c44b69-3850-4f29-8c0d-cad415c3ebac
+                      lastUpdateTimestamp: '2021-04-23T15:42:16.5469902+00:00'
+                      filter:
+                        category:
+                          - PIX
+                        name:
+                          - Test
+                        level:
+                          - Information
+                      subscriptions:
+                        - type: Webhook
+                          config:
+                            endpoint: https://webhook-teste.com.br/endpoint?querystring=123
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbiden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+      security:
+        - BaaSAuthorizer: []
+      operationId: post-alert-subscription
+      summary: Create an Alert Subscription
+      description: This endpoint must be used to create an alert subscription. Although the category, level and name fields are optional, at least one of them must be entered at creation time.
+  /monitoring/alert/subscription/{id}:
+    get:
+      tags:
+        - Monitoring
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertBodyResponse'
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbiden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+      operationId: get-alert-subscription
+      summary: Consult an Alert Subscription
+      description: This endpoint must be used to consult an existent alert subscription.
+    delete:
+      tags:
+        - Monitoring
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                Example:
+                  value:
+                    version: 1.0.0
+                    status: 200
+          description: OK.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbiden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+      operationId: delete-alert-subscription
+      summary: Delete an Alert Subscription
+      description: This endpoint must be used to delete an existent alert subscription.
+    patch:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlertUpdateRequest'
+            examples:
+              Example:
+                value:
+                  subscriptions:
+                    - type: Slack
+                      config:
+                        endpoint: https://test-slack.com/endpoint?querystring=123
+        required: true
+      tags:
+        - Monitoring
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertBodyResponse'
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbiden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+      security:
+        - BaaSAuthorizer: []
+      operationId: patch-alert-subscription
+      summary: Update an Alert Subscription
+      description: This endpoint must be used to update an existent alert subscription.
+    parameters:
+      - examples:
+          Example:
+            value: 6b30db62-11cd-4993-8ca1-6f06502beb1b
+        name: id
+        description: The unique identifier for alert subscription.
+        schema:
+          type: string
+        in: path
+        required: true
+  /webhook/certificate:
+    get:
+      tags:
+        - Webhook
+      responses:
+        '200':
+          content:
+            text/plain: {}
+          description: Content of certificate
+      security: []
+      operationId: webhook/certificate
+      summary: Get public client certificate for mTLS
+      description: Get the BTG Pactual BaaS public client certificate for mTLS webhook auth
+  /webhook/resource:
+    get:
+      tags:
+        - Webhook
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceResponse'
+          description: Success
+      security:
+        - BaaSAuthorizer: []
+      operationId: webhook/resource
+      summary: Get resources for webhook subscription
+      description: Get available resources for webhook subscription
+  /webhook/resource/{entity}:
+    get:
+      tags:
+        - Webhook
+      parameters:
+        - name: entity
+          description: Resource Id (entity name)
+          schema:
+            nullable: true
+            description: Resource Id (entity name)
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceResponse'
+                required:
+                  - entity
+                  - events
+                  - name
+                properties:
+                  name:
+                    description: Resource Name
+                    type: string
+                  entity:
+                    description: Resource Id (entity name)
+                    type: string
+                  description:
+                    nullable: true
+                    description: Resource Description
+                    type: string
+                  events:
+                    description: Events available for subscription
+                    type: array
+                    items:
+                      required:
+                        - name
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        description:
+                          nullable: true
+                          type: string
+          description: Success
+      security:
+        - BaaSAuthorizer: []
+      operationId: webhook/resource/entity
+      summary: Get a resource for webhook subscription
+      description: Get a resource for webhook subscription
+  /webhook/subscription:
+    get:
+      tags:
+        - Webhook
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+                required:
+                  - resources
+                  - clientId
+                properties:
+                  clientId:
+                    format: uuid
+                    description: Subscription Client Id
+                    type: string
+                  resources:
+                    description: List with resources and respective information for webhook subscription
+                    type: array
+                    items:
+                      required:
+                        - entity
+                        - eventNames
+                        - secret
+                        - webhookUrl
+                      type: object
+                      properties:
+                        entity:
+                          description: Resource Id (entity name)
+                          type: string
+                        blockedManyErrors:
+                          description: If true, means that the subscribe blocked due to many errors when calling the webhookUrl
+                          type: boolean
+                        qtyConsecutiveErrors:
+                          format: int32
+                          description: Number of consecutive errors (when calling webhookUrl)
+                          type: integer
+                        webhookUrl:
+                          description: Endpoint (Http POST) that will be called for the events of this resource
+                          type: string
+                        secret:
+                          description: Used to create a hash signature (HMAC-SHA256) with each webhook request payload. This hash signature is passed along with each request in the http header as "x-webhook-baas-signature"
+                          type: string
+                        eventNames:
+                          description: List with event names to subscription
+                          type: array
+                          items:
+                            type: string
+          description: Success
+      security:
+        - BaaSAuthorizer: []
+      operationId: webhook/subscription/get
+      summary: Get current webhook subscription
+      description: Get current webhook subscription
+    put:
+      requestBody:
+        description: Subscription informations
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionRequest'
+              required:
+                - resources
+              properties:
+                resources:
+                  description: List with resources and respective information for webhook subscription
+                  type: array
+                  items:
+                    required:
+                      - entity
+                      - eventNames
+                      - secret
+                      - webhookUrl
+                    type: object
+                    properties:
+                      entity:
+                        description: Resource Id (entity name)
+                        type: string
+                      blockedManyErrors:
+                        description: If true, means that the subscribe blocked due to many errors when calling the webhookUrl
+                        type: boolean
+                      qtyConsecutiveErrors:
+                        format: int32
+                        description: Number of consecutive errors (when calling webhookUrl)
+                        type: integer
+                      webhookUrl:
+                        description: Endpoint (Http POST) that will be called for the events of this resource
+                        type: string
+                      secret:
+                        description: Used to create a hash signature (HMAC-SHA256) with each webhook request payload. This hash signature is passed along with each request in the http header as "x-webhook-baas-signature"
+                        type: string
+                      eventNames:
+                        description: List with event names to subscription
+                        type: array
+                        items:
+                          type: string
+      tags:
+        - Webhook
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Success
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    nullable: true
+                    type: string
+                  title:
+                    nullable: true
+                    type: string
+                  status:
+                    nullable: true
+                    format: int32
+                    type: integer
+                  detail:
+                    nullable: true
+                    type: string
+                  instance:
+                    nullable: true
+                    type: string
+                additionalProperties:
+                  type: object
+          description: Parameter mandatory
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    nullable: true
+                    type: string
+                  title:
+                    nullable: true
+                    type: string
+                  status:
+                    nullable: true
+                    format: int32
+                    type: integer
+                  detail:
+                    nullable: true
+                    type: string
+                  instance:
+                    nullable: true
+                    type: string
+                additionalProperties:
+                  type: object
+          description: Resource not found
+      security:
+        - BaaSAuthorizer: []
+      operationId: /webhook/subscription/put
+      summary: Update webhook subscription
+      description: Update webhook subscription
+    post:
+      requestBody:
+        description: Subscription informations
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionRequest'
+              required:
+                - resources
+              properties:
+                resources:
+                  description: List with resources and respective information for webhook subscription
+                  type: array
+                  items:
+                    required:
+                      - entity
+                      - eventNames
+                      - secret
+                      - webhookUrl
+                    type: object
+                    properties:
+                      entity:
+                        description: Resource Id (entity name)
+                        type: string
+                      blockedManyErrors:
+                        description: If true, means that the subscribe blocked due to many errors when calling the webhookUrl
+                        type: boolean
+                      qtyConsecutiveErrors:
+                        format: int32
+                        description: Number of consecutive errors (when calling webhookUrl)
+                        type: integer
+                      webhookUrl:
+                        description: Endpoint (Http POST) that will be called for the events of this resource
+                        type: string
+                      secret:
+                        description: Used to create a hash signature (HMAC-SHA256) with each webhook request payload. This hash signature is passed along with each request in the http header as "x-webhook-baas-signature"
+                        type: string
+                      eventNames:
+                        description: List with event names to subscription
+                        type: array
+                        items:
+                          type: string
+      tags:
+        - Webhook
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Success
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    nullable: true
+                    type: string
+                  title:
+                    nullable: true
+                    type: string
+                  status:
+                    nullable: true
+                    format: int32
+                    type: integer
+                  detail:
+                    nullable: true
+                    type: string
+                  instance:
+                    nullable: true
+                    type: string
+                additionalProperties:
+                  type: object
+          description: Parameter mandatory
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    nullable: true
+                    type: string
+                  title:
+                    nullable: true
+                    type: string
+                  status:
+                    nullable: true
+                    format: int32
+                    type: integer
+                  detail:
+                    nullable: true
+                    type: string
+                  instance:
+                    nullable: true
+                    type: string
+                additionalProperties:
+                  type: object
+          description: Resource not found
+      security:
+        - BaaSAuthorizer: []
+      operationId: /webhook/subscription/post
+      summary: Post a new webhook subscription
+      description: "Webhooks allow you to build or set up integrations which subscribe to certain resource events.\r\n\r\nWhen one of those events is triggered, we'll send a HTTP POST payload to the webhook's configured URL. \r\nYou can choose which events you would like to receive. \r\nYou can change the list of subscribed events anytime.\r\n\r\n\r\nHTTP POST payloads that are delivered to your webhook's configured URL endpoint will contain several special headers:\r\n    \r\n    \"x-webhook-baas-entity\" -> Resource Id (entity name) \r\n    \"x-webhook-baas-event\" -> Event Name \r\n    \"x-webhook-baas-signature\" -> Hash signature (HMAC-SHA256) of request payload. This is used for you to validate the authenticity of BTG Pactual requests."
+    delete:
+      tags:
+        - Webhook
+      responses:
+        '204':
+          description: Success (No Content)
+      security:
+        - BaaSAuthorizer: []
+      operationId: webhook/subscription/delete
+      summary: Delete webhook subscription
+      description: Delete webhook subscription
+  /webhook/subscription/errors:
+    get:
+      tags:
+        - Webhook
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WebhookCallErrors'
+          description: Success
+      security:
+        - BaaSAuthorizer: []
+      operationId: webhook/subscription/errors
+      summary: Get recent webhook calls errors
+      description: When the subscribe is blocked because to many webhookUrl calls errors, use this to get errors details.
+  /webhook/subscription/errors/{entity}:
+    get:
+      tags:
+        - Webhook
+      parameters:
+        - name: entity
+          description: Resource Id (entity name)
+          schema:
+            nullable: true
+            description: Resource Id (entity name)
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WebhookCallErrors'
+          description: Success
+      security:
+        - BaaSAuthorizer: []
+      operationId: webhook/subscription/errors/entity
+      summary: Get recent webhook errors from Resource Id
+      description: When the subscribe is blocked because to many webhookUrl calls errors, use this to get errors details.
+    parameters:
+      - name: entity
+        schema:
+          type: string
+        in: path
+        required: true
+  /webhook/notification/{entity}/ping:
+    post:
+      tags:
+        - Webhook
+      parameters:
+        - name: entity
+          description: Resource Id (entity name)
+          schema:
+            nullable: true
+            description: Resource Id (entity name)
+            type: string
+          in: path
+          required: true
+      responses:
+        '204':
+          description: Success NoContent
+      security:
+        - BaaSAuthorizer: []
+      operationId: webhook/notification
+      summary: Send test message to current resource webhook Url
+      description: When you create a new webhook, use this to send a simple ping event to let you know you've set up the webhook correctly
+  /webhook/notification/{entity}/replay:
+    get:
+      tags:
+        - Webhook
+      parameters:
+        - name: dateTo
+          description: 'Filter notifications created up to this date. Acceptable formats: yyyy-MM-dd or yyyy-MM-ddTHHH:mm-ss. All date and times are save in UTC.'
+          schema:
+            format: date-time
+            type: string
+          in: query
+          required: false
+        - name: dateFrom
+          description: 'Filter notifications created from this date. Acceptable formats: yyyy-MM-dd or yyyy-MM-ddTHHH:mm-ss. All date and times are save in UTC.'
+          schema:
+            format: date-time
+            type: string
+          in: query
+        - name: onlyNotDelivered
+          description: 'Determines whether only notifications that have not been delivered will be resent. (Default: True)'
+          schema:
+            type: boolean
+          in: query
+        - name: entity
+          description: Resource Id (entity name)
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookReplayResponse'
+          description: Success
+      security:
+        - BaaSAuthorizer: []
+      operationId: webhook/notification/replay-get
+      summary: Get a preview of notifications that can be resent.
+      description: This function get a preview of number of webhook notifications that can be resent for processing.
+    put:
+      tags:
+        - Webhook
+      parameters:
+        - name: dateTo
+          description: 'Filter notifications created up to this date. Acceptable formats: yyyy-MM-dd or yyyy-MM-ddTHHH:mm-ss. All date and times are save in UTC.'
+          schema:
+            format: date-time
+            type: string
+          in: query
+          required: false
+        - name: dateFrom
+          description: 'Filter notifications created from this date. Acceptable formats: yyyy-MM-dd or yyyy-MM-ddTHHH:mm-ss. All date and times are save in UTC.'
+          schema:
+            format: date-time
+            type: string
+          in: query
+        - name: onlyNotDelivered
+          description: 'Determines whether only notifications that have not been delivered will be resent. (Default: True)'
+          schema:
+            type: boolean
+          in: query
+        - name: entity
+          description: Resource Id (entity name)
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookReplayResponse'
+          description: Success
+      security:
+        - BaaSAuthorizer: []
+      operationId: webhook/notification/replay-put
+      summary: Resent webhook notifications.
+      description: This function resent webhook notifications for processing.
+  /import-file/{pactualId}:
+    get:
+      tags:
+        - Import File
+      parameters:
+        - name: pactualId
+          description: '"3fa85f64-5717-4562-b3fc-2c963f66afa6"'
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportFileSingleResponse'
+          description: OK
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-import-file-pactualId
+      summary: Get imported file by PactualId
+      description: This endpoint returns the imported file information of the given pactualId passed as a parameter.
+  /import-file:
+    post:
+      requestBody:
+        description: ''
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ImportFileRequest'
+        required: true
+      tags:
+        - Import File
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleResponse'
+              examples:
+                Example:
+                  value:
+                    version: string
+                    status: 202
+                    body:
+                      clientRequestId: bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca5
+                      pactualId: bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca4
+          description: Accepted
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: post-import-file
+      summary: The purpose of this method is to import a file.
+      description: ''
+  /import-file/range:
+    get:
+      tags:
+        - Import File
+      parameters:
+        - name: endDate
+          description: '"yyyy-mm-dd"'
+          schema:
+            type: string
+          in: query
+        - name: startDate
+          description: '"yyyy-mm-dd"'
+          schema:
+            type: string
+          in: query
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportFileResponse'
+          description: Returns all imported files by range dates
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-import-file
+      summary: Get imported files by range
+      description: This endpoint returns the imported files information of the given range dates passed as a parameter.
+  /account/balance/{accountId}/{targetDate}:
+    get:
+      tags:
+        - Account
+      parameters:
+        - name: accountId
+          description: Accounts unique identifier.
+          schema:
+            type: string
+          in: path
+          required: true
+        - examples:
+            endDate:
+              value: '2022-12-02'
+          name: targetDate
+          description: End date of the event of the search (following the UTC pattern).
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+              examples:
+                Example:
+                  value:
+                    version: 1.3.2
+                    status: 200
+                    body:
+                      balance: 10546497520
+                      availableBalance: 10546497520
+                      blockedAmount: 0
+                      account: 12345678
+                      searchDate: 20219-08-04 22:22:22
+                      accountId: XXXXXXXX-bd55-4a34-81c0-bb2a04b9ff84
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-account-accountId-balance-date
+      summary: Get account balance (end of the day)
+      description: This endpoint returns the account balance of the given accountId passed as a parameter at the time of these requests following the UTC standard.
+  /account/movement/async/{pactualId}:
+    get:
+      tags:
+        - Financial Movement Async
+      parameters:
+        - name: pactualId
+          description: Unique resource Identifier (Uuid) generated by api.
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountMovementResponseAsync'
+          description: Success
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example:
+                  value:
+                    version: 1.0.0
+                    status: 400
+                    errors:
+                      - errorCode: PCE001
+                        message: The field 'accountId' is mandatory.
+          description: Bad Request
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbiden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: account-movement-async-get
+      summary: Get the Account Movements Information
+      description: This method returns the Account Movements information cached associated with the given pactualId.  **Returns 1000 transactions per page.**
+    parameters:
+      - name: page
+        description: Page number. (Default 0)
+        schema:
+          format: int32
+          type: integer
+        in: query
+  /account/movement/async:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountMovementAsyncRequest'
+        required: true
+      tags:
+        - Financial Movement Async
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PactualIdResponse'
+          description: Success
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example:
+                  value:
+                    version: 1.0.0
+                    status: 400
+                    errors:
+                      - errorCode: PCE001
+                        message: The field 'accountId' is mandatory.
+          description: Bad Request
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbiden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: account-movement-async
+      summary: Request an Account Movements
+      description: This method calls the process to cache account movements.
+components:
+  schemas:
+    AuthToken:
+      required:
+        - access_token
+        - expires_in
+        - token_type
+      type: object
+      properties:
+        token_type:
+          description: '"bearer" means that this token is valid to access the API by Authorization Http Header'
+          type: string
+        expires_in:
+          format: int32
+          description: Token expiration time in seconds
+          type: integer
+        access_token:
+          description: The access token
+          type: string
+      example:
+        token_type: Bearer
+        expires_in: 1200
+        access_token: '[JWT Access Token]'
+    WebhookCallErrors:
+      type: object
+      properties:
+        clientId:
+          format: uuid
+          description: Subscription Client Id
+          type: string
+        dateTimeUtc:
+          format: date-time
+          description: Date and Time of error
+          type: string
+        entity:
+          nullable: true
+          description: Resource Id (entity name)
+          type: string
+        notifyId:
+          nullable: true
+          description: Webhook notification Id
+          type: string
+        webhookUrl:
+          nullable: true
+          description: Endpoint (Http POST) called
+          type: string
+        httpStatusCode:
+          format: int32
+          description: Http status error code
+          type: integer
+        httpContent:
+          nullable: true
+          description: Http error response boby content
+          type: string
+    WebhookReplayResponse:
+      title: Root Type for WebhookReplayResponse
+      description: ''
+      type: object
+      properties:
+        totalItems:
+          format: int32
+          type: integer
+        clientId:
+          type: string
+        entity:
+          type: string
+        onlyNotDelivered:
+          type: boolean
+        replayProcess:
+          type: string
+        dateTo:
+          type: string
+        dateFrom:
+          type: string
+      example:
+        totalItems: 12
+        clientId: 43165204-7539-4522-a52d-bb95e9161e12
+        entity: PaymentSlip
+        dateFrom: '2020-09-08T15:48:10'
+        dateTo: '2020-09-08T21:48:10'
+        onlyNotDelivered: true
+        replayProcess: Preview
+    SubscriptionResponse:
+      required:
+        - resources
+        - clientId
+      type: object
+      properties:
+        clientId:
+          format: uuid
+          description: Subscription Client Id
+          type: string
+        resources:
+          description: List with resources and respective information for webhook subscription
+          type: array
+          items:
+            $ref: '#/components/schemas/SubsRes'
+    SubscriptionRequest:
+      required:
+        - resources
+      type: object
+      properties:
+        resources:
+          description: List with resources and respective information for webhook subscription
+          type: array
+          items:
+            $ref: '#/components/schemas/SubsRes'
+    SubsRes:
+      required:
+        - entity
+        - eventNames
+        - secret
+        - webhookUrl
+        - isMtls
+      type: object
+      properties:
+        entity:
+          description: Resource Id (entity name)
+          type: string
+        blockedManyErrors:
+          description: If true, means that the subscribe blocked due to many errors when calling the webhookUrl
+          type: boolean
+        qtyConsecutiveErrors:
+          format: int32
+          description: Number of consecutive errors (when calling webhookUrl)
+          type: integer
+        webhookUrl:
+          description: Endpoint (Http POST) that will be called for the events of this resource
+          type: string
+        secret:
+          description: Used to create a hash signature (HMAC-SHA256) with each webhook request payload. This hash signature is passed along with each request in the http header as "x-webhook-baas-signature"
+          type: string
+        eventNames:
+          description: List with event names to subscription
+          type: array
+          items:
+            type: string
+        isMtls:
+          description: Define if webhook request is mTLS auth
+          type: boolean
+    ResourceResponse:
+      required:
+        - entity
+        - events
+        - name
+      type: object
+      properties:
+        name:
+          description: Resource Name
+          type: string
+        entity:
+          description: Resource Id (entity name)
+          type: string
+        description:
+          nullable: true
+          description: Resource Description
+          type: string
+        events:
+          description: Events available for subscription
+          type: array
+          items:
+            required:
+              - name
+            type: object
+            properties:
+              name:
+                type: string
+              description:
+                nullable: true
+                type: string
+    OauthTokenRequest:
+      description: ''
+      required:
+        - client_id
+        - client_secret
+        - grant_type
+      type: object
+      properties:
+        client_id:
+          description: Client Id
+          type: string
+        client_secret:
+          description: Client secret key
+          type: string
+        grant_type:
+          description: OAuth2 grant type (This endpoint allow only 'client_credentials')
+          type: string
+      example: client_id=[YourClientId]&client_secret=[YourSecret]&grant_type=client_credentials
+    AccountResponse:
+      description: ''
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: integer
+        body:
+          $ref: '#/components/schemas/AccountResponseBody'
+          description: ''
+    AccountResponseBody:
+      description: ''
+      required:
+        - accountId
+        - clientId
+        - account
+        - branch
+        - bank
+        - taxId
+        - personType
+        - accountType
+        - status
+      type: object
+      properties:
+        accountId:
+          description: ''
+          type: string
+        clientId:
+          description: ''
+          type: string
+        account:
+          description: ''
+          type: integer
+        branch:
+          description: ''
+          type: integer
+        bank:
+          description: ''
+          type: integer
+        taxId:
+          description: ''
+          type: string
+        name:
+          description: ''
+          type: string
+        personType:
+          description: F = Person, J = Organization
+          enum:
+            - J
+            - F
+          type: string
+        accountType:
+          description: CC = Checking account, CP = Saving account
+          enum:
+            - CC
+            - CP
+          type: string
+        status:
+          description: ''
+          type: string
+        bankBranchAccount:
+          description: ''
+          type: string
+        createTimestamp:
+          format: date-time
+          description: ''
+          type: string
+        lastUpdateTimestamp:
+          format: date-time
+          description: ''
+          type: string
+        beneficiaryTreatyCode:
+          description: ''
+          type: string
+        defaultAccount:
+          description: ''
+          type: boolean
+    AccountsResponseBody:
+      description: ''
+      required:
+        - items
+      type: object
+      properties:
+        items:
+          description: ''
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountResponseBody'
+    AccountsResponse:
+      description: ''
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: integer
+        body:
+          description: ''
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountResponseBody'
+    Balance:
+      title: Balance
+      type: object
+      properties:
+        balance:
+          type: string
+        availableBalance:
+          type: string
+    SingleResponseBody:
+      description: The response body of request of single resource.
+      required:
+        - clientRequestId
+        - pactualId
+      type: object
+      properties:
+        clientRequestId:
+          description: Unique resource identificator given by the client.
+          type: string
+        pactualId:
+          description: Unique resource identificator (Uuid) generated by api.
+          type: string
+      example:
+        clientRequestId: 4a068fe4-97c2-4c58-9abb-76f94d293ad0
+        pactualId: 8cde0465-1579-4e1c-8cae-07096ebd7fcc
+    BulkResponse:
+      title: PactualBulkResponse
+      description: Default success response body for bulk create resources requests apis.
+      required:
+        - body
+      type: object
+      properties:
+        version:
+          description: Api version.
+          type: string
+        status:
+          description: Http status code.
+          type: number
+        body:
+          $ref: '#/components/schemas/BulkResponseBody'
+          description: The response body.
+          properties:
+            pactualBatchId:
+              type: string
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  clientRequestId:
+                    type: string
+                  pactualId:
+                    type: string
+      example:
+        version: '1.0'
+        status: 202
+        body:
+          pactualBulkId: bf07b500-43ac-4f59-84da-f17061ca73a3
+          items:
+            - clientRequestId: c7c147ec-5305-4ddc-9387-d0e165a09c4e
+              pactualId: fb11703f-02d9-4a80-8dcc-53e597a8c5c5
+            - clientRequestId: dce00b29-e7bb-454a-929b-fef105eddc39
+              pactualId: bae5f7f6-6d8a-4994-849b-80eec0618d0a
+    BulkResponseBody:
+      description: The response body of request of bulk resource.
+      required:
+        - pactualBulkId
+        - items
+      type: object
+      properties:
+        pactualBulkId:
+          description: Unique bulk request identificator (Uuid) generated by api.
+          type: string
+        items:
+          description: A list with created items.
+          type: array
+          items:
+            $ref: '#/components/schemas/SingleResponseBody'
+      example:
+        pactualBulkId: bf07b500-43ac-4f59-84da-f17061ca73a3
+        items:
+          - clientRequestId: c7c147ec-5305-4ddc-9387-d0e165a09c4e
+            pactualId: fb11703f-02d9-4a80-8dcc-53e597a8c5c5
+          - clientRequestId: dce00b29-e7bb-454a-929b-fef105eddc39
+            pactualId: bae5f7f6-6d8a-4994-849b-80eec0618d0a
+    ErrorResponse:
+      title: PactualErrorResponse
+      description: Default response body in case of any errors.
+      type: object
+      properties:
+        version:
+          description: Api version.
+          type: string
+        status:
+          description: Http status code.
+          type: string
+        errors:
+          description: Array of errors.
+          type: array
+          items:
+            type: object
+            properties:
+              errorCode:
+                type: string
+              message:
+                type: string
+      example:
+        version: 1.0.0
+        status: 400
+        errors:
+          - errorCode: PCE001
+            message: The field 'name' is required.
+          - errorCode: PCE002
+            message: The field 'taxId' is incorrect.
+    BalanceResponse:
+      description: ''
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: integer
+        body:
+          $ref: '#/components/schemas/BalanceResponseBody'
+          description: ''
+    BalanceResponseBody:
+      description: ''
+      required:
+        - balance
+        - availableBalance
+      type: object
+      properties:
+        balance:
+          description: ''
+          type: number
+        availableBalance:
+          description: ''
+          type: number
+        account:
+          description: Account registration number
+          type: integer
+        searchDate:
+          description: Date of the event of the search (following the UTC pattern)
+          type: string
+        accountId:
+          description: Accounts unique identifier
+          type: string
+        blockedAmount:
+          description: ''
+          type: number
+    AccountMovementExportRequestBody:
+      title: Root Type for AccountMovementExportRequestBody
+      description: ''
+      type: object
+      properties:
+        clientRequestId:
+          description: The unique transaction identification given by the client side. This value can't be repeated.
+          type: string
+        tags:
+          description: A list with tags.
+          type: array
+          items:
+            type: string
+        accountId:
+          description: Account Unique Identifier.
+          type: string
+        startDate:
+          description: The date on which the starts.
+          type: string
+        endDate:
+          description: The date on which the ends.
+          type: string
+      example:
+        clientRequestId: 3fa8XXXX-5717-XXXX-b3fc-2c9XXXX6afa6
+        tags:
+          - string
+        accountId: 3fa8XXXX-5717-4562-b3fc-2c963f66afa6
+        startDate: string
+        endDate: string
+    ContactRequest:
+      description: ''
+      required:
+        - contactType
+        - name
+        - email
+        - clientRequestId
+      type: object
+      properties:
+        clientRequestId:
+          description: ''
+          type: string
+        contactType:
+          description: ''
+          type: string
+        name:
+          description: ''
+          type: string
+        position:
+          description: ''
+          type: string
+        email:
+          description: ''
+          type: string
+        phone:
+          description: ''
+          type: string
+        observation:
+          description: ''
+          type: string
+        tags:
+          description: ''
+          type: array
+          items:
+            type: string
+      example:
+        clientRequestId: 246fb4eb-f0f7-46d7-a2b3-eba424f6dc24
+        contactType: General
+        name: some text
+        position: some text
+        email: myname@email.com
+        phone: +55 21 91234-1234
+        observation: some text
+        tags:
+          - some text
+          - some text
+    ContactBody:
+      description: ''
+      required:
+        - contactType
+        - name
+        - email
+      type: object
+      properties:
+        contactType:
+          description: ''
+          type: string
+        name:
+          description: ''
+          type: string
+        position:
+          description: ''
+          type: string
+        email:
+          description: ''
+          type: string
+        phone:
+          description: ''
+          type: string
+        observation:
+          description: ''
+          type: string
+      example:
+        contactType: General
+        name: some text
+        position: some text
+        email: myname@email.com
+        phone: +55 21 91234-1234
+        observation: some text
+    ContactResponseBody:
+      description: ''
+      required:
+        - body
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/EntityEnvelopBase'
+      properties:
+        body:
+          $ref: '#/components/schemas/ContactBody'
+          description: ''
+      example:
+        pactualId: f19a5fcb-7a98-4b3d-bba5-8b80a5a9437c
+        clientRequestId: 246fb4eb-f0f7-46d7-a2b3-eba424f6dc24
+        createTimestamp: '2020-07-15T19:26:10.703Z'
+        lastUpdateTimestamp: '2020-07-15T19:26:10.703Z'
+        status: some text
+        entity: some text
+        tags:
+          - some text
+          - some text
+        errorCode: PCE001
+        errorDescription: some text
+        body:
+          contactType: General
+          name: some text
+          position: some text
+          email: myname@email.com
+          phone: +55 21 91234-1234
+          observation: some text
+    ContactResponse:
+      description: ''
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: integer
+        body:
+          $ref: '#/components/schemas/ContactResponseBody'
+          description: ''
+      example:
+        version: '1.0'
+        status: 200
+        body:
+          pactualId: f19a5fcb-7a98-4b3d-bba5-8b80a5a9437c
+          clientRequestId: 246fb4eb-f0f7-46d7-a2b3-eba424f6dc24
+          createTimestamp: '2020-07-15T19:26:10.703Z'
+          lastUpdateTimestamp: '2020-07-15T19:26:10.703Z'
+          status: some text
+          entity: some text
+          tags:
+            - some text
+            - some text
+          errorCode: PCE001
+          errorDescription: some text
+          body:
+            contactType: General
+            name: some text
+            position: some text
+            email: myname@email.com
+            phone: +55 21 91234-1234
+            observation: some text
+    ContactsResponse:
+      description: ''
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: integer
+        body:
+          description: ''
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactResponseBody'
+      example:
+        version: '1.0'
+        status: 200
+        body:
+          - pactualId: f19a5fcb-7a98-4b3d-bba5-8b80a5a9437c
+            clientRequestId: 246fb4eb-f0f7-46d7-a2b3-eba424f6dc24
+            createTimestamp: '2020-07-15T19:26:10.703Z'
+            lastUpdateTimestamp: '2020-07-15T19:26:10.703Z'
+            status: some text
+            entity: some text
+            tags:
+              - some text
+              - some text
+            errorCode: PCE001
+            errorDescription: some text
+            body:
+              contactType: General
+              name: some text
+              position: some text
+              email: myname@email.com
+              phone: +55 21 91234-1234
+              observation: some text
+          - pactualId: f19a5fcb-7a98-4b3d-bba5-8b80a5a9437c
+            clientRequestId: 246fb4eb-f0f7-46d7-a2b3-eba424f6dc24
+            createTimestamp: '2020-07-15T19:26:10.703Z'
+            lastUpdateTimestamp: '2020-07-15T19:26:10.703Z'
+            status: some text
+            entity: some text
+            tags:
+              - some text
+              - some text
+            errorCode: PCE001
+            errorDescription: some text
+            body:
+              contactType: General
+              name: some text
+              position: some text
+              email: myname@email.com
+              phone: +55 21 91234-1234
+              observation: some text
+    EntityEnvelopBase:
+      description: ''
+      required:
+        - pactualId
+        - clientRequestId
+        - createTimestamp
+        - lastUpdateTimestamp
+        - status
+        - entity
+        - tags
+      type: object
+      properties:
+        pactualId:
+          description: ''
+          type: string
+        clientRequestId:
+          description: ''
+          type: string
+        createTimestamp:
+          format: date-time
+          description: Respects the GMT timezone
+          type: string
+        lastUpdateTimestamp:
+          format: date-time
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: string
+        entity:
+          description: ''
+          type: string
+        tags:
+          description: ''
+          type: array
+          items:
+            type: string
+        errorCode:
+          description: ''
+          type: string
+        errorDescription:
+          description: ''
+          type: string
+      example:
+        pactualId: f19a5fcb-7a98-4b3d-bba5-8b80a5a9437c
+        clientRequestId: 246fb4eb-f0f7-46d7-a2b3-eba424f6dc24
+        createTimestamp: '2020-07-15T19:26:10.703Z'
+        lastUpdateTimestamp: '2020-07-15T19:26:10.703Z'
+        status: some text
+        entity: some text
+        tags:
+          - some text
+          - some text
+        errorCode: PCE001
+        errorDescription: some text
+    DestAccountRequest:
+      required:
+        - account
+        - bank
+        - branch
+        - name
+        - taxId
+      type: object
+      properties:
+        account:
+          format: int32
+          type: integer
+        branch:
+          format: int32
+          type: integer
+        bank:
+          format: int32
+          type: integer
+        taxId:
+          type: string
+        name:
+          type: string
+        clientRequestId:
+          nullable: true
+          type: string
+      additionalProperties: false
+    DestAccountResponse:
+      description: ''
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: integer
+        body:
+          $ref: '#/components/schemas/DestAccountResponseBody'
+          description: ''
+    DestAccountResponseBody:
+      description: ''
+      required:
+        - destinationAccountId
+        - clientId
+        - account
+        - branch
+        - bank
+        - taxId
+        - name
+        - status
+      type: object
+      properties:
+        destinationAccountId:
+          description: ''
+          type: string
+        clientId:
+          description: ''
+          type: string
+        account:
+          description: ''
+          type: integer
+        branch:
+          description: ''
+          type: integer
+        bank:
+          description: ''
+          type: integer
+        taxId:
+          description: ''
+          type: string
+        name:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: string
+    DestAccountListResponse:
+      description: ''
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: integer
+        body:
+          $ref: '#/components/schemas/DestAccountResponseBody'
+          description: ''
+    FinancialTransaction:
+      title: Root Type for FinancialTransaction
+      description: Represents a Financial Transaction entity.
+      type: object
+      properties:
+        financialType:
+          description: The movemento financial type.
+          type: string
+        cashDirection:
+          description: Represents the direction of money.
+          enum:
+            - CashIn
+            - CashOut
+          type: string
+        movementId:
+          description: The financial transaction identificator. Use this field for reconciliation.
+          type: string
+        amount:
+          format: int32
+          description: The amount in cents.
+          type: integer
+        debitParty:
+          $ref: '#/components/schemas/FinancialTransactionParty'
+          description: The debit party.
+          properties:
+            bank:
+              format: int32
+              type: integer
+            branch:
+              format: int32
+              type: integer
+            account:
+              format: int32
+              type: integer
+            name:
+              type: string
+            taxId:
+              type: string
+            personType:
+              type: string
+            accountType:
+              type: string
+        creditParty:
+          $ref: '#/components/schemas/FinancialTransactionParty'
+          description: The credit party.
+          properties:
+            bank:
+              format: int32
+              type: integer
+            branch:
+              format: int32
+              type: integer
+            account:
+              format: int32
+              type: integer
+            name:
+              type: string
+            taxId:
+              type: string
+            personType:
+              type: string
+            accountType:
+              type: string
+      example:
+        financialType: Tef
+        cashDirection: CashOut
+        movementId: '12921885'
+        amount: 1000
+        debitParty:
+          bank: 208
+          branch: 20
+          account: 42161
+          name: Fulano de tal
+          taxId: 2693240304
+          personType: F
+          accountType: CC
+        creditParty:
+          bank: 208
+          branch: 1
+          account: 3731460
+          name: ALPHA SERVICOS LTDA
+          taxId: '28384557000122'
+          personType: J
+          accountType: CC
+    FinancialTransactionParty:
+      title: Root Type for FinancialTransactionParty
+      description: 'Represents a party on FinancialTransaction. '
+      type: object
+      properties:
+        bank:
+          format: int32
+          description: The bank code.
+          type: integer
+        branch:
+          format: int32
+          description: The branch number.
+          type: integer
+        account:
+          format: int32
+          description: The account number.
+          type: integer
+        name:
+          description: The account owner name.
+          type: string
+        taxId:
+          description: The CPF or CNPJ.
+          type: string
+        personType:
+          description: The person type.
+          enum:
+            - F
+            - J
+          type: string
+        accountType:
+          description: The account type.
+          enum:
+            - CC
+            - CP
+          type: string
+      example:
+        bank: 208
+        branch: 20
+        account: 42161
+        name: Fulano de tal
+        taxId: 2693240304
+        personType: F
+        accountType: CC
+    FinancialTransactionSearchResponseBodyContent:
+      description: ''
+      required:
+        - totalFound
+        - totalReturned
+        - items
+      type: object
+      properties:
+        totalFound:
+          description: The number of total found items.
+          type: integer
+        totalReturned:
+          description: The number of total returned items.
+          type: integer
+        startingFrom:
+          description: The order position of first returned item.
+          type: integer
+        items:
+          description: A list of returned items.
+          type: array
+          items:
+            $ref: '#/components/schemas/FinancialTransactionEnvelope'
+        scrollId:
+          description: Scroll Id for retrieves the next batch of results
+          type: string
+    FinancialTransactionSearchResponse:
+      title: Root Type for PixStaticBRCodeSearchResponse
+      description: The response for searching static br codes.
+      type: object
+      properties:
+        version:
+          description: The api version.
+          type: string
+        status:
+          format: int32
+          description: The HTTP response code.
+          type: integer
+        body:
+          $ref: '#/components/schemas/FinancialTransactionSearchResponseBodyContent'
+          description: The envelope with StaticBRCode instance.
+          properties:
+            totalFound:
+              format: int32
+              type: integer
+            totalReturned:
+              format: int32
+              type: integer
+            startingFrom:
+              format: int32
+              type: integer
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  pactualId:
+                    type: string
+                  clientRequestId:
+                    type: string
+                  createTimestamp:
+                    type: string
+                  lastUpdateTimestamp:
+                    type: string
+                  entity:
+                    type: string
+                  status:
+                    type: string
+                  body:
+                    type: object
+                    properties:
+                      payloadFormatIndicator:
+                        type: string
+                      merchantAccountInformation:
+                        type: object
+                        properties:
+                          key:
+                            type: string
+                          additionalInformation:
+                            type: string
+                      merchantCategoryCode:
+                        format: int32
+                        type: integer
+                      transactionCurrency:
+                        format: int32
+                        type: integer
+                      transactionAmount:
+                        format: double
+                        type: number
+                      countryCode:
+                        type: string
+                      merchantName:
+                        type: string
+                      merchantCity:
+                        type: string
+                      postalCode:
+                        type: string
+                      transactionIdentification:
+                        type: string
+                      emvqrcps:
+                        type: string
+                  tags:
+                    type: array
+                    items:
+                      type: string
+      example:
+        version: 1.0.0
+        status: 200
+        body:
+          totalFound: 1
+          totalReturned: 1
+          startingFrom: 0
+          items:
+            - pactualId: 056c9c93-5087-43aa-ae40-07084b642fe6
+              clientRequestId: 09e160d5-21e2-4056-b04e-f23ad46a8fcg_a945755f1b5c4c40b26731d1a2f3ce31_CashOut
+              createTimestamp: '2020-08-18T23:28:10.2550466+00:00'
+              lastUpdateTimestamp: '2020-08-18T23:28:10.2555754+00:00'
+              entity: FinancialTransaction
+              status: CONFIRMED
+              body:
+                financialType: Tef
+                cashDirection: CashOut
+                movementId: '12921885'
+                amount: 1000
+                debitParty:
+                  bank: 208
+                  branch: 20
+                  account: 42161
+                  name: Fulano de tal
+                  taxId: 2693240304
+                  personType: F
+                  accountType: CC
+                creditParty:
+                  bank: 208
+                  branch: 1
+                  account: 3731460
+                  name: ALPHA SERVICOS LTDA
+                  taxId: '28384557000122'
+                  personType: J
+                  accountType: CC
+              tags:
+                - abc
+                - cde
+    FinancialTransactionEnvelope:
+      description: ''
+      required:
+        - pactualId
+        - clientRequestId
+        - createTimestamp
+        - lastUpdateTimestamp
+        - status
+        - body
+        - entity
+        - tags
+      type: object
+      properties:
+        pactualId:
+          description: ''
+          type: string
+        clientRequestId:
+          description: ''
+          type: string
+        createTimestamp:
+          description: ''
+          type: string
+        lastUpdateTimestamp:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: string
+        body:
+          $ref: '#/components/schemas/FinancialTransaction'
+          description: ''
+        entity:
+          description: ''
+          type: string
+        tags:
+          description: ''
+          type: array
+          items:
+            type: string
+        errorCode:
+          description: ''
+          type: string
+        errorDescription:
+          description: ''
+          type: string
+    FinancialMovement:
+      description: Represents a internal or external financial movement.
+      required:
+        - movementId
+        - amount
+        - debitParty
+        - creditParty
+      type: object
+      properties:
+        movementId:
+          description: ''
+          type: string
+        amount:
+          description: Amount in cents.
+          type: integer
+        debitParty:
+          $ref: '#/components/schemas/Party'
+          description: ''
+        creditParty:
+          $ref: '#/components/schemas/Party'
+          description: ''
+      example:
+        movementId: 044392d7545248e3adef38e1b5041f60
+        amount: 300000
+        debitParty:
+          bank: 41
+          branch: 86
+          account: 38
+          name: Fulano de Tal
+          taxId: '02154125410'
+          accountType: CC
+        creditParty:
+          bank: 280
+          branch: 10
+          account: 38
+          name: Beltrano de Tal
+          taxId: '02154125410'
+          accountType: CC
+    FinancialMovementSearchResponseBody:
+      description: The response body for /payment/slips api.
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: The api version.
+          type: string
+        status:
+          description: The http status code.
+          type: integer
+        body:
+          $ref: '#/components/schemas/FinancialMovementSearchResponseBodyContent'
+          description: The response body.
+    FinancialMovementEnvelope:
+      description: ''
+      required:
+        - pactualId
+        - clientRequestId
+        - createTimestamp
+        - lastUpdateTimestamp
+        - status
+        - body
+        - entity
+        - tags
+      type: object
+      properties:
+        pactualId:
+          description: ''
+          type: string
+        clientRequestId:
+          description: ''
+          type: string
+        createTimestamp:
+          description: ''
+          type: string
+        lastUpdateTimestamp:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: string
+        body:
+          $ref: '#/components/schemas/FinancialMovement'
+          description: ''
+        entity:
+          description: ''
+          type: string
+        tags:
+          description: ''
+          type: array
+          items:
+            type: string
+        errorCode:
+          description: ''
+          type: string
+        errorDescription:
+          description: ''
+          type: string
+    FinancialMovementGetBulk:
+      description: ''
+      required:
+        - pactualBulkId
+        - items
+      type: object
+      properties:
+        pactualBulkId:
+          description: ''
+          type: string
+        items:
+          description: ''
+          type: array
+          items:
+            $ref: '#/components/schemas/FinancialMovementEnvelope'
+    FinancialMovementSearchResponseBodyContent:
+      description: ''
+      required:
+        - totalFound
+        - totalReturned
+        - items
+      type: object
+      properties:
+        totalFound:
+          description: The number of total found items.
+          type: integer
+        totalReturned:
+          description: The number of total returned items.
+          type: integer
+        startingFrom:
+          description: The order position of first returned item.
+          type: integer
+        scrollId:
+          description: Scroll Id for retrieves the next batch of results
+          type: string
+        items:
+          description: A list of returned items.
+          type: array
+          items:
+            $ref: '#/components/schemas/FinancialMovementEnvelope'
+    FinancialMovementGetBulkResponse:
+      description: ''
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: integer
+        body:
+          $ref: '#/components/schemas/FinancialMovementGetBulk'
+          description: ''
+    Party:
+      description: ''
+      required:
+        - bank
+        - branch
+        - account
+        - name
+        - taxId
+        - accountType
+      type: object
+      properties:
+        bank:
+          description: ''
+          type: integer
+        branch:
+          description: ''
+          type: integer
+        account:
+          description: ''
+          type: integer
+        name:
+          description: ''
+          type: string
+        taxId:
+          description: ''
+          type: string
+        accountType:
+          description: ''
+          type: string
+    ScrollRequest:
+      required:
+        - scrollId
+      type: object
+      properties:
+        scrollId:
+          description: scroll ID to retrieve the next batch of results for the request
+          type: string
+      example:
+        scrollId: DXF1ZXJ5QW5kRmV0Y2gBAAAAAAAAAD4WYm9laVYtZndUQlNsdDcwakFMNjU1QQ==
+    AlertBodyContent:
+      title: Root Type for Alert
+      description: ''
+      required:
+        - filter
+        - subscriptions
+        - clientId
+        - id
+        - lastUpdateTimestamp
+      type: object
+      properties:
+        id:
+          description: The unique identifier for alert.
+          type: string
+        clientId:
+          description: The unique identifier for client.
+          type: string
+        lastUpdateTimestamp:
+          description: The alert last update timestamp.
+          type: string
+        filter:
+          $ref: '#/components/schemas/AlertFilter'
+          description: The alert filters.
+          properties:
+            category:
+              type: array
+              items:
+                type: string
+            name:
+              type: array
+              items:
+                type: string
+            level:
+              type: array
+              items:
+                type: string
+        subscriptions:
+          description: The alert subscriptions.
+          type: array
+          items:
+            $ref: '#/components/schemas/AlertSubscription'
+      example:
+        id: 1eab30da-433d-48f1-ae3a-2edcfd6890ce
+        clientId: 6b30db62-11cd-4993-8ca1-6f06502beb1b
+        lastUpdateTimestamp: '2021-04-01T00:00:00.8418322+00:00'
+        filter:
+          category:
+            - PIX
+          name:
+            - Test
+          level:
+            - Information
+        subscriptions:
+          - type: Webhook
+            config:
+              endpoint: https://test-webhook.com/endpoint?querystring=123
+    AlertBodyResponse:
+      title: Root Type for AlertSubscriptionListBodyResponse
+      description: ''
+      required:
+        - status
+        - version
+      type: object
+      properties:
+        version:
+          description: The api version.
+          type: string
+        status:
+          format: int32
+          description: The http status code.
+          type: integer
+        body:
+          $ref: '#/components/schemas/AlertBodyContent'
+          properties:
+            subscriptions:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  config:
+                    type: object
+                    properties:
+                      addresses:
+                        type: array
+                        items:
+                          type: string
+      example:
+        version: 1.0.0
+        status: 200
+        body:
+          id: 40d4b812-1ced-4122-bbdb-488b5f0fb30e
+          clientId: 72c44b69-3850-4f29-8c0d-cad415c3ebac
+          lastUpdateTimestamp: '2021-04-23T15:42:16.5469902+00:00'
+          filter:
+            category:
+              - PIX
+            name:
+              - Test
+            level:
+              - Information
+          subscriptions:
+            - type: Webhook
+              config:
+                endpoint: https://webhook-teste.com.br/endpoint?querystring=123
+    AlertListBodyContent:
+      title: Root Type for AlertSubscriptionListBodyContent
+      description: ''
+      required:
+        - items
+      type: object
+      properties:
+        items:
+          description: List of alerts.
+          type: array
+          items:
+            $ref: '#/components/schemas/AlertBodyContent'
+      example:
+        items:
+          - id: 40d4b812-1ced-4122-bbdb-488b5f0fb30e
+            clientId: 72c44b69-3850-4f29-8c0d-cad415c3ebac
+            lastUpdateTimestamp: '2021-04-23T15:42:16.5469902+00:00'
+            filter:
+              category:
+                - PIX
+              name:
+                - Test
+              level:
+                - Information
+            subscriptions:
+              - type: Webhook
+                config:
+                  endpoint: https://webhook-teste.com.br/endpoint?querystring=123
+    AlertListBodyResponse:
+      title: Root Type for AlertSubscriptionListBodyResponse
+      description: ''
+      required:
+        - status
+        - version
+      type: object
+      properties:
+        version:
+          description: The api version.
+          type: string
+        status:
+          format: int32
+          description: The http status code.
+          type: integer
+        body:
+          $ref: '#/components/schemas/AlertListBodyContent'
+          properties:
+            subscriptions:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  config:
+                    type: object
+                    properties:
+                      addresses:
+                        type: array
+                        items:
+                          type: string
+      example:
+        version: 1.0.0
+        status: 200
+        body:
+          items:
+            - id: 40d4b812-1ced-4122-bbdb-488b5f0fb30e
+              clientId: 72c44b69-3850-4f29-8c0d-cad415c3ebac
+              lastUpdateTimestamp: '2021-04-23T15:42:16.5469902+00:00'
+              filter:
+                category:
+                  - PIX
+                name:
+                  - Test
+                level:
+                  - Information
+              subscriptions:
+                - type: Webhook
+                  config:
+                    endpoint: https://webhook-teste.com.br/endpoint?querystring=123
+    AlertCreateRequest:
+      title: Root Type for AlertRequest
+      description: ''
+      required:
+        - subscriptions
+        - filter
+      type: object
+      properties:
+        filter:
+          $ref: '#/components/schemas/AlertFilter'
+          description: The alert filters.
+          properties:
+            category:
+              type: array
+              items:
+                type: string
+            name:
+              type: array
+              items:
+                type: string
+            level:
+              type: array
+              items:
+                type: string
+        subscriptions:
+          description: The alert subscriptions.
+          type: array
+          items:
+            $ref: '#/components/schemas/AlertSubscription'
+      example:
+        filter:
+          category:
+            - PIX
+          name:
+            - Test
+          level:
+            - Information
+        subscriptions:
+          - type: Webhook
+            config:
+              endpoint: https://test-webhook.com/endpoint?querystring=123
+    AlertUpdateRequest:
+      title: Root Type for AlertRequest
+      description: ''
+      type: object
+      properties:
+        filter:
+          $ref: '#/components/schemas/AlertFilter'
+          description: The alert filters.
+          properties:
+            category:
+              type: array
+              items:
+                type: string
+            name:
+              type: array
+              items:
+                type: string
+            level:
+              type: array
+              items:
+                type: string
+        subscriptions:
+          description: The alert subscriptions.
+          type: array
+          items:
+            $ref: '#/components/schemas/AlertSubscription'
+      example:
+        filter:
+          category:
+            - PIX
+          name:
+            - Test
+          level:
+            - Information
+        subscriptions:
+          - type: Webhook
+            config:
+              endpoint: https://test-webhook.com/endpoint?querystring=123
+    AlertSubscriptionConfigEmail:
+      title: Email
+      description: ''
+      required:
+        - addresses
+      type: object
+      properties:
+        addresses:
+          description: A valid list of emails.
+          type: array
+          items:
+            type: string
+      example:
+        addresses:
+          - email@test.com
+    AlertSubscriptionConfigMSTeams:
+      title: MSTeams
+      description: ''
+      required:
+        - endpoint
+      type: object
+      properties:
+        endpoint:
+          description: A valid URL.
+          type: string
+      example:
+        endpoint: https://test-msteams.com/endpoint?querystring=123
+    AlertSubscriptionConfigSlack:
+      title: Slack
+      description: ''
+      required:
+        - endpoint
+      type: object
+      properties:
+        endpoint:
+          description: A valid URL.
+          type: string
+      example:
+        endpoint: https://test-slack.com/endpoint?querystring=123
+    AlertSubscriptionConfigWebhook:
+      title: Webhook
+      description: ''
+      required:
+        - endpoint
+      type: object
+      properties:
+        endpoint:
+          description: A valid URL.
+          type: string
+      example:
+        endpoint: https://test-webhook.com/endpoint?querystring=123
+    AlertSubscription:
+      title: Root Type for Subscription
+      description: ''
+      required:
+        - config
+        - type
+      type: object
+      properties:
+        type:
+          description: The destination type of alert.
+          enum:
+            - Slack
+            - MSTeams
+            - Email
+            - Webhook
+          type: string
+        config:
+          oneOf:
+            - $ref: '#/components/schemas/AlertSubscriptionConfigSlack'
+            - $ref: '#/components/schemas/AlertSubscriptionConfigMSTeams'
+            - $ref: '#/components/schemas/AlertSubscriptionConfigEmail'
+            - $ref: '#/components/schemas/AlertSubscriptionConfigWebhook'
+          description: If the type of the configuration is 'Email', there must be an 'addresses' property with a list of valid emails. If it is Slack, MSTeams or Webhook, there must be an 'endpoint' property with a valid URL.
+      example:
+        type: Webhook
+        config:
+          endpoint: https://test-webhook.com/endpoint?querystring=123
+    SuccessTransferResponse:
+      description: ''
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: integer
+        body:
+          $ref: '#/components/schemas/FinancialMovementEnvelope'
+          description: ''
+    EmptyOKResponse:
+      title: Root Type for EmptyOKResponse
+      description: ''
+      type: object
+      properties:
+        version:
+          description: The api version.
+          type: string
+        status:
+          format: int32
+          description: The HTTP response code.
+          type: integer
+      example:
+        version: 1.0.0
+        status: 200
+    AlertFilter:
+      title: Root Type for AlertFilter
+      description: ''
+      type: object
+      properties:
+        category:
+          description: The alert categories.
+          pattern: '[^A-Za-z0-9]'
+          type: array
+          items:
+            type: string
+        name:
+          description: The alert names.
+          pattern: '[^A-Za-z]'
+          type: array
+          items:
+            type: string
+        level:
+          description: The alert levels.
+          type: array
+          items:
+            enum:
+              - Information
+              - Warning
+              - Critical
+              - Error
+            type: string
+      example:
+        category:
+          - PIX
+        name:
+          - Test
+        level:
+          - Information
+    ImportFileResponse:
+      title: Root Type for ImportFileResponse
+      description: ''
+      type: array
+      items:
+        $ref: '#/components/schemas/ImportFileSingleResponse'
+      example:
+        - clientId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          traceKey: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          clientRequestIdUniqueKey: string
+          isSynchronous: false
+          externalIPAddress: string
+          customAttributes: {}
+          pactualId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          pactualBulkId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          clientRequestId: string
+          createTimestamp: string
+          lastUpdateTimestamp: string
+          entity: string
+          status: string
+          errorCode: string
+          errorDescription: string
+          body:
+            description: string
+            fileName: string
+            importType: string
+            importSubType: string
+            lastIndex: 0
+            step: 0
+            previousImportFilePactualId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+            externalId: string
+          tags:
+            - string
+    ImportFileRequest:
+      description: Request model in multipart/form-data format that represents an import of file
+      required:
+        - File
+        - Description
+        - ImportType
+        - ImportSubType
+        - ClientRequestId
+      properties:
+        File:
+          format: binary
+          description: File to uplopad in byte array.
+          type: string
+        Description:
+          description: Some description.
+          type: string
+        ImportType:
+          description: Type of file to upload.
+          enum:
+            - CNAB
+          type: string
+        ImportSubType:
+          description: Subtype file.
+          enum:
+            - PaymentSlip
+          type: string
+        ClientRequestId:
+          description: Unique identifier provided by the client. Can be used in response corelation.
+          type: string
+    ImportFileSingleResponse:
+      title: Root Type for ImportFileSingleResponse
+      description: ''
+      type: object
+      properties:
+        clientId:
+          type: string
+        traceKey:
+          type: string
+        clientRequestIdUniqueKey:
+          type: string
+        isSynchronous:
+          type: boolean
+        externalIPAddress:
+          type: string
+        customAttributes:
+          type: object
+        pactualId:
+          type: string
+        pactualBulkId:
+          type: string
+        clientRequestId:
+          type: string
+        createTimestamp:
+          type: string
+        lastUpdateTimestamp:
+          type: string
+        entity:
+          type: string
+        status:
+          type: string
+        errorCode:
+          type: string
+        errorDescription:
+          type: string
+        body:
+          type: object
+          properties:
+            description:
+              type: string
+            fileName:
+              type: string
+            importType:
+              type: string
+            importSubType:
+              type: string
+            lastIndex:
+              format: int32
+              type: integer
+            step:
+              format: int32
+              type: integer
+            previousImportFilePactualId:
+              type: string
+            externalId:
+              type: string
+        tags:
+          type: array
+          items:
+            type: string
+      example:
+        clientId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        traceKey: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        clientRequestIdUniqueKey: string
+        isSynchronous: false
+        externalIPAddress: string
+        customAttributes: {}
+        pactualId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        pactualBulkId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        clientRequestId: string
+        createTimestamp: string
+        lastUpdateTimestamp: string
+        entity: string
+        status: string
+        errorCode: string
+        errorDescription: string
+        body:
+          description: string
+          fileName: string
+          importType: string
+          importSubType: string
+          lastIndex: 0
+          step: 0
+          previousImportFilePactualId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          externalId: string
+        tags:
+          - string
+    BalanceResponseArray:
+      description: ''
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: integer
+        body:
+          description: ''
+          properties:
+            totalItems:
+              format: int32
+              description: ''
+              type: integer
+            items:
+              description: A list of returned items.
+              type: array
+              items:
+                $ref: '#/components/schemas/BalanceResponseBody'
+    AccountMovementResponse:
+      title: Root Type for AccountMovementResponse
+      description: ''
+      type: object
+      properties:
+        version:
+          type: string
+        status:
+          format: int32
+          type: integer
+        body:
+          type: object
+          properties:
+            totalItems:
+              format: int32
+              type: integer
+            perPage:
+              format: int32
+              type: integer
+            totalPageItems:
+              format: int32
+              type: integer
+            currentPage:
+              format: int32
+              type: integer
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  date:
+                    format: date-time
+                    type: string
+                  amount:
+                    format: int32
+                    type: integer
+                  movementDescription:
+                    type: string
+                  movementId:
+                    format: int32
+                    type: integer
+                  accountId:
+                    type: string
+      example:
+        version: 1.0.2
+        status: 200
+        body:
+          totalItems: 10
+          perPage: 9
+          totalPageItems: 9
+          currentPage: 1
+          items:
+            - type: Credit
+              date: '2020-08-26T12:52:09'
+              amount: 0
+              movementDescription: TESTE_RASPA CONTA - APLICACAO
+              movementId: 77842699
+              accountId: 293d185c-895c-4b6c-8c24-e93fcc44c6f6
+    AccountMovementResponseAsync:
+      title: Root Type for AccountMovementResponse
+      description: ''
+      type: object
+      properties:
+        version:
+          description: Api version.
+          type: string
+        status:
+          format: int32
+          description: Http status code.
+          type: integer
+        body:
+          description: Account movement response body.
+          type: object
+          properties:
+            hasNext:
+              description: Parameter means there are more pages to view.
+              type: boolean
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    description: Transaction type.
+                    enum:
+                      - Debit
+                      - Credit
+                    type: string
+                  date:
+                    description: Transaction event date.
+                    type: string
+                  amount:
+                    description: Amount in cents.
+                    type: integer
+                  movementDescription:
+                    description: Transaction movement description.
+                    type: string
+                  movementId:
+                    description: The financial transaction identificator. Use this field for reconciliation.
+                    type: integer
+                  accountId:
+                    description: Accounts unique identifier.
+                    type: string
+      example:
+        version: string
+        status: 100
+        body:
+          hasNext: true
+          items:
+            - type: string
+              date: string
+              amount: 0
+              movementDescription: string
+              movementId: 0
+              accountId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    SingleResponse:
+      title: PactualSingleResponse
+      description: Default response body for create single resource apis.
+      required:
+        - body
+        - version
+        - status
+      type: object
+      properties:
+        body:
+          $ref: '#/components/schemas/SingleResponseBody'
+          description: Body with clientRequestId and pactualId.
+          properties:
+            clientRequestId:
+              type: string
+            pactualId:
+              type: string
+        version:
+          description: The api version.
+          type: string
+        status:
+          description: The http status code.
+          type: integer
+      example:
+        version: '1.0'
+        status: 200
+        body:
+          clientRequestId: daf17267-f26d-43e5-baef-074bb67c95c8
+          pactualId: ad21c1a9-feb5-43b2-8b82-1e93b7cf5d50
+    PactualIdResponse:
+      title: PactualSingleResponse
+      description: Default response body for create single resource apis.
+      required:
+        - body
+        - version
+        - status
+      type: object
+      properties:
+        body:
+          type: object
+          properties:
+            pactualId:
+              description: Unique resource identificator (Uuid) generated by api.
+              type: string
+        version:
+          description: The api version.
+          type: string
+        status:
+          description: The http status code.
+          type: integer
+      example:
+        version: '1.0'
+        status: 200
+        body:
+          pactualId: ad21c1a9-feb5-43b2-8b82-1e93b7cf5d50
+    AccountMovementCnabResponseAsync:
+      title: Root Type for AccountMovementResponse
+      description: ''
+      type: object
+      properties:
+        version:
+          description: Api version.
+          type: string
+        status:
+          format: int32
+          description: Http status code.
+          type: integer
+        body:
+          description: Account movement response body.
+          type: object
+          properties:
+            hasNext:
+              description: Parameter means there are more pages to view.
+              type: boolean
+            balance:
+              description: Account balance information (in cents).
+              type: object
+              properties:
+                beginOfTheDay:
+                  description: Balance amount in begin of the day.
+                  type: string
+                endOfTheDay:
+                  description: Balance amount in end of the day.
+                  type: string
+                blocked:
+                  description: Blocked amount in end of the day.
+                  type: string
+            items:
+              description: Movement information.
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    description: Transaction type.
+                    enum:
+                      - Debit
+                      - Credit
+                    type: string
+                  date:
+                    description: Transaction event date.
+                    type: string
+                  amount:
+                    description: Amount in cents.
+                    type: integer
+                  movementDescription:
+                    description: Transaction movement description.
+                    type: string
+                  movementId:
+                    description: The financial transaction identificator. Use this field for reconciliation.
+                    type: integer
+                  accountId:
+                    description: Accounts unique identifier.
+                    type: string
+                  transactionTypeId:
+                    description: Release code.
+                    type: integer
+      example:
+        version: 1.11.5
+        status: 200
+        body:
+          hasNext: false
+          balance:
+            beginOfTheDay: '1231284921'
+            endOfTheDay: '6241315125112'
+            blocked: '0'
+          items:
+            - transactionTypeId: 103
+              type: Debit
+              date: '2023-05-04T08:25:48'
+              amount: 178990
+              movementDescription: EST PIX CASH IN EXTERNO TERC
+              movementId: 2163984240
+              accountId: 891b07ff-5e4e-481e-862b-47ff387ab112
+            - transactionTypeId: 103
+              type: Debit
+              date: '2023-05-04T09:47:03'
+              amount: 35000
+              movementDescription: EST PIX CASH IN EXTERNO TERC
+              movementId: 2163546498
+              accountId: 891b07ff-5e4e-481e-862b-47ff387ab112
+            - transactionTypeId: 103
+              type: Debit
+              date: '2023-05-04T12:14:06'
+              amount: 145564
+              movementDescription: EST PIX CASH IN EXTERNO TERC
+              movementId: 2163952051
+              accountId: 891b07ff-5e4e-481e-862b-47ff387ab112
+            - transactionTypeId: 103
+              type: Debit
+              date: '2023-05-04T12:17:03'
+              amount: 100000
+              movementDescription: EST PIX CASH IN EXTERNO TERC
+              movementId: 2163140054
+              accountId: 891b07ff-5e4e-481e-862b-47ff387ab112
+    Entity:
+      description: Entity's name.
+      type: string
+    ClientRequestId:
+      description: The unique transaction identification given by the client side. This value can't be repeated.
+      type: string
+    CreateTimestamp:
+      description: Entity's creation timestamp.
+      type: string
+    PactualId:
+      description: Unique resource Identifier (Uuid) generated by api.
+      type: string
+    LastUpdateTimestamp:
+      description: Entity's last update timestamp.
+      type: string
+    ImportFileStatus:
+      description: |
+        The state of the import file, which at the time of its creation will be ENQUEUED.
+      enum:
+        - ENQUEUED
+        - PROCESSING
+        - PARSED
+        - COMPLETED
+        - ERROR
+      type: string
+    Tags:
+      description: Tags that can be sent by the client, it will be saved on the Entity, use as a metadata field
+      type: array
+      items:
+        type: string
+      example:
+        - tag1
+        - tag2
+    ImportFileWebhook:
+      description: Import File webhook.
+      type: object
+      properties:
+        pactualId:
+          $ref: '#/components/schemas/PactualId'
+        clientRequestId:
+          $ref: '#/components/schemas/ClientRequestId'
+        createTimestamp:
+          $ref: '#/components/schemas/CreateTimestamp'
+        lastUpdateTimestamp:
+          $ref: '#/components/schemas/LastUpdateTimestamp'
+        entity:
+          $ref: '#/components/schemas/Entity'
+        status:
+          $ref: '#/components/schemas/ImportFileStatus'
+        body:
+          $ref: '#/components/schemas/ImportFileWebhookBody'
+        tags:
+          $ref: '#/components/schemas/Tags'
+    ImportFileWebhookBody:
+      description: Import File webhook body.
+      type: object
+      properties:
+        importType:
+          description: Type of file to upload. If you use this webhook in the Depositary Bank Integration, you will receive this field as Depositary Bank
+          type: string
+        description:
+          description: Some description
+          type: string
+        importSubType:
+          description: Subtype file. If you use this webhook in the Depositary Bank Operation, you will receive the Payment Network name in this field (Visa, Mastercard, Hipercard, Elo, Amex)
+          type: string
+        fileName:
+          description: The name of the file
+          type: string
+    AccountMovementAsyncRequest:
+      title: Root Type for AccountMovementAsyncRequest
+      description: ''
+      required:
+        - accountId
+        - targetDate
+      type: object
+      properties:
+        accountId:
+          description: Accounts unique identifier.
+          type: string
+        targetDate:
+          format: date-time
+          description: Date of the event of the search
+          type: string
+        startHour:
+          description: |-
+            Start time of the search interval. Between [00-23].
+            By default, the start of the day is used.
+          type: string
+        endHour:
+          description: |-
+            End time of the search interval. Between [00-23].
+            By default, the end of the day is used.
+          type: string
+      example:
+        accountId: cb147d9d-fbe6-446b-8876-73519efd29f5
+        targetDate: '2024-03-01'
+        startHour: '19'
+        endHour: '20'
+  responses:
+    SuccessCreateBulkOfResources:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BulkResponse'
+          examples:
+            SuccessCreateBulkOfResourcesExample:
+              value:
+                version: '1.0'
+                status: 202
+                body:
+                  pactualBulkId: daf17267-f26d-43e5-baef-074bb67c95c8
+                  items:
+                    - clientRequestId: 6270f54d-58d7-4998-8946-c91ad1118273
+                      pactualId: ae61453e-ce54-40fc-94c9-5f720de264d4
+                    - clientRequestId: 87743d30-928f-4587-9620-c39d39558d9c
+                      pactualId: ad21c1a9-feb5-43b2-8b82-1e93b7cf5d50
+      description: A success api response for create resources in bulk.
+    SuccessCreateResource:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ImportFileSingleResponse'
+          examples:
+            SuccessCreateResourceExample:
+              value:
+                version: '1.0'
+                status: 202
+                body:
+                  clientRequestId: b2af2d7a-23b5-4cfb-b879-0b6fa705beb2
+                  pactualId: 71a16885-4f6d-492f-a741-d0d3a106cfa1
+      description: A success api response for get file imported by pactualId.
+    InternalServerError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            InternalServerErrorExample:
+              value:
+                version: 1.0.0
+                status: 500
+                errors:
+                  - errorCode: PIE001
+                    message: Internal server error
+      description: Internal server error responses.
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            BadRequestExample:
+              value:
+                version: 1.0.0
+                status: 400
+                errors:
+                  - errorCode: PCE001
+                    message: The field 'name' is mandatory.
+                  - errorCode: PCE001
+                    message: The field 'accountNumber' is mandatory.
+      description: A BadRequest response.
+    Unauthorized:
+      description: Response when a request is not athorized for the user.
+    Forbiden:
+      description: Response when the resource can not be accessed by the user.
+    SuccessTransferResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SuccessTransferResponse'
+      description: ''
+    FinancialMovementGetBulkResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FinancialMovementGetBulkResponse'
+      description: ''
+    SuccessBalanceResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BalanceResponse'
+      description: ''
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            NotFoundExample:
+              value:
+                version: 1.0.0
+                status: 404
+      description: A NotFound response.
+    TooManyRequests:
+      description: Too many requests. Try wait and call again later.
+    GatewayTimeout:
+      description: Received a timeout from an internal api. Check if the resource is created using the search api or by receiving a webhook notification.
+    EmptyOKResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EmptyOKResponse'
+          examples:
+            EmptyOKResponse:
+              value:
+                version: 1.0.0
+                status: 200
+      description: ''
+    Conflict:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            BadRequestExample:
+              value:
+                version: 1.0.0
+                status: 409
+                errors:
+                  - errorCode: PCE001
+                    message: The message has already been processed.
+      description: Happens when conflicting messages are submitted.
+  parameters:
+    inicio:
+      name: inicio
+      schema:
+        format: date-time
+        title: Initial Date
+        description: Filters records whose creation date is greater than or equal to the start date. Respects RFC 3339.
+        type: string
+      in: query
+      required: true
+    fim:
+      name: fim
+      schema:
+        format: date-time
+        title: Initial Date
+        description: Filters records whose creation date is greater than or equal to the start date. Respects RFC 3339.
+        type: string
+      in: query
+      required: true
+    paginaAtual:
+      name: paginacao.paginaAtual
+      schema:
+        format: int32
+        title: Current Page
+        description: Page to be returned by the query. If not informed, the PSP will assume it will be 0.
+        default: 0
+        minimum: 0
+        type: integer
+      in: query
+      required: false
+    itensPorPagina:
+      name: paginacao.itensPorPagina
+      schema:
+        format: int32
+        title: Items per Page
+        description: Maximum number of records returned on each page. Only the last page can contain a smaller amount of records.
+        default: 100
+        maximum: 1000
+        minimum: 1
+        type: integer
+      in: query
+      required: false
+  securitySchemes:
+    BaaSAuthorizer:
+      type: apiKey
+      description: 'JWT Authorization header using the Bearer scheme. Example: "Authorization: Bearer { token }"'
+      name: Authorization
+      in: header
+    mTLS:
+      type: apiKey
+      description: |
+        When ```mTLS Certificate``` is enabled in the webhook subscription, the communication between
+        our client and your server will be done through the mTLS protocol. Our client certificate can
+        be downloaded through our portal or via [API](https://developer.btgpactual.com/doccm#tag/Webhook).
+      name: none
+      in: header
+    HashSignature:
+      type: apiKey
+      description: |
+        When ```Hash Signature (HMAC SHA256 Hash)``` is enabled in the webhook subscription, every webhook 
+        we send for this subscription will have the ```x-webhook-baas-signature``` header. The value will 
+        be the request body content hashed with HMAC-SHA256. The Secret Key will be the one you configured 
+        in the webhook subscription.
+
+        For security validation, you can hash the body content you received by the webhook, and then 
+        compare with the value in the ```x-webhook-baas-signature``` header. If they match, you can 
+        trust that we sent it.
+
+        Important: remember to hash the raw body content received, without any formatting, otherwise
+        the hashs might not match.
+      name: x-webhook-baas-signature
+      in: header
+security:
+  - BaaSAuthorizer: []
+tags:
+  - name: Authentication
+    description: |-
+      The methods in this session handle the usage of authentication tokens to verify the callers credentials. One must pass the appropriate valid credentials in order to retrieve data in our services. Bellow the user can find the explanation on how to retrieve a valid token and how to check if they are still valid with each consultation.
+
+      ## Oauth2 Pattern 
+      You will need to authorize the API to access your account.
+
+      The authorization flow follows the JSON Web Token (JWT) for OAuth 2.0 Client Authentication standard, to ensure security while allowing you full access to your own account.
+
+      Once you have the access token, you can use any of the API endpoints described below (according to the permissions granted to your app), applying the access token on HTTP Authorization Header. If you are viewing this documentation on a Swagger interface, start by getting the access token with the "/authentication/token" method and save the access token in the "Authorize" option to start with the following requisitions.
+  - name: Account
+    description: This session handles the users credentials and the type of actions a subscriber can make regarding it's authenticated profile. From balance checking to user information retrieval this sessions revolves around all matters user related and how to use them.
+  - name: Destination Account
+    description: This session handles Destination Account Methods and it's functionalities.
+  - name: Financial Transactions
+    description: "This session deals with financial transactions that occur on accounts registered within BTG Banking as a Service. The following code represents the structure of a Financial Transaction Webhook. \n\n## Financial Transaction Webhook \nThe following code represents the structure of a Financial Transaction Webhook .\n\n```\n{\n    \"Body\": {\n            \"amount\": 100,\n            \"cashDirection\": \"CashOut\",\n            \"creditParty\": {\n            \"account\": \"123\",\n            \"accountType\": \"CC\",\n            \"bank\": \"208\",\n            \"branch\": \"30\",\t\t\n            \"name\": \"BTG Pactual\",\t\n            \"personType\": \"J\",\n            \"taxId\": \"12345678912345\"\n            },\n            \"debitParty\": {\n            \"account\": \"1234\",\n            \"accountType\": \"CC\",\n            \"bank\": \"208\",\n            \"branch\": \"30\",\t\t\n            \"name\": \"BTG Pactual\",\n            \"personType\": \"J\",\n            \"taxId\": \"12345678912345\"\n            },\n            \"financialType\": \"Pix\",\n            \"movementId\": \"123456789\"\n        },\n        \"ClientId\": \"XXXX52ee-xxxx-4aea-9f51-3378144b1234\",\n        \"ClientRequestId\": \"4c5fe0ff-XXXX-xxxx-8e52-c4b0f44bd026\",\n        \"CreateTimestamp\": \"2021-12-07T12:18:14.5105305+00:00\",\n        \"Entity\": \"FinancialTransaction\",\n        \"Event\": \"CONFIRMED\",\n        \"LastUpdateTimestamp\": \"2021-12-07T12:18:14.5183432+00:00\",\n        \"PactualId\": \"cce8db79-xxxx-XXXX-xxxx-4bde7fbdc032\",\n        \"Status\": \"CONFIRMED\",\n        \"Tags\": [\n        ]\n}\n```"
+  - name: Contact
+    description: This session refers to contact informations.
+  - name: Import File
+    description: This session refers to import files.
+  - name: Webhook
+    description: |-
+      Webhooks allow you to build or set up integrations which subscribe to certain resource events.
+
+      This is a mechanism that allows you to track updates about your transactions to an HTTPS endpoint provided by you through a subscription. When a subscribed event occurs, a notification will be posted, via HTTP POST method, to the specified endpoint.
+
+      You can choose which events you would like to receive.  You can change the list of subscribed events anytime.
+
+      HTTP POST payloads that are delivered to your webhook's configured URL endpoint will contain several special headers:
+          
+          "x-webhook-baas-entity" -> Resource Id (entity name) 
+          "x-webhook-baas-event" -> Event Name 
+          "x-webhook-baas-signature" -> Hash signature (HMAC-SHA256) of request payload. This is used for you to validate the authenticity of BTG Pactual requests.
+  - name: Monitoring
+    description: This session handles alert subscription management.
+  - name: Financial Movement Async
+    description: |-
+      This session deals with financial transactions that occur on accounts registered within BTG Banking as a Service. Using async method.</br>
+
+
+
+      ## Financial Movement Async Webhook 
+      The following code represents the structure of a Financial Movement Async Webhook .
+      ```
+      {
+       "ClientId": "8c8e7380-df91-4dea-9ca0-052dddd6b745",
+       "CreateTimestamp": "2023-06-23T21:33:14.2823452+00:00",
+       "Entity": "MovementStatement",
+       "LastUpdateTimestamp": "2023-06-23T21:33:14.2834229+00:00",
+       "PactualId": "cc442a31-d33b-4cd4-a9d4-f2e9bd94607b",
+       "Status": "PROCESSING || COMPLETED",
+       "Tags": []
+      }
+      ```
+x-tagGroups:
+  - name: Security and Authentication
+    tags:
+      - Authentication
+  - name: Webhook
+    tags:
+      - Webhook
+  - name: Account
+    tags:
+      - Destination Account
+      - Account
+      - Financial Transactions
+      - Financial Movement Async
+  - name: Contact
+    tags:
+      - Contact
+  - name: Monitoring
+    tags:
+      - Monitoring
+  - name: Import File
+    tags:
+      - Import File
+x-webhooks:
+  import-file-webhook:
+    post:
+      summary: Status Update Webhooks
+      description: |
+        We send a webhook for every change in a Import File status. The status might be:
+
+        |Status Code|Status Description|  
+        |----------|:-------------|
+        |ENQUEUED|Indicates that the file was enqueued| 
+        |PROCESSING|Indicates that the file is being imported|
+        |PARSED|Indicates that the file was parsed|
+        |COMPLETED|Indicates that the file was imported| 
+        |ERROR|Indicates that some error occurred| 
+
+        You can sign this webhook in the logged area of this portal or via [API](https://developer.btgpactual.com/doccm#tag/Webhook), with the entity ```ImportFile```.
+        You can also configure the security validation method for the requests, which can be either ```mTLS Certificate``` or ```Hash Signature (HMAC SHA256 Hash)```.
+
+        For more information on the security validation methods, check the ```AUTHORIZATIONS``` section below.
+
+        For more information on webhooks, see the [Webhook Documentation](https://developer.btgpactual.com/doccm#tag/Webhook).
+      operationId: import-file-webhook
+      tags:
+        - Import File
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportFileWebhook'
+            examples:
+              SETTLED:
+                value:
+                  pactualId: 53f6d1bd-b22d-4459-a0a7-e3ba8dfd8e9a
+                  clientRequestId: 4ad17514-0aa7-4fbe-ba6b-4518695fe059
+                  createTimestamp: '2022-12-26T16:39:50.6211702+00:00'
+                  lastUpdateTimestamp: '2022-12-27T17:51:18.5131974+00:00'
+                  entity: ImportFile
+                  status: ENQUEUED
+                  body:
+                    importType: DepositaryBank
+                    description: teste
+                    importSubType: Visa
+                    fileName: 1a722b8c-f376-4b60-9416-07beeecb2c81_19134c58-7b6c-4cb1-a3dd-cd8bb98184bd.xlsx
+                  tag: string
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+      security:
+        - mTLS: []
+        - HashSignature: []

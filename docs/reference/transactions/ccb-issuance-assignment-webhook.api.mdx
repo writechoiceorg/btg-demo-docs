@@ -1,0 +1,72 @@
+---
+id: ccb-issuance-assignment-webhook
+title: "Webhooks (CcbIssuanceAssignment)"
+description: "We send a webhook for every change in a CCB Issuance Assignment status. You can check de possible status values [here](#section/CCB-Issuance-Assignment-Status)."
+sidebar_label: "Webhooks (CcbIssuanceAssignment)"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "event api-method"
+info_path: reference/transactions/btg-pactual-banking-as-a-service-transactions
+custom_edit_url: null
+proxy: https://proxy.writechoice.io/
+---
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Webhooks (CcbIssuanceAssignment)"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"event"}
+  path={"webhook"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+We send a webhook for every change in a CCB Issuance Assignment status. You can check de possible status values [here](#section/CCB-Issuance-Assignment-Status).
+
+You can sign this webhook in the logged area of this portal or via [API](https://developer.btgpactual.com/doccm#tag/Webhook), with the entity ```CcbIssuanceAssignment```.
+You can also configure the security validation method for the requests, which can be either ```mTLS Certificate``` or ```Hash Signature (HMAC SHA256 Hash)```.
+
+For more information on the security validation methods, check the ```AUTHORIZATIONS``` section below.
+
+For more information on webhooks, see the [Webhook Documentation](https://developer.btgpactual.com/doccm#tag/Webhook).
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"description":"CCB Assignment Entity","required":["body"],"allOf":[{"description":"BaaS Entity Envelope","required":["pactualId","clientRequestId","createTimestamp","lastUpdateTimestamp","status","entity"],"type":"object","properties":{"pactualId":{"format":"uuid","description":"Unique resource identificator (uuid) generated by api.","type":"string","title":"PactualId"},"clientRequestId":{"description":"The unique transaction identification given by the client side. This value can't be repeated.","type":"string","title":"ClientRequestId"},"createTimestamp":{"format":"date-time","description":"The string representation of the Timestamp that the record was created (UTC).","pattern":"yyyy-MM-ddTHH:mm:ssZ","type":"string","title":"CreateTimestamp"},"lastUpdateTimestamp":{"format":"date-time","description":"The string representation of the Timestamp that the record was last updated (UTC).","pattern":"yyyy-MM-ddTHH:mm:ssZ","type":"string","title":"LastUpdateTimestamp"},"status":{"description":"The operation status.","type":"string","title":"Status"},"entity":{"description":"Operation Contract Entity.","type":"string","title":"Entity"},"tags":{"nullable":true,"description":"Tags that can be sent by the client, it will be saved on the Entity, use as a metadata field","uniqueItems":true,"type":"array","items":{"type":"string"},"example":["tag1","tag2"],"title":"Tags"},"errorCode":{"description":"The error code.","type":"string","title":"ErrorCode"},"errorDescription":{"description":"The error description.","type":"string","title":"ErrorDescription"}},"title":"EntityEnvelope"},{"type":"object","properties":{"body":{"type":"object","properties":{"amount":{"format":"double","type":"number"},"assignmentTradeId":{"nullable":true,"type":"string"},"contract":{"nullable":true,"type":"string"},"productProfileId":{"nullable":true,"type":"string"},"signInfo":{"type":"object","properties":{"status":{"nullable":true,"type":"string"},"contractDate":{"nullable":true,"type":"string"},"lastInfo":{"nullable":true,"type":"string"},"signerStatus":{"nullable":true,"type":"array","items":{"type":"object","properties":{"name":{"nullable":true,"type":"string"},"email":{"nullable":true,"type":"string"},"taxId":{"nullable":true,"type":"string"},"signAs":{"nullable":true,"type":"string"},"signatureDate":{"nullable":true,"type":"string"},"authenticationType":{"nullable":true,"type":"string"},"status":{"nullable":true,"type":"string"},"statusInfo":{"nullable":true,"type":"string"}},"title":"DocHubSignerStatus"}}},"title":"CcbIssuanceSignInfo"},"settlementInfo":{"type":"object","properties":{"cge":{"nullable":true,"format":"int64","type":"integer"},"taxId":{"nullable":true,"type":"string"},"name":{"nullable":true,"type":"string"},"account":{"type":"object","properties":{"bank":{"nullable":true,"type":"string"},"branch":{"nullable":true,"type":"string"},"account":{"nullable":true,"type":"string"},"ispb":{"nullable":true,"type":"string"},"accountType":{"enum":["CACC","SLRY","SVGS","TRAN"],"type":"string","title":"CcbIssuanceAccountType"}},"title":"CcbIssuanceAccount"}},"title":"CcbIssuanceSettlementInfo"},"proposals":{"nullable":true,"type":"array","items":{"type":"object","properties":{"proposalPactualId":{"format":"uuid","type":"string"},"proposalClientRequestId":{"nullable":true,"type":"string"},"issuanceTradeId":{"nullable":true,"type":"string"},"contract":{"nullable":true,"type":"string"},"issueDate":{"nullable":true,"type":"string"},"dueDate":{"nullable":true,"type":"string"},"borrowerTaxId":{"nullable":true,"type":"string"},"issueValue":{"format":"double","type":"number"},"acquisitionValue":{"format":"double","type":"number"}},"title":"CdbIssProposalInfo"}}},"title":"CcbIssuanceAssignmentEntity"}}}],"title":"CcbIssuanceAssignmentEntityEnvelope"}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"2XX":{"description":"Return any 2XX status to indicate that the data was received successfully"}}}
+>
+  
+</StatusCodes>
+
+
+      

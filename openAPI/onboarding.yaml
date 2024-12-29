@@ -1,0 +1,3188 @@
+openapi: 3.0.1
+info:
+  title: BTG Pactual Banking as a Service (Onboarding)
+  version: 2.0.0
+  description: "Digital plataform developed by BTG Pactual engineers as an on demand banking service provider.\r\n\r\n[**Documentation Hub**](https://developer.btgpactual.com/portal/dochub)  \r\n    - [Commom Methods](https://developer.btgpactual.com/portal/doccm)  \r\n    - [Onboarding](https://developer.btgpactual.com/portal/docob)  \r\n    - [Transactions](https://developer.btgpactual.com/portal/doctr)  \r\n    - [PIX Commom Funcionalities](https://developer.btgpactual.com/portal/docpc)  \r\n    - [PIX Indirect Participant](https://developer.btgpactual.com/portal/docpi)  \r\n    - [PIX Merchant Clients](https://developer.btgpactual.com/portal/docpm)  \r\n\r\n|BaaS Onboarding API| |\r\n|------------------------|-------------------------------|\r\n|Sandbox |https://api.sandbox.developer.btgpactual.com/ob|\r\n|Sandbox (with mTLS) |https://sandbox.developer.api.btgpactual.com/ob|\r\n|Production |https://api.developer.btgpactual.com/ob|\r\n|Production (with mTLS) |https://developer.api.btgpactual.com/ob|\r\n\r\n\r\n## Response Envelopes\r\n\r\nAll our responses follow the same pattern. They are sent respecting a default response envelope as shown bellow.\r\n```\r\n# Default Envelope\r\n{\r\n    \"version\": \"0.1.0\",\r\n    \"status\": 204\r\n}\r\n\r\n# Envelope with response body\r\n{\r\n    \"version\": \"0.1.0\",\r\n    \"status\": 201,\r\n    \"body\": {\r\n        \"exampleValue\": \"30306294\"\r\n    }\r\n}\r\n\r\n```\r\n\r\n## Error Messages\r\n\r\nAll errors returned from one of ours APIs will follow the same pattern as shown bellow. They will be always contained in an invelope as the example. \r\n\r\n\r\n```\r\n# Default Envelope\r\n{\r\n    \"status\": 404,\r\n    \"version\": \"1.0.0\"\r\n}\r\n\r\n# Envelope with optional error codes\r\n{\r\n    \"version\": \"1.0.0\",\r\n    \"status\": 400,\r\n    \"errors\": [\r\n        {\r\n            \"errorCode\": \"PCE001\",\r\n            \"message\": \"The field 'name' is mandatory.\"\r\n        }\r\n    ]\r\n}\r\n```\r\n"
+  contact:
+    name: BTG Pactual Team
+    url: https://developer.btgpactual.com
+    email: baas@btgpactual.com
+servers:
+  - url: https://api.sandbox.developer.btgpactual.com/ob
+    description: BaaS API (Sandbox)
+  - url: https://sandbox.developer.api.btgpactual.com/ob
+    description: BaaS API (Sandbox with mTLS)
+  - url: https://api.developer.btgpactual.com/ob
+    description: BaaS API (Production)
+  - url: https://developer.api.btgpactual.com/ob
+    description: BaaS API (Production with mTLS)
+paths:
+  /kyc/profiles:
+    get:
+      tags:
+        - KYC
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KycProfileListResponse'
+          description: OK
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-kyc-profiles
+      summary: Get KYC profiles (CHECK and RESEARCH)
+      description: This method is called to get all kyc profiles.
+  /kyc/{profile}/check:
+    post:
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KycRequest'
+        required: true
+      tags:
+        - KYC
+      parameters:
+        - name: profile
+          description: kyc profile to check
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleResponse'
+              examples:
+                Example:
+                  value:
+                    version: '1.0'
+                    status: 200
+                    body:
+                      clientRequestId: bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca5
+                      pactualId: bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca4
+          description: OK
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: post-kyc-check
+      summary: Process a check KYC
+      description: This method is called to check kyc.
+  /kyc/check/{pactualId}:
+    get:
+      tags:
+        - KYC
+      parameters:
+        - name: pactualId
+          description: PactualId of kyc check
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KycCheckResponse'
+          description: OK
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-kyc-check
+      summary: Get a check KYC
+      description: This method is called to get check kyc.
+  /kyc/{profile}/research:
+    post:
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KycRequest'
+        required: true
+      tags:
+        - KYC
+      parameters:
+        - name: profile
+          description: kyc profile to research
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleResponse'
+              examples:
+                Example:
+                  value:
+                    version: '1.0'
+                    status: 200
+                    body:
+                      clientRequestId: bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca5
+                      pactualId: bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca4
+          description: OK
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: post-kyc-research
+      summary: Process a research KYC
+      description: This method is called to research kyc.
+  /kyc/research/{pactualId}:
+    get:
+      tags:
+        - KYC
+      parameters:
+        - name: pactualId
+          description: PactualId of kyc research
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KycResearchResponse'
+          description: OK
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-kyc-research
+      summary: Get a research KYC
+      description: This method is called to get research kyc.
+  /onboarding/{type}/application:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnbApplicationRequest'
+      tags:
+        - Onboarding Application
+      parameters:
+        - name: type
+          schema:
+            $ref: '#/components/schemas/OnbApplicationType'
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleResponse'
+              examples:
+                Example:
+                  value:
+                    version: '1.0'
+                    status: 200
+                    body:
+                      clientRequestId: bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca5
+                      pactualId: bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca4
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      security:
+        - BaaSAuthorizer: []
+      operationId: post-onb-application
+      summary: Candidate's application request
+      description: This method is to post a candidate's application request.
+  /onboarding/application/{pactualId}:
+    get:
+      tags:
+        - Onboarding Application
+      parameters:
+        - name: pactualId
+          schema:
+            format: uuid
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnbApplicationResponse'
+          description: Success
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-onb-application
+      summary: Get a candidate's application information
+      description: This method is to get a candidate's application information.
+  /onboarding/application/clientRequestId/{clientRequestId}:
+    get:
+      tags:
+        - Onboarding Application
+      parameters:
+        - name: clientRequestId
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnbApplicationResponse'
+          description: Success
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-onb-application-cliReqId
+      summary: Get a candidate's application information (by ClientRequestId)
+      description: This method is to get a candidate's application information.
+  /onboarding/application/file-upload:
+    post:
+      requestBody:
+        content:
+          multipart/form-data: {}
+      tags:
+        - Onboarding Application
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnbFileResponse'
+          description: Success
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      security:
+        - BaaSAuthorizer: []
+      operationId: post-onb-application-file
+      summary: Submit file for a candidate's application request
+      description: This method is to Submit file for a candidate's application request.
+  /onboarding/accountClosure:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnbAccountClosureRequest'
+      tags:
+        - Onboarding Account Closure
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleResponse'
+              examples:
+                Example:
+                  value:
+                    version: '1.0'
+                    status: 200
+                    body:
+                      clientRequestId: bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca5
+                      pactualId: bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca4
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      security:
+        - BaaSAuthorizer: []
+      operationId: post-onb-accountClosure
+      summary: Request Account Closure
+      description: This method is to post a account closure request.
+  /onboarding/accountClosure/{pactualId}:
+    get:
+      tags:
+        - Onboarding Account Closure
+      parameters:
+        - name: pactualId
+          schema:
+            format: uuid
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnbAccountClosureResponse'
+          description: Success
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-onb-account-closure
+      summary: Get a account closure process
+      description: This method is to get a account closure process information.
+  /onboarding/accountClosure/clientRequestId/{clientRequestId}:
+    get:
+      tags:
+        - Onboarding Account Closure
+      parameters:
+        - name: clientRequestId
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnbAccountClosureResponse'
+          description: Success
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-onb-account-closure-clireqid
+      summary: Get a account closure process (By ClientRequestId)
+      description: This method is to get a account closure process information.
+  /onboarding/accountUpdate:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnbAccountUpdateRequest'
+      tags:
+        - Onboarding Account Update
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleResponse'
+              examples:
+                Example:
+                  value:
+                    version: '1.0'
+                    status: 200
+                    body:
+                      clientRequestId: bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca5
+                      pactualId: bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca4
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      security:
+        - BaaSAuthorizer: []
+      operationId: post-onb-accountUpdate
+      summary: Request Account Update
+      description: This method is to post a account Update request.
+  /onboarding/accountUpdate/{pactualId}:
+    get:
+      tags:
+        - Onboarding Account Update
+      parameters:
+        - name: pactualId
+          schema:
+            format: uuid
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnbAccountUpdateResponse'
+          description: Success
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-onb-account-update
+      summary: Get a account update process
+      description: This method is to get a account update process information.
+  /onboarding/accountUpdate/clientRequestId/{clientRequestId}:
+    get:
+      tags:
+        - Onboarding Account Update
+      parameters:
+        - name: clientRequestId
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnbAccountUpdateResponse'
+          description: Success
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-onb-account-update-clireqid
+      summary: Get a account update process (By ClientRequestId)
+      description: This method is to get a account update process information.
+  /onboarding/domain/countries:
+    get:
+      tags:
+        - Onboarding Domain
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnbCountryResponse'
+          description: Success
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-onb-domain-countries
+      summary: Get Countries
+      description: This method is to get countries.
+  /onboarding/domain/states/{countryId}:
+    get:
+      tags:
+        - Onboarding Domain
+      parameters:
+        - name: countryId
+          schema:
+            format: int32
+            type: integer
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnbStateResponse'
+          description: Success
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-onb-domain-states
+      summary: Get States
+      description: This method is to get states.
+  /onboarding/domain/cities/{stateId}:
+    get:
+      tags:
+        - Onboarding Domain
+      parameters:
+        - name: stateId
+          schema:
+            format: int32
+            type: integer
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnbCityResponse'
+          description: Success
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-onb-domain-cities
+      summary: Get Cities
+      description: This method is to get cities.
+  /onboarding/domain/file-types:
+    get:
+      tags:
+        - Onboarding Domain
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnbFileTypeResponse'
+          description: Success
+      security:
+        - BaaSAuthorizer: []
+      operationId: get-onb-domain-file-types
+      summary: Get file types
+      description: This method is to get file types.
+  /pfm/card-transaction:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PfmCardRequest'
+            examples:
+              pfmCardRequest:
+                value:
+                  clientRequestId: 7eb05d35-ce4e-4fed-b2ad-6a9a6f208816
+                  mcc: '5084'
+                  merchantName: Mayer LLC
+                  merchantIdCode: d58cea15-a31a-4df0-8727-2099806198e7
+                  cashDirection: CashOut
+      tags:
+        - PFM Transactions
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PfmCardResponse'
+              examples:
+                Example:
+                  value:
+                    version: 1.0.0
+                    status: 201
+                    body:
+                      pactualId: 7eb05d35-ce4e-4fed-b2ad-6a9a6f208816
+                      clientRequestId: 7eb05d35-ce4e-4fed-b2ad-6a9a6f208816
+                      createTimestamp: '2022-11-08T15:43:16.8602341+00:00'
+                      lastUpdateTimestamp: '2022-11-08T15:43:16.8602341+00:00'
+                      entity: PfmCardTransaction
+                      status: INITIATED
+                      body:
+                        mcc: '5084'
+                        merchantIdCode: d58cea15-a31a-4df0-8727-2099806198e7
+                        clientRequestId: 7eb05d35-ce4e-4fed-b2ad-6a9a6f208816
+                        bank: Bank Name
+                        cashDirection: CashOut
+                        merchantName: Mayer LLC
+                      tags: []
+          description: Created
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      security:
+        - BaaSAuthorizer: []
+      operationId: post-card-transaction
+      summary: Request a new PFM Card transaction.
+      description: This method is used to insert a new entry of PFM Card Transaction.
+  /pfm/account-transaction:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PfmAccountRequest'
+            examples:
+              pfmAccoutRequest:
+                value:
+                  clientRequestId: c4d62e6e-0914-42b2-9fa5-c2729c52b875
+                  settlementType: TED
+                  cashDirection: CashOut
+                  merchantName: Boyer - Wilderman
+                  taxId: '55529363377'
+      tags:
+        - PFM Transactions
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PfmAccountResponse'
+              examples:
+                Example:
+                  value:
+                    version: 1.0.0
+                    status: 201
+                    body:
+                      pactualId: c4d62e6e-0914-42b2-9fa5-c2729c52b875
+                      clientRequestId: c4d62e6e-0914-42b2-9fa5-c2729c52b875
+                      createTimestamp: '2022-11-09T19:05:18.9897796+00:00'
+                      entity: PfmAccountTransaction
+                      status: INITIATED
+                      body:
+                        clientRequestId: c4d62e6e-0914-42b2-9fa5-c2729c52b875
+                        settlementType: TED
+                        cashDirection: CashOut
+                        merchantName: Boyer - Wilderman
+                        taxId: '55529363377'
+                      tags: []
+          description: Created
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      security:
+        - BaaSAuthorizer: []
+      operationId: post-account-transaction
+      summary: Request a new PFM Account transaction.
+      description: This method is used to insert a new entry of PFM Account Transaction.
+  /pfm/account-transaction/{pactualId}:
+    get:
+      tags:
+        - PFM Transactions
+      parameters:
+        - examples:
+            guid:
+              value: 211acea2-1935-4db1-bb8d-a0ef275ea0d1
+          name: pactualId
+          description: Unique resource identificator (Uuid) generated by api.
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PfmAccountCallbackResponse'
+              examples:
+                pfmAccountResponse:
+                  value:
+                    version: 1.0.0
+                    status: 200
+                    body:
+                      pactualId: 211acea2-1935-4db1-bb8d-a0ef275ea0d1
+                      clientRequestId: 211acea2-1935-4db1-bb8d-a0ef275ea0d1
+                      createTimestamp: '2022-11-10T17:38:38.3933576+00:00'
+                      lastUpdateTimestamp: '2022-11-10T17:38:49.4750978+00:00'
+                      entity: PfmAccountTransaction
+                      status: CREATED
+                      body:
+                        macroCategory: Transfer and Withdraw
+                        microCategory: Transfer and Withdraw
+                        adjustedName: Koch - Stamm
+                        logoUrl: https://fdfe98e1f5ee51f.url.net/logosNormalized/transferandwithdraw_kochstamm.png
+                        settlementType: PIX
+                        taxId: '32275127852'
+                        personType: F
+                        clientRequestId: 211acea2-1935-4db1-bb8d-a0ef275ea0d1
+                        bank: Bank Name
+                        cashDirection: CashOut
+                        merchantName: Koch - Stamm
+                      tags: []
+          description: OK
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      operationId: get-account-transaction
+      summary: Get a pfm account transaction by PactualId.
+      description: This method is used to get a entry of PFM Account Transaction.
+    parameters:
+      - name: pactualId
+        in: path
+        required: true
+  /pfm/card-transaction/{pactualId}:
+    get:
+      tags:
+        - PFM Transactions
+      parameters:
+        - examples:
+            guid:
+              value: 211acea2-1935-4db1-bb8d-a0ef275ea0d1
+          name: pactualId
+          description: Unique resource identificator (Uuid) generated by api.
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PfmCardCallbackResponse'
+              examples:
+                pfmAccountResponse:
+                  value:
+                    version: 1.0.0
+                    status: 200
+                    body:
+                      pactualId: 211acea2-1935-4db1-bb8d-a0ef275ea0d1
+                      clientRequestId: 211acea2-1935-4db1-bb8d-a0ef275ea0d1
+                      createTimestamp: '2022-11-10T17:28:53.260084+00:00'
+                      lastUpdateTimestamp: '2022-11-10T17:29:29.2559922+00:00'
+                      entity: PfmCardTransaction
+                      status: CREATED
+                      body:
+                        macroCategory: Other Category
+                        microCategory: Other
+                        adjustedName: Ruecker Littel And Terry
+                        logoUrl: https://ge5f88e1ew85dw.url.net/logosNormalized/othercategory_rueckerlittelandterry.png
+                        mcc: '5084'
+                        merchantIdCode: ed3760cb-79cb-4df9-9ac2-248a01ed1f0d
+                        clientRequestId: 211acea2-1935-4db1-bb8d-a0ef275ea0d1
+                        bank: Bank Name
+                        cashDirection: CashOut
+                        merchantName: Ruecker, Littel and Terry
+                      tags: []
+          description: OK
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      operationId: get-card-transaction
+      summary: Get a pfm card transaction by PactualId.
+      description: This method is used to get a entry of pfm card transaction.
+    parameters:
+      - name: pactualId
+        in: path
+        required: true
+components:
+  schemas:
+    SingleResponseBody:
+      description: The response body of request of single resource.
+      required:
+        - clientRequestId
+        - pactualId
+      type: object
+      properties:
+        clientRequestId:
+          description: Unique resource identificator given by the client.
+          type: string
+        pactualId:
+          description: Unique resource identificator (Uuid) generated by api.
+          type: string
+      example:
+        clientRequestId: 4a068fe4-97c2-4c58-9abb-76f94d293ad0
+        pactualId: 8cde0465-1579-4e1c-8cae-07096ebd7fcc
+    ErrorResponse:
+      title: PactualErrorResponse
+      description: Default response body in case of any errors.
+      type: object
+      properties:
+        version:
+          description: Api version.
+          type: string
+        status:
+          description: Http status code.
+          type: string
+        errors:
+          description: Array of errors.
+          type: array
+          items:
+            type: object
+            properties:
+              errorCode:
+                type: string
+              message:
+                type: string
+      example:
+        version: 1.0.0
+        status: 400
+        errors:
+          - errorCode: PCE001
+            message: The field 'name' is required.
+          - errorCode: PCE002
+            message: The field 'taxId' is incorrect.
+    SingleResponse:
+      title: PactualSingleResponse
+      description: Default response body for create single resource apis.
+      required:
+        - body
+        - version
+        - status
+      type: object
+      properties:
+        body:
+          $ref: '#/components/schemas/SingleResponseBody'
+          description: Body with clientRequestId and pactualId.
+          properties:
+            clientRequestId:
+              type: string
+            pactualId:
+              type: string
+        version:
+          description: The api version.
+          type: string
+        status:
+          description: The http status code.
+          type: integer
+      example:
+        version: '1.0'
+        status: 200
+        body:
+          clientRequestId: daf17267-f26d-43e5-baef-074bb67c95c8
+          pactualId: ad21c1a9-feb5-43b2-8b82-1e93b7cf5d50
+    EntityEnvelopBase:
+      description: ''
+      required:
+        - pactualId
+        - clientRequestId
+        - createTimestamp
+        - lastUpdateTimestamp
+        - status
+        - entity
+        - tags
+      type: object
+      properties:
+        pactualId:
+          description: ''
+          type: string
+        clientRequestId:
+          description: ''
+          type: string
+        createTimestamp:
+          format: date-time
+          description: Respects the GMT timezone
+          type: string
+        lastUpdateTimestamp:
+          format: date-time
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: string
+        entity:
+          description: ''
+          type: string
+        tags:
+          description: ''
+          type: array
+          items:
+            type: string
+        errorCode:
+          description: ''
+          type: string
+        errorDescription:
+          description: ''
+          type: string
+      example:
+        pactualId: f19a5fcb-7a98-4b3d-bba5-8b80a5a9437c
+        clientRequestId: 246fb4eb-f0f7-46d7-a2b3-eba424f6dc24
+        createTimestamp: '2020-07-15T19:26:10.703Z'
+        lastUpdateTimestamp: '2020-07-15T19:26:10.703Z'
+        status: some text
+        entity: some text
+        tags:
+          - some text
+          - some text
+        errorCode: PCE001
+        errorDescription: some text
+    EmptyOKResponse:
+      title: Root Type for EmptyOKResponse
+      description: ''
+      type: object
+      properties:
+        version:
+          description: The api version.
+          type: string
+        status:
+          format: int32
+          description: The HTTP response code.
+          type: integer
+      example:
+        version: 1.0.0
+        status: 200
+    KycProfileListResponse:
+      description: ''
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: integer
+        body:
+          description: ''
+          type: array
+          items:
+            $ref: '#/components/schemas/KycProfileResponseBody'
+      example:
+        version: '1.0'
+        status: 200
+        body:
+          - profile: Employees
+            enableToCheck: true
+            enableToResearch: true
+            entityType: Person
+            requiredFields:
+              - taxId
+              - name
+          - profile: TaxId-Person
+            enableToCheck: true
+            enableToResearch: true
+            entityType: Person
+            requiredFields:
+              - taxId
+    KycProfileResponseBody:
+      description: ''
+      required:
+        - profile
+        - enableToCheck
+        - enableToResearch
+        - entityType
+        - requiredFields
+      type: object
+      properties:
+        profile:
+          description: ''
+          type: string
+        enableToCheck:
+          description: ''
+          type: boolean
+        enableToResearch:
+          description: ''
+          type: boolean
+        entityType:
+          description: ''
+          enum:
+            - Person
+            - Organization
+          type: string
+        requiredFields:
+          description: ''
+          type: array
+          items:
+            type: string
+      example:
+        profile: Employees
+        enableToCheck: true
+        enableToResearch: true
+        entityType: Person
+        requiredFields:
+          - taxId
+          - name
+    KycClassification:
+      title: Root Type for KycClassification
+      description: ''
+      required:
+        - classification
+        - source
+      type: object
+      properties:
+        classification:
+          enum:
+            - OK
+            - NOK
+            - WARN
+            - Undefined
+          type: string
+        source:
+          type: string
+      example:
+        classification: OK
+        source: Sanctions
+    KycResearchBase:
+      title: Root Type for KycResearchBase
+      description: ''
+      required:
+        - researchStatus
+        - processStatus
+        - searches
+      type: object
+      properties:
+        processStatus:
+          enum:
+            - Processed
+            - Pending
+            - WaitQueue
+            - Error
+          type: string
+        researchStatus:
+          enum:
+            - Completed
+            - Expired
+            - PartialError
+            - Error
+          type: string
+        searches:
+          type: array
+          items:
+            $ref: '#/components/schemas/KycSearch'
+      example:
+        processStatus: Processed
+        researchStatus: Completed
+        searches:
+          - status: Completed
+            processStatus: Processed
+            createdAt: '2020-07-15T19:26:08.733Z'
+            updatedAt: '2020-07-15T19:26:14.580Z'
+            source: CRSFN
+          - status: Completed
+            processStatus: Processed
+            createdAt: '2020-07-15T19:25:52.206Z'
+            updatedAt: '2020-07-15T19:25:53.564Z'
+            source: MediaBlackList
+          - status: Completed
+            processStatus: Processed
+            createdAt: '2020-07-15T19:25:52.206Z'
+            updatedAt: '2020-07-15T19:25:53.564Z'
+            source: PEP
+          - status: Completed
+            processStatus: Processed
+            createdAt: '2020-07-15T19:26:08.734Z'
+            updatedAt: '2020-07-15T19:26:08.847Z'
+            source: STFCourt
+          - status: Completed
+            processStatus: Processed
+            createdAt: '2020-07-15T19:26:08.734Z'
+            updatedAt: '2020-07-15T19:26:08.847Z'
+            source: STJCourt
+          - status: Completed
+            processStatus: Processed
+            createdAt: '2020-07-15T19:25:52.214Z'
+            data:
+              requestTime: 43200
+              death: 0
+              taxId: '46026341099'
+              motherName: PINNIECU AMESMI TAERRON
+              name: WOPUTHIR UNON AMESMI
+              requestDate: '2020-01-01T00:00:00.000Z'
+              taxIdStatus: REGULAR
+              birthDate: '1900-12-30T00:00:00.000Z'
+            updatedAt: '2020-07-15T19:25:52.662Z'
+            source: ReceitaFederal
+          - status: Completed
+            processStatus: Processed
+            createdAt: '2020-07-15T19:25:52.223Z'
+            updatedAt: '2020-07-15T19:25:52.230Z'
+            source: TrabalhoEscravo
+          - status: Completed
+            processStatus: Processed
+            createdAt: '2020-07-15T19:26:08.746Z'
+            data:
+              parcial:
+                total: 0
+              exato:
+                total: 0
+            updatedAt: '2020-07-15T19:26:10.703Z'
+            source: Sanctions
+    KycSearch:
+      title: Root Type for KycSearch
+      description: ''
+      required:
+        - status
+        - source
+        - processStatus
+      type: object
+      properties:
+        status:
+          enum:
+            - Completed
+            - Pending
+            - Expired
+            - Error
+            - FatalError
+          type: string
+        processStatus:
+          enum:
+            - Processed
+            - WaitQueue
+            - Error
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        data:
+          type: object
+          properties:
+            requestTime:
+              type: string
+            death:
+              format: int32
+              type: integer
+            taxId:
+              type: string
+            motherName:
+              type: string
+            name:
+              type: string
+            requestDate:
+              format: date
+              type: string
+            taxIdStatus:
+              type: string
+            birthDate:
+              format: date
+              type: string
+        updatedAt:
+          format: date-time
+          type: string
+        source:
+          type: string
+      example:
+        source: ReceitaFederal
+        status: Completed
+        processStatus: Processed
+        updatedAt: '2020-07-15T19:25:52.662Z'
+        createdAt: '2020-07-15T19:25:52.214Z'
+        data:
+          requestTime: 43200
+          death: 0
+          taxId: '46026341099'
+          motherName: PINNIECU AMESMI TAERRON
+          name: WOPUTHIR UNON AMESMI
+          requestDate: '2020-01-01T00:00:00.000Z'
+          taxIdStatus: REGULAR
+          birthDate: '1900-12-30T00:00:00.000Z'
+    KycCheckBody:
+      description: ''
+      required:
+        - entityType
+        - classification
+        - checkStatus
+        - profile
+        - research
+      type: object
+      properties:
+        entityType:
+          description: ''
+          enum:
+            - Person
+            - Organization
+          type: string
+        classification:
+          description: ''
+          enum:
+            - OK
+            - NOK
+            - WARN
+            - Undefined
+          type: string
+        checkStatus:
+          description: ''
+          enum:
+            - Completed
+            - PartialError
+            - Error
+          type: string
+        classificationDetails:
+          description: ''
+          type: array
+          items:
+            $ref: '#/components/schemas/KycClassification'
+        profile:
+          description: ''
+          type: string
+        research:
+          $ref: '#/components/schemas/KycResearchBase'
+          description: ''
+      example:
+        profile: Employees
+        entityType: Person
+        taxId: '46026341099'
+        classification: OK
+        checkStatus: Completed
+        classificationDetails:
+          - classification: OK
+            source: TrabalhoEscravo
+          - classification: OK
+            source: Crsfn
+          - classification: OK
+            source: ProcessosSTJ
+          - classification: OK
+            source: Pep
+          - classification: OK
+            source: ReceitaFederal
+          - classification: OK
+            source: Sanctions
+          - classification: OK
+            source: MediaBlackList
+          - classification: OK
+            source: ProcessosSTFGenerica
+        research:
+          processStatus: Processed
+          researchStatus: Completed
+          searches:
+            - status: Completed
+              processStatus: Processed
+              createdAt: '2020-07-15T19:26:08.733Z'
+              updatedAt: '2020-07-15T19:26:14.580Z'
+              source: CRSFN
+            - status: Completed
+              processStatus: Processed
+              createdAt: '2020-07-15T19:25:52.206Z'
+              updatedAt: '2020-07-15T19:25:53.564Z'
+              source: MediaBlackList
+            - status: Completed
+              processStatus: Processed
+              createdAt: '2020-07-15T19:25:52.206Z'
+              updatedAt: '2020-07-15T19:25:53.564Z'
+              source: PEP
+            - status: Completed
+              processStatus: Processed
+              createdAt: '2020-07-15T19:26:08.734Z'
+              updatedAt: '2020-07-15T19:26:08.847Z'
+              source: STFCourt
+            - status: Completed
+              processStatus: Processed
+              createdAt: '2020-07-15T19:26:08.734Z'
+              updatedAt: '2020-07-15T19:26:08.847Z'
+              source: STJCourt
+            - status: Completed
+              processStatus: Processed
+              createdAt: '2020-07-15T19:25:52.214Z'
+              data:
+                requestTime: 43200
+                death: 0
+                taxId: '46026341099'
+                motherName: PINNIECU AMESMI TAERRON
+                name: WOPUTHIR UNON AMESMI
+                requestDate: '2020-01-01T00:00:00.000Z'
+                taxIdStatus: REGULAR
+                birthDate: '1900-12-30T00:00:00.000Z'
+              updatedAt: '2020-07-15T19:25:52.662Z'
+              source: ReceitaFederal
+            - status: Completed
+              processStatus: Processed
+              createdAt: '2020-07-15T19:25:52.223Z'
+              updatedAt: '2020-07-15T19:25:52.230Z'
+              source: TrabalhoEscravo
+            - status: Completed
+              processStatus: Processed
+              createdAt: '2020-07-15T19:26:08.746Z'
+              data:
+                parcial:
+                  total: 0
+                exato:
+                  total: 0
+              updatedAt: '2020-07-15T19:26:10.703Z'
+              source: Sanctions
+    KycCheckResponseBody:
+      description: ''
+      required:
+        - body
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/EntityEnvelopBase'
+      properties:
+        body:
+          $ref: '#/components/schemas/KycCheckBody'
+          description: ''
+      example:
+        pactualId: f19a5fcb-7a98-4b3d-bba5-8b80a5a9437c
+        clientRequestId: 246fb4eb-f0f7-46d7-a2b3-eba424f6dc24
+        createTimestamp: '2020-07-15T19:26:10.703Z'
+        lastUpdateTimestamp: '2020-07-15T19:26:10.703Z'
+        status: some text
+        entity: some text
+        tags:
+          - some text
+          - some text
+        errorCode: PCE001
+        errorDescription: some text
+        body:
+          profile: Employees
+          entityType: Person
+          taxId: '46026341099'
+          classification: OK
+          checkStatus: Completed
+          classificationDetails:
+            - classification: OK
+              source: TrabalhoEscravo
+            - classification: OK
+              source: Crsfn
+            - classification: OK
+              source: ProcessosSTJ
+            - classification: OK
+              source: Pep
+            - classification: OK
+              source: ReceitaFederal
+            - classification: OK
+              source: Sanctions
+            - classification: OK
+              source: MediaBlackList
+            - classification: OK
+              source: ProcessosSTFGenerica
+          research:
+            processStatus: Processed
+            researchStatus: Completed
+            searches:
+              - status: Completed
+                processStatus: Processed
+                createdAt: '2020-07-15T19:26:08.733Z'
+                updatedAt: '2020-07-15T19:26:14.580Z'
+                source: CRSFN
+              - status: Completed
+                processStatus: Processed
+                createdAt: '2020-07-15T19:25:52.206Z'
+                updatedAt: '2020-07-15T19:25:53.564Z'
+                source: MediaBlackList
+              - status: Completed
+                processStatus: Processed
+                createdAt: '2020-07-15T19:25:52.206Z'
+                updatedAt: '2020-07-15T19:25:53.564Z'
+                source: PEP
+              - status: Completed
+                processStatus: Processed
+                createdAt: '2020-07-15T19:26:08.734Z'
+                updatedAt: '2020-07-15T19:26:08.847Z'
+                source: STFCourt
+              - status: Completed
+                processStatus: Processed
+                createdAt: '2020-07-15T19:26:08.734Z'
+                updatedAt: '2020-07-15T19:26:08.847Z'
+                source: STJCourt
+              - status: Completed
+                processStatus: Processed
+                createdAt: '2020-07-15T19:25:52.214Z'
+                data:
+                  requestTime: 43200
+                  death: 0
+                  taxId: '46026341099'
+                  motherName: PINNIECU AMESMI TAERRON
+                  name: WOPUTHIR UNON AMESMI
+                  requestDate: '2020-01-01T00:00:00.000Z'
+                  taxIdStatus: REGULAR
+                  birthDate: '1900-12-30T00:00:00.000Z'
+                updatedAt: '2020-07-15T19:25:52.662Z'
+                source: ReceitaFederal
+              - status: Completed
+                processStatus: Processed
+                createdAt: '2020-07-15T19:25:52.223Z'
+                updatedAt: '2020-07-15T19:25:52.230Z'
+                source: TrabalhoEscravo
+              - status: Completed
+                processStatus: Processed
+                createdAt: '2020-07-15T19:26:08.746Z'
+                data:
+                  parcial:
+                    total: 0
+                  exato:
+                    total: 0
+                updatedAt: '2020-07-15T19:26:10.703Z'
+                source: Sanctions
+    KycCheckResponse:
+      description: ''
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: integer
+        body:
+          $ref: '#/components/schemas/KycCheckResponseBody'
+          description: ''
+      example:
+        version: '1.0'
+        status: 200
+        body:
+          pactualId: f19a5fcb-7a98-4b3d-bba5-8b80a5a9437c
+          clientRequestId: 246fb4eb-f0f7-46d7-a2b3-eba424f6dc24
+          createTimestamp: '2020-07-15T19:26:10.703Z'
+          lastUpdateTimestamp: '2020-07-15T19:26:10.703Z'
+          status: some text
+          entity: some text
+          tags:
+            - some text
+            - some text
+          errorCode: PCE001
+          errorDescription: some text
+          body:
+            profile: Employees
+            entityType: Person
+            taxId: '46026341099'
+            classification: OK
+            checkStatus: Completed
+            classificationDetails:
+              - classification: OK
+                source: TrabalhoEscravo
+              - classification: OK
+                source: Crsfn
+              - classification: OK
+                source: ProcessosSTJ
+              - classification: OK
+                source: Pep
+              - classification: OK
+                source: ReceitaFederal
+              - classification: OK
+                source: Sanctions
+              - classification: OK
+                source: MediaBlackList
+              - classification: OK
+                source: ProcessosSTFGenerica
+            research:
+              processStatus: Processed
+              researchStatus: Completed
+              searches:
+                - status: Completed
+                  processStatus: Processed
+                  createdAt: '2020-07-15T19:26:08.733Z'
+                  updatedAt: '2020-07-15T19:26:14.580Z'
+                  source: CRSFN
+                - status: Completed
+                  processStatus: Processed
+                  createdAt: '2020-07-15T19:25:52.206Z'
+                  updatedAt: '2020-07-15T19:25:53.564Z'
+                  source: MediaBlackList
+                - status: Completed
+                  processStatus: Processed
+                  createdAt: '2020-07-15T19:25:52.206Z'
+                  updatedAt: '2020-07-15T19:25:53.564Z'
+                  source: PEP
+                - status: Completed
+                  processStatus: Processed
+                  createdAt: '2020-07-15T19:26:08.734Z'
+                  updatedAt: '2020-07-15T19:26:08.847Z'
+                  source: STFCourt
+                - status: Completed
+                  processStatus: Processed
+                  createdAt: '2020-07-15T19:26:08.734Z'
+                  updatedAt: '2020-07-15T19:26:08.847Z'
+                  source: STJCourt
+                - status: Completed
+                  processStatus: Processed
+                  createdAt: '2020-07-15T19:25:52.214Z'
+                  data:
+                    requestTime: 43200
+                    death: 0
+                    taxId: '46026341099'
+                    motherName: PINNIECU AMESMI TAERRON
+                    name: WOPUTHIR UNON AMESMI
+                    requestDate: '2020-01-01T00:00:00.000Z'
+                    taxIdStatus: REGULAR
+                    birthDate: '1900-12-30T00:00:00.000Z'
+                  updatedAt: '2020-07-15T19:25:52.662Z'
+                  source: ReceitaFederal
+                - status: Completed
+                  processStatus: Processed
+                  createdAt: '2020-07-15T19:25:52.223Z'
+                  updatedAt: '2020-07-15T19:25:52.230Z'
+                  source: TrabalhoEscravo
+                - status: Completed
+                  processStatus: Processed
+                  createdAt: '2020-07-15T19:26:08.746Z'
+                  data:
+                    parcial:
+                      total: 0
+                    exato:
+                      total: 0
+                  updatedAt: '2020-07-15T19:26:10.703Z'
+                  source: Sanctions
+    KycResearchResponse:
+      description: ''
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: integer
+        body:
+          $ref: '#/components/schemas/KycResearchResponseBody'
+          description: ''
+      example:
+        version: '1.0'
+        status: 200
+        body:
+          pactualId: f19a5fcb-7a98-4b3d-bba5-8b80a5a9437c
+          clientRequestId: 246fb4eb-f0f7-46d7-a2b3-eba424f6dc24
+          createTimestamp: '2020-07-15T19:26:10.703Z'
+          lastUpdateTimestamp: '2020-07-15T19:26:10.703Z'
+          status: some text
+          entity: some text
+          tags:
+            - some text
+            - some text
+          errorCode: PCE001
+          errorDescription: some text
+          body:
+            profile: Employees
+            entityType: Person
+            taxId: '46026341099'
+            processStatus: Processed
+            researchStatus: Completed
+            searches:
+              - status: Completed
+                processStatus: Processed
+                createdAt: '2020-07-15T19:26:08.733Z'
+                updatedAt: '2020-07-15T19:26:14.580Z'
+                source: CRSFN
+              - status: Completed
+                processStatus: Processed
+                createdAt: '2020-07-15T19:25:52.206Z'
+                updatedAt: '2020-07-15T19:25:53.564Z'
+                source: MediaBlackList
+              - status: Completed
+                processStatus: Processed
+                createdAt: '2020-07-15T19:25:52.206Z'
+                updatedAt: '2020-07-15T19:25:53.564Z'
+                source: PEP
+              - status: Completed
+                processStatus: Processed
+                createdAt: '2020-07-15T19:26:08.734Z'
+                updatedAt: '2020-07-15T19:26:08.847Z'
+                source: STFCourt
+              - status: Completed
+                processStatus: Processed
+                createdAt: '2020-07-15T19:26:08.734Z'
+                updatedAt: '2020-07-15T19:26:08.847Z'
+                source: STJCourt
+              - status: Completed
+                processStatus: Processed
+                createdAt: '2020-07-15T19:25:52.214Z'
+                data:
+                  requestTime: 43200
+                  death: 0
+                  taxId: '46026341099'
+                  motherName: PINNIECU AMESMI TAERRON
+                  name: WOPUTHIR UNON AMESMI
+                  requestDate: '2020-01-01T00:00:00.000Z'
+                  taxIdStatus: REGULAR
+                  birthDate: '1900-12-30T00:00:00.000Z'
+                updatedAt: '2020-07-15T19:25:52.662Z'
+                source: ReceitaFederal
+              - status: Completed
+                processStatus: Processed
+                createdAt: '2020-07-15T19:25:52.223Z'
+                updatedAt: '2020-07-15T19:25:52.230Z'
+                source: TrabalhoEscravo
+              - status: Completed
+                processStatus: Processed
+                createdAt: '2020-07-15T19:26:08.746Z'
+                data:
+                  parcial:
+                    total: 0
+                  exato:
+                    total: 0
+                updatedAt: '2020-07-15T19:26:10.703Z'
+                source: Sanctions
+    KycResearchResponseBody:
+      description: ''
+      required:
+        - body
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/EntityEnvelopBase'
+      properties:
+        body:
+          $ref: '#/components/schemas/KycResearchBody'
+          description: ''
+      example:
+        pactualId: f19a5fcb-7a98-4b3d-bba5-8b80a5a9437c
+        clientRequestId: 246fb4eb-f0f7-46d7-a2b3-eba424f6dc24
+        createTimestamp: '2020-07-15T19:26:10.703Z'
+        lastUpdateTimestamp: '2020-07-15T19:26:10.703Z'
+        status: some text
+        entity: some text
+        tags:
+          - some text
+          - some text
+        errorCode: PCE001
+        errorDescription: some text
+        body:
+          profile: Employees
+          entityType: Person
+          taxId: '46026341099'
+          processStatus: Processed
+          researchStatus: Completed
+          searches:
+            - status: Completed
+              processStatus: Processed
+              createdAt: '2020-07-15T19:26:08.733Z'
+              updatedAt: '2020-07-15T19:26:14.580Z'
+              source: CRSFN
+            - status: Completed
+              processStatus: Processed
+              createdAt: '2020-07-15T19:25:52.206Z'
+              updatedAt: '2020-07-15T19:25:53.564Z'
+              source: MediaBlackList
+            - status: Completed
+              processStatus: Processed
+              createdAt: '2020-07-15T19:25:52.206Z'
+              updatedAt: '2020-07-15T19:25:53.564Z'
+              source: PEP
+            - status: Completed
+              processStatus: Processed
+              createdAt: '2020-07-15T19:26:08.734Z'
+              updatedAt: '2020-07-15T19:26:08.847Z'
+              source: STFCourt
+            - status: Completed
+              processStatus: Processed
+              createdAt: '2020-07-15T19:26:08.734Z'
+              updatedAt: '2020-07-15T19:26:08.847Z'
+              source: STJCourt
+            - status: Completed
+              processStatus: Processed
+              createdAt: '2020-07-15T19:25:52.214Z'
+              data:
+                requestTime: 43200
+                death: 0
+                taxId: '46026341099'
+                motherName: PINNIECU AMESMI TAERRON
+                name: WOPUTHIR UNON AMESMI
+                requestDate: '2020-01-01T00:00:00.000Z'
+                taxIdStatus: REGULAR
+                birthDate: '1900-12-30T00:00:00.000Z'
+              updatedAt: '2020-07-15T19:25:52.662Z'
+              source: ReceitaFederal
+            - status: Completed
+              processStatus: Processed
+              createdAt: '2020-07-15T19:25:52.223Z'
+              updatedAt: '2020-07-15T19:25:52.230Z'
+              source: TrabalhoEscravo
+            - status: Completed
+              processStatus: Processed
+              createdAt: '2020-07-15T19:26:08.746Z'
+              data:
+                parcial:
+                  total: 0
+                exato:
+                  total: 0
+              updatedAt: '2020-07-15T19:26:10.703Z'
+              source: Sanctions
+    KycResearchBody:
+      description: ''
+      required:
+        - profile
+        - entityType
+      type: object
+      allOf:
+        - type: object
+        - $ref: '#/components/schemas/KycResearchBase'
+      properties:
+        profile:
+          description: ''
+          type: string
+        entityType:
+          description: ''
+          enum:
+            - Person
+            - Organization
+          type: string
+        taxId:
+          description: ''
+          type: string
+      example:
+        profile: Employees
+        entityType: Person
+        taxId: '46026341099'
+        processStatus: Processed
+        researchStatus: Completed
+        searches:
+          - status: Completed
+            processStatus: Processed
+            createdAt: '2020-07-15T19:26:08.733Z'
+            updatedAt: '2020-07-15T19:26:14.580Z'
+            source: CRSFN
+          - status: Completed
+            processStatus: Processed
+            createdAt: '2020-07-15T19:25:52.206Z'
+            updatedAt: '2020-07-15T19:25:53.564Z'
+            source: MediaBlackList
+          - status: Completed
+            processStatus: Processed
+            createdAt: '2020-07-15T19:25:52.206Z'
+            updatedAt: '2020-07-15T19:25:53.564Z'
+            source: PEP
+          - status: Completed
+            processStatus: Processed
+            createdAt: '2020-07-15T19:26:08.734Z'
+            updatedAt: '2020-07-15T19:26:08.847Z'
+            source: STFCourt
+          - status: Completed
+            processStatus: Processed
+            createdAt: '2020-07-15T19:26:08.734Z'
+            updatedAt: '2020-07-15T19:26:08.847Z'
+            source: STJCourt
+          - status: Completed
+            processStatus: Processed
+            createdAt: '2020-07-15T19:25:52.214Z'
+            data:
+              requestTime: 43200
+              death: 0
+              taxId: '46026341099'
+              motherName: PINNIECU AMESMI TAERRON
+              name: WOPUTHIR UNON AMESMI
+              requestDate: '2020-01-01T00:00:00.000Z'
+              taxIdStatus: REGULAR
+              birthDate: '1900-12-30T00:00:00.000Z'
+            updatedAt: '2020-07-15T19:25:52.662Z'
+            source: ReceitaFederal
+          - status: Completed
+            processStatus: Processed
+            createdAt: '2020-07-15T19:25:52.223Z'
+            updatedAt: '2020-07-15T19:25:52.230Z'
+            source: TrabalhoEscravo
+          - status: Completed
+            processStatus: Processed
+            createdAt: '2020-07-15T19:26:08.746Z'
+            data:
+              parcial:
+                total: 0
+              exato:
+                total: 0
+            updatedAt: '2020-07-15T19:26:10.703Z'
+            source: Sanctions
+    KycRequest:
+      title: PaymentRequest
+      required:
+        - entityType
+        - clientRequestId
+      type: object
+      properties:
+        clientRequestId:
+          description: Unique identifier provided by the client. Can be used in response corelation.
+          type: string
+        taxId:
+          description: Tax Identification - CPF (11 digits formatted) or CNPJ (14 digits formatted), fill with zeros left of the number if necessary.
+          type: string
+        entityType:
+          description: Person or Organization
+          enum:
+            - Person
+            - Organization
+          type: string
+        name:
+          description: Name to research (optional, depends on KYC Profile)
+          type: string
+        birthDate:
+          description: Birth Date to research formated "yyyy-MM-dd" (optional, depends on KYC Profile)
+          type: string
+        countries:
+          description: Array of alias Coutries to research (optional, depends on KYC Profile)
+          type: array
+          items:
+            type: string
+        stateCourts:
+          description: Array of alias State Courts to research (optional, depends on KYC Profile)
+          type: array
+          items:
+            type: string
+        federalCourts:
+          description: Array of alias Federal Courts to research (optional, depends on KYC Profile)
+          type: array
+          items:
+            type: string
+      example:
+        clientRequestId: f19a5fcb-7a98-4b3d-bba5-8b80a5a9437c
+        taxId: '12345678901'
+        entityType: Person
+        name: some name
+        birthDate: '1990-01-01T00:00:00.000Z'
+        countries:
+          - BRASIL
+          - CHILE
+        stateCourts:
+          - RJ
+          - SP
+        federalCourts:
+          - TRF-1
+          - TRF-2
+    OnbApplicationType:
+      enum:
+        - SimplePayment
+        - Payment
+        - Investment
+      type: string
+    OnbApplicationRequest:
+      required:
+        - candidate
+        - clientRequestId
+      type: object
+      properties:
+        clientRequestId:
+          description: Unique identifier provided by the client. Can be used in response corelation.
+          type: string
+        candidate:
+          $ref: '#/components/schemas/OnbCandidate'
+        tags:
+          type: array
+          items:
+            type: string
+    OnbCandidate:
+      required:
+        - name
+        - taxId
+      type: object
+      properties:
+        name:
+          type: string
+        socialName:
+          nullable: true
+          type: string
+        taxId:
+          type: string
+        telephoneNumber:
+          nullable: true
+          type: string
+        email:
+          nullable: true
+          type: string
+        birthdate:
+          nullable: true
+          type: string
+        address:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/OnbAddress'
+        relationShipTaxId:
+          nullable: true
+          type: string
+        fatca:
+          $ref: '#/components/schemas/OnbFatca'
+        selfieImageFileId:
+          nullable: true
+          format: uuid
+          type: string
+        additionalDocuments:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/OnbFile'
+        requestDetails:
+          $ref: '#/components/schemas/OnbRequestDetails'
+        customAttributes:
+          type: object
+          additionalProperties:
+            type: string
+    OnbAccountClosureRequest:
+      required:
+        - account
+        - clientRequestId
+      type: object
+      properties:
+        clientRequestId:
+          description: The unique transaction identification given by the client side. This value can't be repeated.
+          type: string
+        account:
+          $ref: '#/components/schemas/OnbAccountToClose'
+        tags:
+          type: array
+          items:
+            type: string
+    OnbAccountToClose:
+      required:
+        - taxId
+        - bank
+        - branch
+        - account
+      type: object
+      properties:
+        taxId:
+          description: Tax Identification - CPF (11 digits formatted) or CNPJ (14 digits formatted), fill with zeros left of the number if necessary.
+          type: string
+        bank:
+          description: The bank code.
+          type: string
+        branch:
+          description: The branch number.
+          type: string
+        account:
+          description: The account number.
+          type: string
+    OnbAccountClosureResponse:
+      description: ''
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: integer
+        body:
+          $ref: '#/components/schemas/OnbAccountClosureResponseBody'
+          description: ''
+    OnbAccountClosureResponseBody:
+      description: ''
+      required:
+        - body
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/EntityEnvelopBase'
+      properties:
+        body:
+          $ref: '#/components/schemas/OnbAccountClosureBody'
+          description: ''
+    OnbAccountClosureBody:
+      required:
+        - taxId
+        - bank
+        - branch
+        - account
+      type: object
+      properties:
+        taxId:
+          description: Tax Identification - CPF (11 digits formatted) or CNPJ (14 digits formatted), fill with zeros left of the number if necessary.
+          type: string
+        bank:
+          description: The bank code.
+          type: string
+        branch:
+          description: The branch number.
+          type: string
+        account:
+          description: The account number.
+          type: string
+        reasonForClosing:
+          description: The reason for closing account.
+          type: string
+    OnbAccountUpdateRequest:
+      required:
+        - account
+        - clientRequestId
+      type: object
+      properties:
+        clientRequestId:
+          description: The unique transaction identification given by the client side. This value can't be repeated.
+          type: string
+        email:
+          description: Email address. It must have the format xxxxxxxx@xxxxxxx.xxx(.xx)
+          type: string
+        telephoneNumber:
+          description: 'Phone number. It must have the E.164 format: +(Country Code - DDI)(National Destination Code - DDD)(Subscriber Number - Phone), ex +5511912347890'
+          type: string
+        account:
+          $ref: '#/components/schemas/OnbAccountToUpdate'
+        tags:
+          type: array
+          items:
+            type: string
+      example:
+        clientRequestId: bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca4
+        email: email@domain.com
+        telephoneNumber: '+5511912347890'
+        account:
+          taxId: '46026341099'
+          bank: '123'
+          branch: '7894'
+          account: '123456'
+        tags:
+          - myTagName
+    OnbAccountToUpdate:
+      required:
+        - taxId
+        - bank
+        - branch
+        - account
+      type: object
+      properties:
+        taxId:
+          description: Tax Identification - CPF (11 digits formatted) or CNPJ (14 digits formatted), fill with zeros left of the number if necessary.
+          type: string
+        bank:
+          description: The bank code.
+          type: string
+        branch:
+          description: The branch number.
+          type: string
+        account:
+          description: The account number.
+          type: string
+      example:
+        taxId: '46026341099'
+        bank: '123'
+        branch: '7894'
+        account: '123456'
+    OnbAccountUpdateResponse:
+      description: ''
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: integer
+        body:
+          $ref: '#/components/schemas/OnbAccountUpdateResponseBody'
+          description: ''
+      example:
+        version: 1.0.0
+        status: 200
+        body:
+          pactualId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          clientRequestId: bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca4
+          createTimestamp: '2020-07-15T19:26:10.703Z'
+          lastUpdateTimestamp: '2020-07-15T19:26:10.703Z'
+          entity: OnbAccountUpdate
+          status: UPDATED
+          body:
+            email: email@domain.com
+            telephoneNumber: '+5511912347890'
+            account:
+              taxId: '46026341099'
+              bank: '123'
+              branch: '7894'
+              account: '123456'
+          tags:
+            - myTagName
+    OnbAccountUpdateResponseBody:
+      description: ''
+      required:
+        - body
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/EntityEnvelopBase'
+      properties:
+        body:
+          $ref: '#/components/schemas/OnbAccountUpdateBody'
+          description: ''
+      example:
+        pactualId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        clientRequestId: bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca4
+        createTimestamp: ''
+        lastUpdateTimestamp: ''
+        entity: OnbAccountUpdate
+        status: UPDATED
+        body:
+          email: email@domain.com
+          telephoneNumber: '+5511912347890'
+          account:
+            taxId: '46026341099'
+            bank: '123'
+            branch: '7894'
+            account: '123456'
+        tags:
+          - myTagName
+    OnbAccountUpdateBody:
+      required:
+        - taxId
+        - bank
+        - branch
+        - account
+      type: object
+      properties:
+        email:
+          description: Email address. It must have the format xxxxxxxx@xxxxxxx.xxx(.xx)
+          type: string
+        telephoneNumber:
+          description: 'Phone number. It must have the E.164 format: +(Country Code - DDI)(National Destination Code - DDD)(Subscriber Number - Phone), ex +5511912347890'
+          type: string
+        account:
+          $ref: '#/components/schemas/OnbAccountToUpdate'
+      example:
+        email: email@domain.com
+        telephoneNumber: '+5511912347890'
+        account:
+          taxId: '46026341099'
+          bank: '123'
+          branch: '7894'
+          account: '123456'
+    OnbAddress:
+      required:
+        - cityId
+        - countryId
+        - number
+        - stateId
+        - street
+        - type
+      type: object
+      properties:
+        number:
+          type: string
+        street:
+          type: string
+        additionalSupplement:
+          nullable: true
+          type: string
+        neighborhood:
+          nullable: true
+          type: string
+        cityId:
+          format: int32
+          type: integer
+        stateId:
+          format: int32
+          type: integer
+        countryId:
+          format: int32
+          type: integer
+        postalCode:
+          nullable: true
+          type: string
+        images:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/OnbFile'
+        type:
+          $ref: '#/components/schemas/OnbAddressType'
+    OnbFile:
+      type: object
+      properties:
+        fileId:
+          format: uuid
+          type: string
+        fileTypeId:
+          format: int32
+          type: integer
+    OnbFileType:
+      type: object
+      properties:
+        id:
+          format: int32
+          type: integer
+        code:
+          nullable: true
+          type: string
+        description:
+          nullable: true
+          type: string
+    OnbAddressType:
+      enum:
+        - Residential
+        - Commercial
+        - Others
+      type: string
+    OnbCity:
+      type: object
+      properties:
+        id:
+          format: int32
+          type: integer
+        code:
+          nullable: true
+          type: string
+        name:
+          nullable: true
+          type: string
+        countryId:
+          format: int32
+          type: integer
+        stateId:
+          format: int32
+          type: integer
+    OnbCountry:
+      type: object
+      properties:
+        id:
+          format: int32
+          type: integer
+        code:
+          nullable: true
+          type: string
+        name:
+          nullable: true
+          type: string
+        englishName:
+          nullable: true
+          type: string
+    OnbState:
+      type: object
+      properties:
+        id:
+          format: int32
+          type: integer
+        code:
+          nullable: true
+          type: string
+        name:
+          nullable: true
+          type: string
+        countryId:
+          format: int32
+          type: integer
+    OnbFatca:
+      type: object
+      properties:
+        permanentResidencies:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/OnbFinancialInfo'
+        citizenships:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/OnbFinancialInfo'
+        taxDomiciles:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/OnbFinancialInfo'
+    OnbFinancialInfo:
+      required:
+        - countryId
+        - nif
+      type: object
+      properties:
+        countryId:
+          format: int32
+          type: integer
+        nif:
+          type: string
+        justification:
+          nullable: true
+          type: string
+    OnbRequestDetails:
+      type: object
+      properties:
+        userAgent:
+          nullable: true
+          type: string
+        ipAddress:
+          nullable: true
+          type: string
+        sessionId:
+          nullable: true
+          type: string
+        deviceId:
+          nullable: true
+          type: string
+        requestChannel:
+          nullable: true
+          type: string
+        geolocation:
+          $ref: '#/components/schemas/GeolocationDetail'
+    GeolocationDetail:
+      type: object
+      properties:
+        latitude:
+          nullable: true
+          type: string
+        longitude:
+          nullable: true
+          type: string
+        accuracy:
+          format: int32
+          type: integer
+        timestamp:
+          nullable: true
+          type: string
+    OnbApplicationResponse:
+      description: ''
+      required:
+        - version
+        - status
+        - body
+      type: object
+      properties:
+        version:
+          description: ''
+          type: string
+        status:
+          description: ''
+          type: integer
+        body:
+          $ref: '#/components/schemas/OnbApplicationResponseBody'
+          description: ''
+    OnbApplicationResponseBody:
+      description: ''
+      required:
+        - body
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/EntityEnvelopBase'
+      properties:
+        body:
+          $ref: '#/components/schemas/OnbApplicationBody'
+          description: ''
+    OnbApplicationBody:
+      required:
+        - candidate
+        - processResult
+      type: object
+      properties:
+        applicationType:
+          $ref: '#/components/schemas/OnbApplicationType'
+        sieveId:
+          nullable: true
+          type: string
+        candidate:
+          $ref: '#/components/schemas/OnbCandidate'
+        processResult:
+          $ref: '#/components/schemas/OnbProcessResult'
+    OnbProcessResult:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/OnbStatusEnum'
+        reasonDescriptionStatus:
+          nullable: true
+          type: string
+        accountId:
+          nullable: true
+          format: uuid
+          type: string
+        bank:
+          nullable: true
+          type: string
+        ispb:
+          nullable: true
+          type: string
+        branch:
+          nullable: true
+          type: string
+        account:
+          nullable: true
+          type: string
+        accountType:
+          $ref: '#/components/schemas/OnbAccountTypeEnum'
+        accountDetails:
+          type: object
+          additionalProperties:
+            type: string
+    OnbStatusEnum:
+      enum:
+        - Pending
+        - InProgress
+        - Approved
+        - ReturnCustomer
+        - Reprocess
+        - Disapproved
+        - Manual
+        - CandidateReject
+        - Error
+      type: string
+    OnbAccountTypeEnum:
+      description: "Account Type: \r\n\r\n CC - Checking account; \r\n CP - Savings account; \r\n PG - Payment account."
+      enum:
+        - CC
+        - CP
+        - PG
+      type: string
+    OnbFileResponse:
+      description: ''
+      required:
+        - expiresAt
+        - fileId
+      type: object
+      properties:
+        fileId:
+          format: uuid
+          type: string
+        expiresAt:
+          format: date-time
+          type: string
+    ApiEnvelopBase:
+      description: ''
+      required:
+        - version
+        - status
+      type: object
+      properties:
+        status:
+          format: int32
+          description: The api version.
+          type: integer
+        version:
+          description: The HTTP response code.
+          type: string
+    OnbCountryResponse:
+      description: ''
+      required:
+        - body
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiEnvelopBase'
+      properties:
+        body:
+          description: ''
+          type: array
+          items:
+            $ref: '#/components/schemas/OnbCountry'
+    OnbStateResponse:
+      description: ''
+      required:
+        - body
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiEnvelopBase'
+      properties:
+        body:
+          description: ''
+          type: array
+          items:
+            $ref: '#/components/schemas/OnbState'
+    OnbCityResponse:
+      description: ''
+      required:
+        - body
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiEnvelopBase'
+      properties:
+        body:
+          description: ''
+          type: array
+          items:
+            $ref: '#/components/schemas/OnbCity'
+    OnbFileTypeResponse:
+      description: ''
+      required:
+        - body
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiEnvelopBase'
+      properties:
+        body:
+          description: ''
+          type: array
+          items:
+            $ref: '#/components/schemas/OnbFileType'
+    PfmCardRequest:
+      description: ''
+      required:
+        - clientRequestId
+        - merchantName
+        - cashDirection
+      type: object
+      properties:
+        clientRequestId:
+          description: The unique Id to identify the request and uses as idempotence.
+          type: string
+        mcc:
+          description: 4-digit code to classify the business by the type of goods or services provided.
+          pattern: ^\d{4}$
+          type: string
+        merchantName:
+          description: Name of the establishment where the purchase/transaction was made.
+          type: string
+        merchantIdCode:
+          description: Establishment identifier.
+          type: string
+        cashDirection:
+          description: The Transaction Flow.
+          enum:
+            - CashIn
+            - CashOut
+          type: string
+        tags:
+          description: List of tags
+          type: array
+          items:
+            type: string
+      example:
+        clientRequestId: string
+        mcc: '3005'
+        merchantIdCode: string
+        merchantName: string
+        isExpense: true
+    PfmCardResponseBody:
+      description: The response body of request of single resource.
+      required:
+        - clientRequestId
+        - pactualId
+        - createTimestamp
+        - lastUpdateTimestamp
+        - entity
+        - status
+        - body
+        - tags
+      type: object
+      properties:
+        clientRequestId:
+          description: Unique resource identificator given by the client.
+          type: string
+        pactualId:
+          description: Unique resource identificator (Uuid) generated by api.
+          type: string
+        createTimestamp:
+          format: date-time
+          description: Entity create timestamp.
+          type: string
+        lastUpdateTimestamp:
+          format: date-time
+          description: Entity last update timestamp.
+          type: string
+        entity:
+          description: Entity name
+          type: string
+        status:
+          description: The current status.
+          enum:
+            - INITIATED
+            - PROCESSING
+            - CREATED
+            - ERROR
+          type: string
+        body:
+          $ref: '#/components/schemas/PfmCardRequestResponse'
+          description: ''
+        tags:
+          description: List of tags
+          type: array
+          items:
+            type: string
+      example:
+        clientRequestId: 4a068fe4-97c2-4c58-9abb-76f94d293ad0
+        pactualId: 8cde0465-1579-4e1c-8cae-07096ebd7fcc
+    PfmCardResponse:
+      title: PactualSingleResponse
+      description: Default response body for create single resource apis.
+      required:
+        - body
+        - version
+        - status
+      type: object
+      properties:
+        body:
+          $ref: '#/components/schemas/PfmCardResponseBody'
+          description: Body with clientRequestId and pactualId.
+          properties:
+            clientRequestId:
+              type: string
+            pactualId:
+              type: string
+        version:
+          description: The api version.
+          type: string
+        status:
+          description: The http status code.
+          type: integer
+      example:
+        version: 1.0.0
+        body:
+          pactualId: 7eb05d35-ce4e-4fed-b2ad-6a9a6f208816
+          clientRequestId: 7eb05d35-ce4e-4fed-b2ad-6a9a6f208816
+          createTimestamp: '2022-11-08T15:43:16.8602341+00:00'
+          lastUpdateTimestamp: '2022-11-08T15:43:16.8602341+00:00'
+          entity: PfmCardTransaction
+          status: INITIATED
+          body:
+            mcc: '5084'
+            merchantIdCode: d58cea15-a31a-4df0-8727-2099806198e7
+            clientRequestId: 7eb05d35-ce4e-4fed-b2ad-6a9a6f208816
+            bank: Bank Name
+            isExpense: true
+            merchantName: Mayer LLC
+          tags: []
+    PfmCardRequestResponse:
+      title: PactualSingleResponse
+      description: Default response body for create single resource apis.
+      required:
+        - clientRequestId
+        - bank
+        - cashDirection
+        - merchantName
+      type: object
+      properties:
+        mcc:
+          description: 4-digit code to classify the business by the type of goods or services provided.
+          type: string
+        merchantIdCode:
+          description: Establishment identifier.
+          type: string
+        clientRequestId:
+          description: The unique Id to identify the request and uses as idempotence.
+          type: string
+        bank:
+          description: The name of bank who made the request.
+          type: string
+        merchantName:
+          description: Name of the establishment where the purchase/transaction was made.
+          type: string
+        cashDirection:
+          description: The Transaction Flow.
+          enum:
+            - CashIn
+            - CashOut
+          type: string
+      example:
+        version: '1.0'
+        status: 200
+        body:
+          clientRequestId: daf17267-f26d-43e5-baef-074bb67c95c8
+          pactualId: ad21c1a9-feb5-43b2-8b82-1e93b7cf5d50
+    PfmAccountRequest:
+      description: ''
+      required:
+        - clientRequestId
+        - merchantName
+        - cashDirection
+        - taxId
+        - settlementType
+      type: object
+      properties:
+        clientRequestId:
+          description: The unique Id to identify the request and uses as idempotence.
+          type: string
+        merchantName:
+          description: Name of the establishment where the purchase/transaction was made.
+          type: string
+        settlementType:
+          description: Taxonomic category. Used for internal categorization of a transaction.
+          enum:
+            - BANKSLIP
+            - UTILITIES
+            - TEF
+            - TED
+            - DOC
+            - PIX
+            - TAXES
+            - OTHERS
+          type: string
+        taxId:
+          description: Tax Identification - CPF (11 digits formatted) or CNPJ (14 digits formatted), fill with zeros left of the number if necessary.
+          type: string
+        cashDirection:
+          description: The Transaction Flow.
+          enum:
+            - CashIn
+            - CashOut
+          type: string
+        tags:
+          description: List of tags
+          type: array
+          items:
+            type: string
+      example:
+        clientRequestId: string
+        mcc: '3005'
+        merchantIdCode: string
+        merchantName: string
+        isExpense: true
+    PfmAccountRequestResponse:
+      title: PactualSingleResponse
+      description: Default response body for create single resource apis.
+      required:
+        - clientRequestId
+        - cashDirection
+        - merchantName
+        - taxId
+      type: object
+      properties:
+        clientRequestId:
+          description: The unique Id to identify the request and uses as idempotence.
+          type: string
+        merchantName:
+          description: Name of the establishment where the purchase/transaction was made.
+          type: string
+        settlementType:
+          description: Taxonomic category. Used for internal categorization of a transaction.
+          enum:
+            - BANKSLIP
+            - UTILITIES
+            - TEF
+            - TED
+            - DOC
+            - PIX
+            - TAXES
+            - OTHERS
+          type: string
+        taxId:
+          description: Tax Identification - CPF (11 digits formatted) or CNPJ (14 digits formatted), fill with zeros left of the number if necessary.
+          type: string
+        cashDirection:
+          description: The Transaction Flow.
+          enum:
+            - CashIn
+            - CashOut
+          type: string
+      example:
+        version: '1.0'
+        status: 200
+        body:
+          clientRequestId: daf17267-f26d-43e5-baef-074bb67c95c8
+          pactualId: ad21c1a9-feb5-43b2-8b82-1e93b7cf5d50
+    PfmAccountResponse:
+      title: PactualSingleResponse
+      description: Default response body for create single resource apis.
+      required:
+        - body
+        - version
+        - status
+      type: object
+      properties:
+        body:
+          $ref: '#/components/schemas/PfmAccountResponseBody'
+          description: Body with clientRequestId and pactualId.
+          properties:
+            clientRequestId:
+              type: string
+            pactualId:
+              type: string
+        version:
+          description: The api version.
+          type: string
+        status:
+          description: The http status code.
+          type: integer
+      example:
+        version: 1.0.0
+        body:
+          pactualId: 7eb05d35-ce4e-4fed-b2ad-6a9a6f208816
+          clientRequestId: 7eb05d35-ce4e-4fed-b2ad-6a9a6f208816
+          createTimestamp: '2022-11-08T15:43:16.8602341+00:00'
+          lastUpdateTimestamp: '2022-11-08T15:43:16.8602341+00:00'
+          entity: PfmCardTransaction
+          status: INITIATED
+          body:
+            mcc: '5084'
+            merchantIdCode: d58cea15-a31a-4df0-8727-2099806198e7
+            clientRequestId: 7eb05d35-ce4e-4fed-b2ad-6a9a6f208816
+            bank: Bank Name
+            isExpense: true
+            merchantName: Mayer LLC
+          tags: []
+    PfmAccountResponseBody:
+      description: The response body of request of single resource.
+      required:
+        - body
+        - clientRequestId
+        - pactualId
+        - createTimestamp
+        - entity
+        - status
+        - tags
+        - lastUpdateTimestamp
+      type: object
+      properties:
+        body:
+          $ref: '#/components/schemas/PfmAccountRequestResponse'
+          description: ''
+        clientRequestId:
+          description: The unique Id to identify the request and uses as idempotence.
+          type: string
+        pactualId:
+          description: Unique resource identificator (Uuid) generated by api.
+          type: string
+        createTimestamp:
+          format: date-time
+          description: Entity create timestamp.
+          type: string
+        entity:
+          description: Entity name
+          type: string
+        status:
+          description: The current status.
+          enum:
+            - INITIATED
+            - PROCESSING
+            - CREATED
+            - ERROR
+          type: string
+        tags:
+          description: List of tags
+          type: array
+          items:
+            type: string
+        lastUpdateTimestamp:
+          format: date-time
+          description: Entity last update timestamp.
+          type: string
+      example:
+        clientRequestId: 4a068fe4-97c2-4c58-9abb-76f94d293ad0
+        pactualId: 8cde0465-1579-4e1c-8cae-07096ebd7fcc
+    PfmAccountCallbackResponse:
+      title: PactualSingleResponse
+      description: Default response body for create single resource apis.
+      required:
+        - body
+        - version
+        - status
+      type: object
+      properties:
+        body:
+          $ref: '#/components/schemas/PfmAccountCallbackResponseBody'
+          description: Body with clientRequestId and pactualId.
+          properties:
+            clientRequestId:
+              type: string
+            pactualId:
+              type: string
+        version:
+          description: The api version.
+          type: string
+        status:
+          description: The http status code.
+          type: integer
+      example:
+        version: 1.0.0
+        body:
+          pactualId: 7eb05d35-ce4e-4fed-b2ad-6a9a6f208816
+          clientRequestId: 7eb05d35-ce4e-4fed-b2ad-6a9a6f208816
+          createTimestamp: '2022-11-08T15:43:16.8602341+00:00'
+          lastUpdateTimestamp: '2022-11-08T15:43:16.8602341+00:00'
+          entity: PfmCardTransaction
+          status: INITIATED
+          body:
+            mcc: '5084'
+            merchantIdCode: d58cea15-a31a-4df0-8727-2099806198e7
+            clientRequestId: 7eb05d35-ce4e-4fed-b2ad-6a9a6f208816
+            bank: Bank Name
+            isExpense: true
+            merchantName: Mayer LLC
+          tags: []
+    PfmAccountCallbackResponseBody:
+      description: The response body of request of single resource.
+      required:
+        - body
+        - clientRequestId
+        - pactualId
+        - createTimestamp
+        - entity
+        - status
+        - tags
+        - lastUpdateTimestamp
+      type: object
+      properties:
+        body:
+          $ref: '#/components/schemas/PfmAccountCallback'
+          description: ''
+        clientRequestId:
+          description: The unique Id to identify the request and uses as idempotence.
+          type: string
+        pactualId:
+          description: Unique resource identificator (Uuid) generated by api.
+          type: string
+        createTimestamp:
+          format: date-time
+          description: Entity create timestamp.
+          type: string
+        entity:
+          description: Entity name
+          type: string
+        status:
+          description: The current status.
+          enum:
+            - INITIATED
+            - PROCESSING
+            - CREATED
+            - ERROR
+          type: string
+        tags:
+          description: List of tags
+          type: array
+          items:
+            type: string
+        lastUpdateTimestamp:
+          format: date-time
+          description: Entity last update timestamp.
+          type: string
+      example:
+        clientRequestId: 4a068fe4-97c2-4c58-9abb-76f94d293ad0
+        pactualId: 8cde0465-1579-4e1c-8cae-07096ebd7fcc
+    PfmAccountCallback:
+      title: PactualSingleResponse
+      description: Default response body for create single resource apis.
+      required:
+        - clientRequestId
+        - cashDirection
+        - taxId
+        - settlementType
+        - merchantName
+      type: object
+      properties:
+        clientRequestId:
+          description: The unique Id to identify the request and uses as idempotence.
+          type: string
+        merchantName:
+          description: Name of the establishment where the purchase/transaction was made.
+          type: string
+        macroCategory:
+          description: A label that represents the category of the transaction at a more generic level.
+          type: string
+        microCategory:
+          description: A label that represents the category of the transaction at a more specific level. This label is a sublevel of the category macro.
+          type: string
+        adjustedName:
+          description: Tthe normalized name of the establishment.
+          type: string
+        logoUrl:
+          description: The establishment logo url.
+          type: string
+        personType:
+          description: F = NATURAL_PERSON, J = LEGAL_PERSON
+          enum:
+            - F
+            - J
+          type: string
+        bank:
+          description: The name of bank who made the request.
+          type: string
+        settlementType:
+          description: Taxonomic category. Used for internal categorization of a transaction.
+          enum:
+            - BANKSLIP
+            - UTILITIES
+            - TEF
+            - TED
+            - DOC
+            - PIX
+            - TAXES
+            - OTHERS
+          type: string
+        taxId:
+          description: Tax Identification - CPF (11 digits formatted) or CNPJ (14 digits formatted), fill with zeros left of the number if necessary.
+          type: string
+        cashDirection:
+          description: The Transaction Flow.
+          enum:
+            - CashIn
+            - CashOut
+          type: string
+      example:
+        version: '1.0'
+        status: 200
+        body:
+          clientRequestId: daf17267-f26d-43e5-baef-074bb67c95c8
+          pactualId: ad21c1a9-feb5-43b2-8b82-1e93b7cf5d50
+    PfmCardCallback:
+      title: PactualSingleResponse
+      description: Default response body for create single resource apis.
+      required:
+        - clientRequestId
+        - cashDirection
+        - merchantName
+        - macroCategory
+        - microCategory
+        - adjustedName
+        - logoUrl
+        - bank
+      type: object
+      properties:
+        clientRequestId:
+          description: The unique Id to identify the request and uses as idempotence.
+          type: string
+        merchantName:
+          description: Name of the establishment where the purchase/transaction was made.
+          type: string
+        macroCategory:
+          description: A label that represents the category of the transaction at a more generic level.
+          type: string
+        microCategory:
+          description: A label that represents the category of the transaction at a more specific level. This label is a sublevel of the category macro.
+          type: string
+        adjustedName:
+          description: The normalized name of the establishment.
+          type: string
+        logoUrl:
+          description: The establishment logo url.
+          type: string
+        bank:
+          description: The name of bank who made the request.
+          type: string
+        mcc:
+          description: 4-digit code to classify the business by the type of goods or services provided.
+          type: string
+        merchantIdCode:
+          description: Establishment identifier.
+          type: string
+        cashDirection:
+          description: The Transaction Flow.
+          enum:
+            - CashIn
+            - CashOut
+          type: string
+      example:
+        version: '1.0'
+        status: 200
+        body:
+          clientRequestId: daf17267-f26d-43e5-baef-074bb67c95c8
+          pactualId: ad21c1a9-feb5-43b2-8b82-1e93b7cf5d50
+    PfmCardCallbackResponseBody:
+      description: The response body of request of single resource.
+      required:
+        - body
+        - clientRequestId
+        - pactualId
+        - createTimestamp
+        - entity
+        - status
+        - tags
+        - lastUpdateTimestamp
+      type: object
+      properties:
+        body:
+          $ref: '#/components/schemas/PfmCardCallback'
+          description: ''
+        clientRequestId:
+          description: The unique Id to identify the request and uses as idempotence.
+          type: string
+        pactualId:
+          description: Unique resource identificator (Uuid) generated by api.
+          type: string
+        createTimestamp:
+          format: date-time
+          description: Entity create timestamp.
+          type: string
+        entity:
+          description: Entity name
+          type: string
+        status:
+          description: The current status.
+          enum:
+            - INITIATED
+            - PROCESSING
+            - CREATED
+            - ERROR
+          type: string
+        tags:
+          description: List of tags
+          type: array
+          items:
+            type: string
+        lastUpdateTimestamp:
+          format: date-time
+          description: Entity last update timestamp.
+          type: string
+      example:
+        clientRequestId: 4a068fe4-97c2-4c58-9abb-76f94d293ad0
+        pactualId: 8cde0465-1579-4e1c-8cae-07096ebd7fcc
+    PfmCardCallbackResponse:
+      title: PactualSingleResponse
+      description: Default response body for create single resource apis.
+      required:
+        - body
+        - version
+        - status
+      type: object
+      properties:
+        body:
+          $ref: '#/components/schemas/PfmCardCallbackResponseBody'
+          description: Body with clientRequestId and pactualId.
+          properties:
+            clientRequestId:
+              type: string
+            pactualId:
+              type: string
+        version:
+          description: The api version.
+          type: string
+        status:
+          description: The http status code.
+          type: integer
+      example:
+        version: 1.0.0
+        body:
+          pactualId: 7eb05d35-ce4e-4fed-b2ad-6a9a6f208816
+          clientRequestId: 7eb05d35-ce4e-4fed-b2ad-6a9a6f208816
+          createTimestamp: '2022-11-08T15:43:16.8602341+00:00'
+          lastUpdateTimestamp: '2022-11-08T15:43:16.8602341+00:00'
+          entity: PfmCardTransaction
+          status: INITIATED
+          body:
+            mcc: '5084'
+            merchantIdCode: d58cea15-a31a-4df0-8727-2099806198e7
+            clientRequestId: 7eb05d35-ce4e-4fed-b2ad-6a9a6f208816
+            bank: Bank Name
+            isExpense: true
+            merchantName: Mayer LLC
+          tags: []
+  responses:
+    SuccessCreateResource:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SingleResponse'
+          examples:
+            SuccessCreateResourceExample:
+              value:
+                version: '1.0'
+                status: 202
+                body:
+                  clientRequestId: b2af2d7a-23b5-4cfb-b879-0b6fa705beb2
+                  pactualId: 71a16885-4f6d-492f-a741-d0d3a106cfa1
+      description: A success api response for create single resources.
+    InternalServerError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            InternalServerErrorExample:
+              value:
+                version: 1.0.0
+                status: 500
+                errors:
+                  - errorCode: PIE001
+                    message: Internal server error
+      description: Internal server error responses.
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            BadRequestExample:
+              value:
+                version: 1.0.0
+                status: 400
+                errors:
+                  - errorCode: PCE001
+                    message: The field 'name' is mandatory.
+                  - errorCode: PCE001
+                    message: The field 'accountNumber' is mandatory.
+      description: A BadRequest response.
+    Unauthorized:
+      description: Response when a request is not athorized for the user.
+    Forbiden:
+      description: Response when the resource can not be accessed by the user.
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            NotFoundExample:
+              value:
+                version: 1.0.0
+                status: 404
+      description: A NotFound response.
+    TooManyRequests:
+      description: Too many requests. Try wait and call again later.
+    GatewayTimeout:
+      description: Received a timeout from an internal api. Check if the resource is created using the search api or by receiving a webhook notification.
+    EmptyOKResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EmptyOKResponse'
+          examples:
+            EmptyOKResponse:
+              value:
+                version: 1.0.0
+                status: 200
+      description: ''
+    Conflict:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            BadRequestExample:
+              value:
+                version: 1.0.0
+                status: 409
+                errors:
+                  - errorCode: PCE001
+                    message: The message has already been processed.
+      description: Happens when conflicting messages are submitted.
+  securitySchemes:
+    BaaSAuthorizer:
+      type: apiKey
+      description: 'JWT Authorization header using the Bearer scheme. Example: "Authorization: Bearer { token }"'
+      name: Authorization
+      in: header
+security:
+  - BaaSAuthorizer: []
+tags:
+  - name: KYC
+    description: This session handles the background check made on clients. There are two types of search, a check and a thorough search. These services provide a reliable way of knowing client information.
+  - name: Onboarding Application
+    description: This session handles candidate's application process.
+  - name: Onboarding Account Closure
+    description: This session handles account closure process.
+  - name: Onboarding Account Update
+    description: This session handles account update process.
+  - name: Onboarding Domain
+    description: This session handles onboarding domains.
+  - name: PFM Transactions
+    description: "This session describes all call settings to perform PFM Transactions requests.\r\n\r\n## PFM Account Webhook\r\n\r\nThe following code represents the structure of a PFM Account Webhook.\r\n\r\n```\r\n{\r\n    \"body\": {\r\n        \"pactualId\": \"211acea2-1935-4db1-bb8d-a0ef275ea0d1\",\r\n        \"clientRequestId\": \"211acea2-1935-4db1-bb8d-a0ef275ea0d1\",\r\n        \"createTimestamp\": \"2022-11-10T17:38:38.3933576+00:00\",\r\n        \"lastUpdateTimestamp\": \"2022-11-10T17:38:49.4750978+00:00\",\r\n        \"entity\": \"PfmAccountTransaction\",\r\n        \"status\": \"CREATED\",\r\n        \"body\": {\r\n            \"macroCategory\": \"Transfer and Withdraw\",\r\n            \"microCategory\": \"Transfer and Withdraw\",\r\n            \"adjustedName\": \"Koch - Stamm\",\r\n            \"logoUrl\": \"https://a51a6s85as6a6s1.url.net/logosNormalized/transferandwithdraw_kochstamm.png\",\r\n            \"settlementType\": \"TED\",\r\n            \"taxId\": \"32275127852\",\r\n            \"personType\": \"F\",\r\n            \"clientRequestId\": \"211acea2-1935-4db1-bb8d-a0ef275ea0d1\",\r\n            \"bank\": \"Bank Name\",\r\n            \"cashDirection\": \"CashOut\",\r\n            \"merchantName\": \"Koch - Stamm\"\r\n        },\r\n        \"tags\": [\r\n\t\t\t\"123teste\",\r\n\t\t\t\"Teste123\"\r\n\t\t]\r\n    }\r\n}\r\n```\r\n\r\nBellow you find a list with the possible Webhooks for PFM Account submissions.\r\n\r\n| Status |Message|\r\n|----------|:-------------|\r\n|INITIATED | After a success sync response.|\r\n|PROCESSING | When BTG is internally processing the request.|\r\n|CREATED | When the proccess is completed and it will return the completed data.|\r\n|ERROR | An error occurs internally on BTG.|\r\n\r\n## PFM Card Webhook\r\n\r\nThe following code represents the structure of a PFM Card Webhook.\r\n\r\n```\r\n{\r\n    \"body\": {\r\n        \"pactualId\": \"211acea2-1935-4db1-bb8d-a0ef275ea0d1\",\r\n        \"clientRequestId\": \"211acea2-1935-4db1-bb8d-a0ef275ea0d1\",\r\n        \"createTimestamp\": \"2022-11-10T17:28:53.260084+00:00\",\r\n        \"lastUpdateTimestamp\": \"2022-11-10T17:29:29.2559922+00:00\",\r\n        \"entity\": \"PfmCardTransaction\",\r\n        \"status\": \"CREATED\",\r\n        \"body\": {\r\n            \"macroCategory\": \"Other Category\",\r\n            \"microCategory\": \"Other\",\r\n            \"adjustedName\": \"Ruecker Littel And Terry\",\r\n            \"logoUrl\": \"https://d3e9ef4ef9.url.net/logosNormalized/othercategory_rueckerlittelandterry.png\",\r\n            \"mcc\": \"5084\",\r\n            \"merchantIdCode\": \"ed3760cb-79cb-4df9-9ac2-248a01ed1f0d\",\r\n            \"clientRequestId\": \"211acea2-1935-4db1-bb8d-a0ef275ea0d1\",\r\n            \"bank\": \"Bank Name\",\r\n            \"cashDirection\": \"CashOut\",\r\n            \"merchantName\": \"Ruecker, Littel and Terry\"\r\n        },\r\n        \"tags\": [\r\n\t\t\t\"123teste\",\r\n\t\t\t\"Teste123\"\r\n\t\t]\r\n    }\r\n}\r\n```\r\n\r\nBellow you find a list with the possible Webhooks for PFM Card submissions.\r\n\r\n| Status |Message|\r\n|----------|:-------------|\r\n|INITIATED | After a success sync response.|\r\n|PROCESSING | When BTG is internally processing the request.|\r\n|CREATED | When the proccess is completed and it will return the completed data.|\r\n|ERROR | An error occurs internally on BTG.|"
+x-tagGroups:
+  - name: Know your client
+    tags:
+      - KYC
+  - name: Onboarding
+    tags:
+      - Onboarding Application
+      - Onboarding Account Closure
+      - Onboarding Account Update
+      - Onboarding Domain
+  - name: Personal Financial Management
+    tags:
+      - PFM Transactions

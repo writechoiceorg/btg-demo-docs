@@ -1,0 +1,64 @@
+---
+id: put-split-transaction-process-payments
+title: "Process All Payments Approved for the current date"
+description: "Process payments of transactions that have 'APPROVED' status. Transactions will be aggregated for payment according to (payment type, debit account and credit account). If the 'disallowAggregation' attribute is 'true' the transaction will not be aggregated and individual payments will be made for these transactions."
+sidebar_label: "Process All Payments Approved for the current date"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "put api-method"
+info_path: reference/transactions/btg-pactual-banking-as-a-service-transactions
+custom_edit_url: null
+proxy: https://proxy.writechoice.io/
+---
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Process All Payments Approved for the current date"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/split/transaction/process-payments"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Process payments of transactions that have 'APPROVED' status. Transactions will be aggregated for payment according to (payment type, debit account and credit account). If the 'disallowAggregation' attribute is 'true' the transaction will not be aggregated and individual payments will be made for these transactions.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"paymentBaseDate","description":"Process transactions with this payment date.","schema":{"format":"date-time","type":"string"},"in":"query"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"202":{"description":"Accepted"},"400":{"content":{"application/json":{"schema":{"title":"PactualErrorResponse","description":"Default response body in case of any errors.","type":"object","properties":{"version":{"description":"Api version.","type":"string"},"status":{"description":"Http status code.","type":"string"},"errors":{"description":"Array of errors.","type":"array","items":{"type":"object","properties":{"errorCode":{"type":"string"},"message":{"type":"string"}}}}},"example":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is required."},{"errorCode":"PCE002","message":"The field 'taxId' is incorrect."}]}},"examples":{"BadRequestExample":{"value":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is mandatory."},{"errorCode":"PCE001","message":"The field 'accountNumber' is mandatory."}]}}}}},"description":"A BadRequest response."},"401":{"description":"Response when a request is not athorized for the user."},"404":{"content":{"application/json":{"schema":{"title":"PactualErrorResponse","description":"Default response body in case of any errors.","type":"object","properties":{"version":{"description":"Api version.","type":"string"},"status":{"description":"Http status code.","type":"string"},"errors":{"description":"Array of errors.","type":"array","items":{"type":"object","properties":{"errorCode":{"type":"string"},"message":{"type":"string"}}}}},"example":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is required."},{"errorCode":"PCE002","message":"The field 'taxId' is incorrect."}]}},"examples":{"NotFoundExample":{"value":{"version":"1.0.0","status":404}}}}},"description":"A NotFound response."},"500":{"content":{"application/json":{"schema":{"title":"PactualErrorResponse","description":"Default response body in case of any errors.","type":"object","properties":{"version":{"description":"Api version.","type":"string"},"status":{"description":"Http status code.","type":"string"},"errors":{"description":"Array of errors.","type":"array","items":{"type":"object","properties":{"errorCode":{"type":"string"},"message":{"type":"string"}}}}},"example":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is required."},{"errorCode":"PCE002","message":"The field 'taxId' is incorrect."}]}},"examples":{"InternalServerErrorExample":{"value":{"version":"1.0.0","status":500,"errors":[{"errorCode":"PIE001","message":"Internal server error"}]}}}}},"description":"Internal server error responses."}}}
+>
+  
+</StatusCodes>
+
+
+      

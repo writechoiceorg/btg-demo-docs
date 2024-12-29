@@ -1,0 +1,64 @@
+---
+id: post-transfer-external-jud
+title: "Process a judicial transfer to an external account"
+description: "This method is called to send individual instances of external payments to be processed by our infrastructure."
+sidebar_label: "Process a judicial transfer to an external account"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: reference/transactions/btg-pactual-banking-as-a-service-transactions
+custom_edit_url: null
+proxy: https://proxy.writechoice.io/
+---
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Process a judicial transfer to an external account"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/transfer/external/jud"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+This method is called to send individual instances of external payments to be processed by our infrastructure.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"description":"","content":{"application/json":{"schema":{"title":"Root Type for JudicialRequest","description":"","required":["accountFrom","amount","bankTo","branchFrom","clientRequestId","codIdentTransf"],"type":"object","properties":{"branchFrom":{"description":"Sender Bank Account Branch","maximum":4,"type":"integer"},"accountFrom":{"description":"Sender account number","type":"integer"},"nameFrom":{"description":"Sender name","maximum":50,"type":"string"},"amount":{"description":"Amount in cents to be transfered. Example: 100 = R$1.00","type":"integer"},"bankTo":{"description":"Receiver Bank Account Number. Must be from numbers 1 to 3.","type":"integer"},"nameTo":{"description":"Receivers name","maximum":50,"type":"string"},"accountTypeTo":{"description":"CC = Checking account, CP = Saving account, PG = Payment Account","enum":["CC","CP","PG"],"type":"string"},"codIdentTransf":{"description":"Unique judicial transfer identifier.","type":"integer"},"clientRequestId":{"description":"Unique identifier provided by the client. Can be used in response corelation.","type":"string"},"tags":{"description":"Markups","type":"array","items":{"type":"string"}}},"example":{"branchFrom":9999,"accountFrom":1,"nameFrom":"string","amount":1,"bankTo":2147483647,"nameTo":"string","accountTypeTo":"string","codIdentTransf":0,"clientRequestId":"string","tags":["string"]}},"examples":{"Example":{"value":{"clientRequestId":"bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca4","branchFrom":20,"accountFrom":340475,"bankTo":237,"nameTo":"Banco Bradesco S.A","amount":50000,"accountTypeTo":"CC","nameFrom":"Noah Nunes","codIdentTransf":72022077022983500}}}}},"required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"content":{"application/json":{"schema":{"title":"PactualSingleResponse","description":"Default response body for create single resource apis.","required":["body","version","status"],"type":"object","properties":{"body":{"description":"Body with clientRequestId and pactualId.","properties":{"clientRequestId":{"type":"string"},"pactualId":{"type":"string"}},"required":["clientRequestId","pactualId"],"type":"object","example":{"clientRequestId":"4a068fe4-97c2-4c58-9abb-76f94d293ad0","pactualId":"8cde0465-1579-4e1c-8cae-07096ebd7fcc"},"title":"SingleResponseBody"},"version":{"description":"The api version.","type":"string"},"status":{"description":"The http status code.","type":"integer"}},"example":{"version":"1.0","status":200,"body":{"clientRequestId":"daf17267-f26d-43e5-baef-074bb67c95c8","pactualId":"ad21c1a9-feb5-43b2-8b82-1e93b7cf5d50"}}},"examples":{"Example":{"value":{"version":"1.0","status":200,"body":{"clientRequestId":"bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca5","pactualId":"bb6fb4eb-f0f7-46d7-a2b3-eba424f6dca4"}}}}}},"description":"Accepted"},"500":{"content":{"application/json":{"schema":{"title":"PactualErrorResponse","description":"Default response body in case of any errors.","type":"object","properties":{"version":{"description":"Api version.","type":"string"},"status":{"description":"Http status code.","type":"string"},"errors":{"description":"Array of errors.","type":"array","items":{"type":"object","properties":{"errorCode":{"type":"string"},"message":{"type":"string"}}}}},"example":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is required."},{"errorCode":"PCE002","message":"The field 'taxId' is incorrect."}]}},"examples":{"InternalServerErrorExample":{"value":{"version":"1.0.0","status":500,"errors":[{"errorCode":"PIE001","message":"Internal server error"}]}}}}},"description":"Internal server error responses."}}}
+>
+  
+</StatusCodes>
+
+
+      

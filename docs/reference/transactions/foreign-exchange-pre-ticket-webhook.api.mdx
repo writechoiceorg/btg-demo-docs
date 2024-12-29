@@ -1,0 +1,72 @@
+---
+id: foreign-exchange-pre-ticket-webhook
+title: "Status Update Webhooks"
+description: "We send a webhook for every change in a Foreign Exchange Pre Ticket status. You can check de possible  status values [here](#section/Foreign-Exchange-Pre-Ticket-Status)."
+sidebar_label: "Status Update Webhooks"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "event api-method"
+info_path: reference/transactions/btg-pactual-banking-as-a-service-transactions
+custom_edit_url: null
+proxy: https://proxy.writechoice.io/
+---
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Status Update Webhooks"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"event"}
+  path={"webhook"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+We send a webhook for every change in a Foreign Exchange Pre Ticket status. You can check de possible  status values [here](#section/Foreign-Exchange-Pre-Ticket-Status).
+
+You can sign this webhook in the logged area of this portal or via [API](https://developer.btgpactual.com/doccm#tag/Webhook), with the entity ```ForeignExchangePreTicket```.
+You can also configure the security validation method for the requests, which can be either ```mTLS Certificate``` or ```Hash Signature (HMAC SHA256 Hash)```.
+
+For more information on the security validation methods, check the ```AUTHORIZATIONS``` section below.
+
+For more information on webhooks, see the [Webhook Documentation](https://developer.btgpactual.com/doccm#tag/Webhook).
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"description":"Foreign Exchange Pre Ticket webhook.","type":"object","properties":{"pactualId":{"format":"uuid","description":"Unique resource identificator (uuid) generated by api.","type":"string","title":"PactualId"},"pactualBulkId":{"format":"uuid","description":"Unique resource identificator (uuid) generated by api.","type":"string","title":"PactualBulkId"},"clientRequestId":{"description":"The unique transaction identification given by the client side. This value can't be repeated.","type":"string","title":"ClientRequestId"},"createTimestamp":{"format":"date-time","description":"The string representation of the Timestamp that the record was created (UTC).","pattern":"yyyy-MM-ddTHH:mm:ssZ","type":"string","title":"CreateTimestamp"},"lastUpdateTimestamp":{"format":"date-time","description":"The string representation of the Timestamp that the record was last updated (UTC).","pattern":"yyyy-MM-ddTHH:mm:ssZ","type":"string","title":"LastUpdateTimestamp"},"entity":{"description":"Operation Contract Entity.","type":"string","title":"Entity"},"status":{"description":"The state of the group quote, which at the time of its creation will be CREATED.\n","enum":["CREATED","ENQUEUED","PROCESSING","BLOCKED","EXPIRED","CONFIRMED"],"type":"string","title":"ForeignExchangePreTicketStatus"},"body":{"description":"Foreign Exchange Pre ticket webhook body.","type":"object","properties":{"accountId":{"description":"The BaaS AccountId that will be charged (BUY) / The BaaS AccountId that will recive (SELL)","type":"string"},"amount":{"format":"decimal","description":"Pre ticket value (always in base currency)","type":"number"},"availableBalance":{"format":"decimal","description":"The balance of the pre ticket","type":"number"},"operationSide":{"description":"The direction of the trade","type":"string"},"baseCurrency":{"description":"3 digit currency being purchased","type":"string"},"countryCode":{"description":"2 digit code of country of origin of the money","type":"string"},"senderName":{"description":"Name of the payer","type":"string"},"additionalInformation":{"description":"Field 70 of the SWIFT file","type":"string"},"bankChannelId":{"description":"The Id of the Banking Channel, the banking channel contains the SWIFT account information, it can be retrieved using Banking Channel API."},"beneficiary":{"description":"Beneficiary of the bank channel","type":"string"},"bacenNature":{"description":"All informations about the BACEN Nature are available on this [link](https://www.bcb.gov.br/pre/normativos/circ/2013/pdf/circ_3690_v1_O.pdf)","type":"object","properties":{"codeOperationNature":{"description":"BACEN Code for the general operation nature, it is a 5 digits field. The available codes can be found on the above link under the name of \"Códigos de classificação e operações, on the \"ANEXO I - ANEXO XI and ANEXO XIII\" of the document.","type":"string"},"clientNature":{"description":"BACEN Code for the client nature, it is a 2 digits field. The available codes can be found on the above link under the name of \"Códigos de classificação de operações relativos a clientes\", on the \"ANEXO XIV\" of the document.","type":"string"},"avalNature":{"description":"BACEN Code that indicates whether the transaction needs to authorize the operation. More information about this field on the document on the \"ANEXO XV\"","type":"string"},"payerNature":{"description":"BACEN Code for the Payer/Reciver on abroad, it is a 2 digits field. The available codes can be found on the above link under the name of \"Códigos de classificação de operações relativos a pagadores/recebedores no exterior\", on the \"ANEXO XVI\" of the document","type":"string"},"groupNature":{"description":"BACEN Code for the group that the operation belongs to, it is a 2 digits field. The available codes can be found on the above link under the name of \"Códigos de grupos\", on the \"ANEXO XV\" of the document","type":"string"},"relationshipNature":{"description":"BACEN Code for the relationship between the parts of the operation, it is a 2 digit field. The available codes can be found on the above link under the name of \"Códigos relativos a relações de vínculo\", on the \"ANEXO XVIII\" of the document.","type":"string"}}}},"title":"ForeignExchangePreTicketWebhookBody"},"tags":{"nullable":true,"description":"Tags that can be sent by the client, it will be saved on the Entity, use as a metadata field","uniqueItems":true,"type":"array","items":{"type":"string"},"example":["tag1","tag2"],"title":"Tags"}},"title":"ForeignExchangePreTicketWebhook"},"examples":{"CONFIRMED":{"value":{"pactualId":"cf475ca5-78d3-4bb0-8366-863d939e9e16","clientRequestId":"a32561b3-6407-4a9d-83ce-5db82eb05f3e","createTimestamp":"2022-12-09T14:31:26.9173822+00:00","lastUpdateTimestamp":"2022-12-09T17:58:28.9151241+00:00","entity":"ForeignExchangePreTicket","status":"CONFIRMED","body":{"accountId":"a75f68fa-85b0-4cb3-822e-d253844f57b7","operationSide":"BUY","amount":1000,"availableBalance":800,"bankingChannelId":"004f61af7d1846cb8dceadbf0090902c","bacenNature":{"codeOperationNature":12012,"relationshipNature":20,"payerNature":5,"clientNature":"09","avalNature":"N","groupNature":90},"baseCurrency":"BRL","additionaInformation":"Test","countryCode":"US","beneficiary":"GRG"},"tags":"string"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"2XX":{"description":"Return any 2XX status to indicate that the data was received successfully"}}}
+>
+  
+</StatusCodes>
+
+
+      

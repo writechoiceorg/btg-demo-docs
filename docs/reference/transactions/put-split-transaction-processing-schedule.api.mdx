@@ -1,0 +1,64 @@
+---
+id: put-split-transaction-processing-schedule
+title: "Sets the schedule for automatic processing"
+description: "Sets the schedule for automatic processing payments of transactions that have 'APPROVED' status.  Transactions will be aggregated for payment according to (payment type, debit account and credit account). If the 'disallowAggregation' attribute is 'true' the transaction will not be aggregated and individual payments will be made for these transactions."
+sidebar_label: "Sets the schedule for automatic processing"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "put api-method"
+info_path: reference/transactions/btg-pactual-banking-as-a-service-transactions
+custom_edit_url: null
+proxy: https://proxy.writechoice.io/
+---
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Sets the schedule for automatic processing"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/split/transaction/processing-schedule"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Sets the schedule for automatic processing payments of transactions that have 'APPROVED' status.  Transactions will be aggregated for payment according to (payment type, debit account and credit account). If the 'disallowAggregation' attribute is 'true' the transaction will not be aggregated and individual payments will be made for these transactions.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"description":"Schedule Hours","content":{"application/json":{"schema":{"type":"array","items":{"description":"Amount range that will be used as a rule trigger filter. Based on cash in amount.","required":["dayOfWeek","processingHours"],"type":"object","properties":{"dayOfWeek":{"description":"Day of Week.","enum":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"type":"string","title":"DayOfWeek"},"processingHours":{"description":"List of times for automatic payment processing. The time must be in the format \"HH:mm\" and the minutes must be multiples of 10.","type":"array","items":{"type":"string"}}},"example":{"dayOfWeek":"Monday","processingHours":["15:20","16:30","16:50"]},"title":"CspProcessingSchedule"}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"202":{"description":"Accepted"},"400":{"content":{"application/json":{"schema":{"title":"PactualErrorResponse","description":"Default response body in case of any errors.","type":"object","properties":{"version":{"description":"Api version.","type":"string"},"status":{"description":"Http status code.","type":"string"},"errors":{"description":"Array of errors.","type":"array","items":{"type":"object","properties":{"errorCode":{"type":"string"},"message":{"type":"string"}}}}},"example":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is required."},{"errorCode":"PCE002","message":"The field 'taxId' is incorrect."}]}},"examples":{"BadRequestExample":{"value":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is mandatory."},{"errorCode":"PCE001","message":"The field 'accountNumber' is mandatory."}]}}}}},"description":"A BadRequest response."},"401":{"description":"Response when a request is not athorized for the user."},"500":{"content":{"application/json":{"schema":{"title":"PactualErrorResponse","description":"Default response body in case of any errors.","type":"object","properties":{"version":{"description":"Api version.","type":"string"},"status":{"description":"Http status code.","type":"string"},"errors":{"description":"Array of errors.","type":"array","items":{"type":"object","properties":{"errorCode":{"type":"string"},"message":{"type":"string"}}}}},"example":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is required."},{"errorCode":"PCE002","message":"The field 'taxId' is incorrect."}]}},"examples":{"InternalServerErrorExample":{"value":{"version":"1.0.0","status":500,"errors":[{"errorCode":"PIE001","message":"Internal server error"}]}}}}},"description":"Internal server error responses."}}}
+>
+  
+</StatusCodes>
+
+
+      

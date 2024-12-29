@@ -1,0 +1,76 @@
+---
+id: pix-payment-limit-validator-v-2-return-e-2-e
+title: "Refund a Pix Payment By EndToEndId"
+description: "This method handles the refund of Pix Payments passing through a limit validator. The amount passed is the value to be returned regarding an already submitted Pix Payment. More than one refund can be made for the same submitted Pix Payment, however, the sum of all refunds cannot exceed the payment's original amount."
+sidebar_label: "Refund a Pix Payment By EndToEndId"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: reference/pix-merchant/btg-pactual-banking-as-a-service-pix-merchant-clients
+custom_edit_url: null
+proxy: https://proxy.writechoice.io/
+---
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Refund a Pix Payment By EndToEndId"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/pix/merchant/limit-validator-v2/reversal/end-to-end/{endToEndId}/return/"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+This method handles the refund of Pix Payments passing through a limit validator. The amount passed is the value to be returned regarding an already submitted Pix Payment. More than one refund can be made for the same submitted Pix Payment, however, the sum of all refunds cannot exceed the payment's original amount.
+
+
+The possible reasons for the return are listed on the table bellow and are required with each new requisition. 
+
+
+| Reason|Error Name|Error Description|
+|----------|:-------------|------|
+|BE08|BankError|Returned as a result of a bank error.|
+|FR01|Fraud|Returned as a result of fraud.|
+|MD06|RefundRequestByEndCustomer|Return of funds requested by end customer.|
+|SL02|SpecificServiceOfferedByCreditorAgent|Return of cash value due to an error related to PixWithdrawal or PixChange.|
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"examples":{"endToEndId":{"value":"E3030629420211221000001944854508\t"}},"name":"endToEndId","description":"end to end identifier of the Pix made. ","schema":{"type":"string"},"in":"path","required":true}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"title":"Root Type for PixPaymentReturnRequest","description":"","required":["amount","clientRequestId","reason"],"type":"object","properties":{"additionalInformation":{"description":"Optional text field to be used in case the return motive is outside the possible values in the RT Reason Table in the methods description. Up to 105 characters.","type":"string"},"amount":{"format":"double","description":"Decimal value to be returned.","type":"number"},"clientRequestId":{"description":"The unique identifier","type":"string"},"reason":{"description":"Case in which the return falls following the table in the methods description.","enum":["BE08","FR01","MD06","SL02"],"type":"string"},"tags":{"description":"Tag to filter. Can be repeated.","type":"array","items":{"type":"string"}}},"example":{"additionalInformation":"Lorem ipsum dolor sit amet.","amount":10.02,"clientRequestId":"AC0FE8DE561349669746087BC3CBC103","reason":"BE08","tags":["abc","def"]}},"examples":{"example":{"value":{"clientRequestId":"AC0FE8DE561349669746087BC3CBC103","reason":"SL02","amount":10.02,"additionalInformation":"Lorem ipsum dolor sit amet.","tags":["abc","def"]}},"full example":{"value":{"additionalInformation":"Lorem ipsum dolor sit amet.","amount":10.02,"clientRequestId":"AC0FE8DE561349669746087BC3CBC103","reason":"BE08","tags":["abc","def"],"nature":"ORIGINAL","reversalDescription":"You sent too much money. I am returning the excess amount."}}}}},"required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"content":{"application/json":{"schema":{"title":"Root Type for PixPaymentReturnResponse","description":"","type":"object","properties":{"body":{"description":"The return data.","properties":{"body":{"type":"object","properties":{"additionalInformation":{"type":"string"},"amount":{"format":"double","type":"number"},"originalPactualId":{"type":"string"},"reason":{"type":"string"},"returnIdentification":{"type":"string"}}},"clientRequestId":{"type":"string"},"createTimestamp":{"type":"string"},"entity":{"type":"string"},"lastUpdateTimestamp":{"type":"string"},"pactualId":{"type":"string"},"status":{"type":"string"},"tags":{"type":"array","items":{"type":"string"}}},"title":"Root Type for PixPaymentReturnResponseBody","type":"object","example":{"body":{"additionalInformation":"Lorem ipsum dolor sit amet.","amount":10.02,"originalPactualId":"edd20ddc-534c-4d4a-87d0-8496ea298d14","reason":"BE08","returnIdentification":"D3030629420200808185300887639654"},"clientRequestId":"AC0FE8DE561349669746087BC3CBC103","createTimestamp":"2020-08-08T20:17:01.3780252+00:00","entity":"PixReversal","lastUpdateTimestamp":"2020-08-08T20:17:01.3780252+00:00","pactualId":"45fe6866-21a5-4f6d-84c2-950a2a1df8e7","status":"PROCESSING","tags":["abc","def"]}},"status":{"format":"int32","description":"The HTTP response code.","type":"integer"},"version":{"description":"The api version.","type":"string"}},"example":{"body":{"body":{"additionalInformation":"Lorem ipsum dolor sit amet.","amount":10.02,"originalPactualId":"edd20ddc-534c-4d4a-87d0-8496ea298d14","reason":"BE08","returnIdentification":"D3030629420200808185300887639654"},"clientRequestId":"AC0FE8DE561349669746087BC3CBC103","createTimestamp":"2020-08-08T20:17:01.3780252+00:00","entity":"PixReversal","lastUpdateTimestamp":"2020-08-08T20:17:01.3780252+00:00","pactualId":"45fe6866-21a5-4f6d-84c2-950a2a1df8e7","status":"PROCESSING","tags":["abc","def"]},"status":200,"version":"1.0.0"}},"examples":{"example":{"value":{"version":"1.0.0","status":200,"body":{"clientRequestId":"AC0FE8DE561349669746087BC3CBC103","pactualId":"45fe6866-21a5-4f6d-84c2-950a2a1df8e7","entity":"PixReversal","status":"PROCESSING","createTimestamp":"2020-08-08T20:17:01.3780252+00:00","lastUpdateTimestamp":"2020-08-08T20:17:01.3780252+00:00","body":{"returnIdentification":"D3030629420200808185300887639654","reason":"BE08","additionalInformation":"Lorem ipsum dolor sit amet.","amount":10.02,"originalPactualId":"edd20ddc-534c-4d4a-87d0-8496ea298d14"},"tags":["abc","def"]}}}}}},"description":"Success"},"400":{"content":{"application/json":{"schema":{"title":"PactualErrorResponse","description":"Default response body in case of any errors.","type":"object","properties":{"version":{"description":"Api version.","type":"string"},"status":{"description":"Http status code.","type":"string"},"errors":{"description":"Array of errors.","type":"array","items":{"type":"object","properties":{"errorCode":{"type":"string"},"message":{"type":"string"}}}}},"example":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is required."},{"errorCode":"PCE002","message":"The field 'taxId' is incorrect."}]}},"examples":{"BadRequestExample":{"value":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is mandatory."},{"errorCode":"PCE001","message":"The field 'accountNumber' is mandatory."}]}}}}},"description":"A BadRequest response."},"401":{"description":"Response when a request is not athorized for the user."},"404":{"content":{"application/json":{"schema":{"title":"PactualErrorResponse","description":"Default response body in case of any errors.","type":"object","properties":{"version":{"description":"Api version.","type":"string"},"status":{"description":"Http status code.","type":"string"},"errors":{"description":"Array of errors.","type":"array","items":{"type":"object","properties":{"errorCode":{"type":"string"},"message":{"type":"string"}}}}},"example":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is required."},{"errorCode":"PCE002","message":"The field 'taxId' is incorrect."}]}},"examples":{"NotFoundExample":{"value":{"version":"1.0.0","status":404}}}}},"description":"A NotFound response."},"500":{"content":{"application/json":{"schema":{"title":"PactualErrorResponse","description":"Default response body in case of any errors.","type":"object","properties":{"version":{"description":"Api version.","type":"string"},"status":{"description":"Http status code.","type":"string"},"errors":{"description":"Array of errors.","type":"array","items":{"type":"object","properties":{"errorCode":{"type":"string"},"message":{"type":"string"}}}}},"example":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is required."},{"errorCode":"PCE002","message":"The field 'taxId' is incorrect."}]}},"examples":{"InternalServerErrorExample":{"value":{"version":"1.0.0","status":500,"errors":[{"errorCode":"PIE001","message":"Internal server error"}]}}}}},"description":"Internal server error responses."}}}
+>
+  
+</StatusCodes>
+
+
+      

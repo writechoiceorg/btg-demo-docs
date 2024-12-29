@@ -1,0 +1,160 @@
+---
+id: receiver-data-webhook
+title: "Receiver data webhooks"
+description: "We send a webhook for every request made to the Receiver's Data endpoints. The status might be:"
+sidebar_label: "Receiver data webhooks"
+hide_title: true
+hide_table_of_contents: true
+api: eJztXOlyGzmSfhVEdcT6WBbFSxc3JnZlWW5rxra0Et3uHdOxQlWBJMZFgA2gKHMkPs3+mAfpF9tIAHUfLMqe2NiJcYRtqZD4MoFMHHlUPTgBkb6gK0U5c8bOJ4IkYQHC6J54C86/ohkXiKyJ2CBBfouIVGiJA4IUR2pB0A3xCV0T8Uyi11hhRFiw4pQp2UWTBUFSYRVJtKTzhUIeGU/ZS3R9c3V+cXt7+eHnsYaIYe+xRDLyfSLlLArDDfIFwYoEHYRZgKhEHqFsjlaCAwkJ/g3Azq/eX7+7mFy8zmMtsESCqEgwEuiGAITLouveFzc3VzcNPTFDRAguulM2ZTCeeFKy1BoaezxSGsjnTEahIgGibMbFEsPMdtCMhyG/hwEAkcJeCLMxZY/oxmBNNiuCHtE5ZpxRH4f28TVWC/Q4ZY+u+fM4drN/oOVnom6I5JHwiXw8EPGPBw9rIiTlDCC26XPb5ZoIyRkOLwPCFJ1RXwsqHw/8SCq+JKIIsLIdDmihRx7vPyMc7gX3W75DHu0NZZj5FKYjbI04izu5IullYF9FkjIiZetBe7ZDzaBjvLaDTuAKg0YI5QH3GXcCWjXuBPlckICqcywC+Y5K9Xjg6weuD09c7Ps8YqoIHT+uhDkzjfm53A/34MFP8BK4bRO3d3RJlfwRXA5CA9XAbCIwk9iP5//7WaosYEvG55EQhO2psBb8Xd8CN8jxiobhjxm5p5F2sPrh8625HjzAf/XTb+ntsmi9EmrMf6eguMLO4znAIWZ6F98D5cCLexXh8tO5D2TjRFUa51PRy1ZouVytiQgEnpkVvx8DHvd1kzVusN9xzOQ5Z0pgP1Z4CM8KqH5MkusZdyyqvBHh4MFPum0r4T5hITBTFPTeHurgPu1WhXqNN0sCBrsP5iruVIV46y9IEIUkuGRS4TDcH17GCC7VEHle9sxj86KGZknDTjUlGHW62o1VrbAScFZre4JWqa6En+pvX/SSEkvYNZrcl1GzOj8yPco5iTdkmSzpgn6jhDLZ5t1kCdervDWbog08iV/BLFozz9rJ9zPOmU5rGVJb+gESpObVmn/B3v5+slyyNac+qd1JqGl32+woOxCLRtUeutKSavlk7eeJPCqMppZdaipPZdZaJ9VW8VS2NZuRdasw+/qGfgNWPl8SecnWRCpNYgzDw+yrOwMKlxqSAlea9tgNWrSNfdAPHmgGZ7ubWXpp/A42mUvkLn75W+X38MzfMvfhm1w7fxT79Bqa9U8aTca6J3saTRNwjSf9fYbTxDA1ne9iVTKeJp6VPt4PNKC2vItu9d/BiH7BgkKgr86C1ra9vfXUIhZNpz10jdnUckpt5sk8SvZSyyxvLE9nWGUorZgmVvJjeO+wkFeCfyXiA1fkNVGYhrvH7OkeLuMKmrykf0aTE0GwjASZUBVWGKGyza7S7bttsA6vaIKtgWsssI5PaoBP5VCyvzpWefN7Mrsq62vDMjG+H8K5aHtvIhaUzWEGT3cbQaFzyctuRqnReAE0VfR+cCX1FnDzWt0Tu0qXDfiJCr+DTVFxF9/8BbhN8mpFhAnzG92RuKHAhyd09RBFDe7GOnjgaedtPfLF2lzs90U8IOvY4kzyLdML0oGQR7taEYaMZ5G0Iz7TbWfXlzpv92lBWC7FZ5OSVJr8XwcaBUH3NAyRR5Kk3zkPiE49xg9ep5nSDrpfUH+BfMxMWhPp8CWk8y6AFOnO8S+ZjtlUXnU27/rVRX/U7z9+ZOTbiviQSHyr1ArdGqkBOCUbPNo0IVJ0SQLEI5U2Dh/f4xBSkCRAN0SuOJOZrqPHT4KzucXVzy8ver3Bo5HZx2EI2UrKFBEMhwiv6COM8L94pIct6RymlcokKUrNNId8PofcqSDYqIJKtOJC4RBxgdYUo89n15dfni+UWsnxwUFA1iQExXc9NV9hX0U47Pp8eRBw31/+pPD84JPh8KKD7qlaaC5grWqD7u7urryvN8SH7PPd3V0XxfLhUHJIxs7oPBJE95HEjwT0WuOQBtrO0JKoBQ90ljtjIzKvYEQo2AhwW07e3aJzIuxaIXd3dzCsu7u7t1gu0C2dM6yA4fO378/O0e3bs8HhEYK2FyAezOAbLtCSC5JNECPOdogoO8hfEP+rJru7uzv7OHl7dXP557PJ5dWHWxBDEr1fII+E/L6Rk9WY7CBJzNR8tlOMXnM/gk1I0z5JSV2n42TWsTN2hC0ScCFV7lrmTsdReC6d8WcnLiJArikisEjS+dJxrEJe8WDjjB8c8PgJU/AjXq1Cu10d/EVC9cKDA0GAJYaf8mUNGja2U48HGxBSbVbEGTvc+wvxldNxVgLEhigJANhBwgCKaB8Z/S0CWzEZdRTvnUSg5x8jGrxAc8JgAkiAvA2snAw7qQRlc/gdznJn7FwnjLYdxw8pYcou6iresBFGhn/mjED59DSa0zVhwFtXJGhMJGlAoCqDSjCuiIBtP4OqDCTISldaNEl5XhAMZNX1GRO6JFLh5aos64Veo8+kqeQAuVRM3MiqgLvtOCGW6uMqaMkOqFGkydtxfFcBv+04Zo9pYMTwkjThGkKAMmdOtTqhjcSnlq4msUYfb0LYVJbAUICMqsyMxqdWWlXThdOSyviYiwnM4RsgPFMkt9fBQejz5SokinSgriepqYGNTR+RXTjcHJiQaAkLNmXmdJyE3Ok4mhqWbd2MwEI0Jw7MimdXdfNKjIXLVMRUT2Q8oBXcEJKT4rcIipdWWOClbLK6Ci7bjoNX9BdzryjzzN0+zq4vUUxZz+Ushdt2nBle0Us4YM0qrlrvbwA3Q4Mugwb4NyVAWKdw8DN1Xb+hweQlzUgtsII9QRDoZi5a5wajcf4KXGDyIrXggv5Vm+otEWsiDHtzGjljJ4oojCcvzlm2GzL9msd9VskoHXvVoK3A8W5K0008vgzYSDaijCqqoadNuj1PeAHjijqu6on3sCyYrr1IJRBNPKvYbJNjc6K7VXEFwKo9p4JXvOqzdWZOx6mvIcs35muj8m3lMifTXlOnlW+sAq6vnzLthSqo0sPKoo46KlOLVNeadQPb0FhXsY5Ul+I0NZb5ZQtbck+qhlcoQck9rIWulb+yiMM0lWsw0ufVybVye5oUK7fFGaxyS2Xa25DVZAwLjU3iNRQI1BDkBW2XpDe0bVPrramrBrRXbrt1l/ygn5g7Np2bk707aKpG3CIHu4MwP7q9Mp92/2pOVO4iqhrV7szhLrry8t8rS5fdtHaOrX1+bDd9fnxtE0P7UefG2Jzw2UFTNbqdWZgdZOVx7ZP1qOxRylEYqsYsQzNJ1cB3Bf+bqcrD3iPcbrfjiuh4ZUvlWVAdyK5sLMu6O5xs6GriwHWNVYLWRWu1C2evmJn3E7RTDOHBCk825wwZIhTS7IUSNtGN03GoIstWAChxCHc5iAHJuJHJxbXgtZu4JtBuk9G162SIt9AIJt+2m6XepuwcHaw0oVhN4zS0aRcZ4q9zqxrdoezH2NcCtJdoSU3geefE2Tv/eRpUy0PHweWYoN4PuckjaQ/EDKUB3BC0Qs9jpQ7Ox5t39WJD406RP4pQB2gWPAoDcOGiJYm93RLyJQt01BeC3joizAViXNlwih2Pb0DMi0f2RoAuEx+y7Et7nIcEs4xst1XSbDsOhGNN+OTc2nzNnL6dTK6zKYOGeXibx0zm4j1mEQ7DjQnHaYOK4dtPDEZLDZPODrzmZd/sgmATZvI+H4/aPS9NktlJeq9j5lVypmtEz5El3LVSljV4OjVTxChNsSXIbgRvUyGzjy+Lyz3bCMEzGxvX8fBtHEIvOfh4Lk0Yx+YvdKAjFw7uIKqS2KDEa0gembCDCVp2UCQJwhI0SBTWIYIZJWHQsJ/nhw9nxTcMQTUIHig875uQ/yB7uICkyalSbdMT/VJdQJKwjHklz0SyqUSchRtkg1WImoiGjX3a+EYm0GkClEVNxQK8zjL+v5CjWtmZqdTznAm/jh8cHcwvZCwc0u95o8MBcQ/7RyN3REjfxSN86h4fD0Yjb9TzT0fHTkW6wRkcnQR+3z90jwN/6I5mPna90fHAnR0PfDw77vX6o0OnIvbvDHqDods7cvvDSX8wHvXGw2F30D85PT49+tdeb9zrOTVh/Jqep73+cdozDsU7abbPSaPq+YC0l+SKKuLGTuY1uvWg9qXGf1/hOflD/1/gP1fSv5I/DGDY2WiwM+j2umDTFVHc1vNfCs06/ugYn5weBe5Jf+a5Izwcul5vhN1BcNLvj2anwx4eOrWhVWc2w8fD0+OhOxv5h+5odOK5+GR44gYnvf5sNOt5hyPs5OKiTiTYOM3qjYPTAI+O+iP3MACEk+HI9XrDU9fDRyenfX94dDr0nLoAZ8vpdQoRyqZgYrLLff4C6yNNN/xD2v7ouHs4GPZHrU0/m375p+X/I1u+OTN+uNUHveOZP+ph1+sd9d2Rd9hzTwgZuIPDwD86PsUDn5w0Wn3vdNI/GfeOx4N+93QwOOz1+y2tvthzcHrS1uzjAzRzcXBs6YxTdZo7DfU0/1w5rVZOlSta8vKch+l0aoME8NP4s34AFyf9K/wDuvvvyw+Ti5sPV/B7B/7R955mEuNPJzRXPheCRCha6quYLVXiiHEkqVRkibvomgs0w2suOgjPIywCqJ6QSL8iwsBdgVvZDP/+N4ww0lUrv//t9//hXcDfftFc4fqreeqBKK5g4ftcBGZ8/U7y+BrPSfahXeivrfUngmc2/d7x+HA4Pjz9s2a4dfKOrZP5msN6kP7ilD1B51Cvmmo3doZDSYqOUezSOD9fTFp6fRpn+/93D4U/aWRC36UHv/5a5UbDB0AQZhs0+PXX+BavwMSMm2ucqyR3eq8/GqKLmILcV0b0jT6u6YK14ED9mBam8+BAVVhSMKYffumkatHlj+CImqlJy6akXrlSw0UidMZOXKUFlUYSs8Dj37q1FVve11K46hXGt7qA4fmt6f3CAfny4GVgYPcEcFOaARNRxQZAnyb7teBBpLfTKtyni53i5iT/kmoW8jlLY0/QLa5GICLjFeMV/RPZlNj88dME5esdFgQHRCBIZJuPxbwiWBCBdG0b6aIL4wmO0TRf9jCOCR+Q4l8JQ9up43QcqFEqVkjozRzmRrOCNWLMcpewupS2pgiSSkQY5AmCuH4hrreTkZcpnDXfyFkuIxYXq3lE3RPCpoxHIi5Wg7rbDfxujD2JVAScweITPJqb6h4tykpwxX0edtFVCuGn8kEYZMp093sWchzo4JwBASY/qDy1q8tD7IQzzkh5ngtLvu2Et6ktba0B8zWnuG3K7u03n0xcAyrHMuRm5hd4TeLC029xBafrYSxdGUsFIpiBmm8/mSJD3V3PfTYCAtctZGs54SNKCxKYtQUDc83ADMot8QVR6E9kk9gAAIEZbKDSNy7wDdCUNYw6KYetKLDtGCTMtCQaIicftCa7uw2iWR7m21QKtDSF9NgK60JyW3lmZsBK1XLmLnWoaIOWWPmLVLIpUyKCMm84d+5tQI8qPazLpbZfpsZIkCVZehBP5elgBL7PDygejCmnhg9XwUlnarIUZfMO4hDDvaeSTBkgAFT8FS+I6mrhctZeN7TiCth2HKjVvUmrei/iGGHenUliqGWHJW0quSRJU7XfkSlpss5F8uQpoaSkc+6KnzytuuOnspdv8SlczT19OMMnh7OjkXt43D92R4dHA9cbznx34J8eDWdHR3iGjwoebsqv+sKVtJcuVNlSrzjn9znOtZVD3JlEmEmRJTHNL3WeQz73lBWl6FMUpTSX41R3lZdeJSJScU8u9Gq876YQFdfmJGabXjGLUe6sc5raXtk3TcPQUKivjwU7ra8mP8eVmQiKLuBOoIPyYBbUJ+g5pE1t1vSF03HWOVezVzpRXtM5hbNuFWKFYcmj+IDTe1uWH2FzyggRUnPULw4EZAkbnmclkVaIleBrCtvXVEwZ/P388mXuRQL0NvJevmx3qC4i7wVCgAIv1bjo8zlfLvnSZllk25M5j3HFPI5FQNm8XX9ekCGbhG+HoERBghVh5psGpB2A9zUPcH35K7JT8SZiPgVvh0J+qh3cyi/DQdZOEF+haywU9ekKM9USjZbR3hMB1QQKmXcF2soVawr+Pupbd17hcAl/RI+62a35U9uQvFgFvWP/43FPfynf+3nqBKRILZ0jg5RxKB5buj2ljpVStOEe//3pp+SlMHTBTD8ZN56Fob4YJ66y/X6lSWrhJdRGK4i26EvaBl72MlcS6ACvIcE2hQIyw1Go0twvsXxgQ5ELfq/fVdIvK4kpu7u703Kh17ZbLBU8fYhtbRrvcFMHPKBet9/tQXgoaTYHObQOeiN4vE1GnCCaK1oiFpzyT2fSzzzXSM4YJUjmsU3e/QL3QQM57A17R4PT0dSJKbc5We1kWEWZcpL3REodYcooyRbaJF8snQm+1JdjPgMF6sVj3wGp0WBJF0ajyduQ4T3eSH11xJQZ1wIzRDOa1LlQM8IuyppYW42msznqjTo1SujDcWamq1ajXJ9y2E6LztbKJsVazErFjnq9zHMb0HTG6HNWtTk9ZyjhzDcsrs8ver1+hkdKuTT6NHTg6+j8OnoGV+pn4M3BWYsVF5tuaiaJqcAPX5LZsFNtbn8K+7p2xd7Ns2f6hOCl06kNjeS3DLisLM1lDm71/1Fo3W63/wsILyRn
+sidebar_class_name: "event api-method"
+info_path: reference/open-finance/btg-pactual-banking-as-a-service-openfinance
+custom_edit_url: null
+proxy: https://proxy.writechoice.io/
+---
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Receiver data webhooks"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"event"}
+  path={"webhook"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+We send a webhook for every request made to the Receiver's Data endpoints. The status might be:
+* PROCESSING: the request was successfully created, and is being processed;
+* COMPLETED: the request has returned the data successfully;
+* ERROR: the request has returned an error.
+
+The webhook request has data about the consulted information, following the table:
+
+| RequestType | CanonicalRequestPath |
+|-------|:-------------|
+|GetResources|/resources/\{versionPath\}/resources|
+|GetPersonalIdentifications|/customers/\{versionPath\}/personal/identifications|
+|GetPersonalQualifications|/customers/\{versionPath\}/personal/qualifications|
+|GetPersonalFinancialRelations|/customers/\{versionPath\}/personal/financial-relations|
+|GetBusinessIdentifications|/customers/\{versionPath\}/business/identifications|
+|GetBusinessQualifications|/customers/\{versionPath\}/business/qualifications|   
+|GetBusinessFinancialRelations|/customers/\{versionPath\}/business/financial-relations|   
+|GetCreditCardsList|/credit-cards-accounts/\{versionPath\}/accounts|   
+|GetCreditCardsAccountIdentification|/credit-cards-accounts/\{versionPath\}/accounts/\{creditCardAccountId\}|   
+|GetCreditCardsAccountLimits|/credit-cards-accounts/\{versionPath\}/accounts/\{creditCardAccountId\}/limits|   
+|GetCreditCardsAccountTransactions|/credit-cards-accounts/\{versionPath\}/accounts/\{creditCardAccountId\}/transactions|   
+|GetCreditCardsAccountTransactionsCurrent|/credit-cards-accounts/\{versionPath\}/accounts/\{creditCardAccountId\}/transactions-current|   
+|GetCreditCardsAccountBills|/credit-cards-accounts/\{versionPath\}/accounts/\{creditCardAccountId\}/bills|   
+|GetCreditCardsAccountBillTransactions|/credit-cards-accounts/\{versionPath\}/accounts/\{creditCardAccountId\}/bills/\{billId\}/transactions|   
+|GetAccountsList|/accounts/\{versionPath\}/accounts|   
+|GetAccountIdentification|/accounts/\{versionPath\}/accounts/\{accountId\}|   
+|GetAccountBalances|/accounts/\{versionPath\}/accounts/\{accountId\}/balances|   
+|GetAccountTransactions|/accounts/\{versionPath\}/accounts/\{accountId\}/transactions|   
+|GetAccountTransactionsCurrent|/accounts/\{versionPath\}/accounts/\{accountId\}/transactions-current|   
+|GetAccountOverdraftLimit|/accounts/\{versionPath\}/accounts/\{accountId\}/overdraft-limits|  
+|GetLoansContractsList|/loans/\{versionPath\}/contracts|  
+|GetLoanContractIdentification|/loans/\{versionPath\}/contracts/\{contractId\}|  
+|GetLoanContractWarranties|/loans/\{versionPath\}/contracts/\{contractId\}/warranties|  
+|GetLoanContractPayments|/loans/\{versionPath\}/contracts/\{contractId\}/payments|  
+|GetLoanContractScheduledInstallments|/loans/\{versionPath\}/contracts/\{contractId\}/scheduled-instalments|  
+|GetFinancingsContractsList|/financings/\{versionPath\}/contracts|  
+|GetFinancingContractIdentification|/financings/\{versionPath\}/contracts/\{contractId\}|  
+|GetFinancingContractWarranties|/financings/\{versionPath\}/contracts/\{contractId\}/warranties|  
+|GetFinancingContractPayments|/financings/\{versionPath\}/contracts/\{contractId\}/payments|  
+|GetFinancingContractScheduledInstallments|/financings/\{versionPath\}/contracts/\{contractId\}/scheduled-instalments|  
+|GetUnarrangedAccountsOverdraftContractsList|/unarranged-accounts-overdraft/\{versionPath\}/contracts| 
+|GetUnarrangedAccountsOverdraftContractIdentification|/unarranged-accounts-overdraft/\{versionPath\}/contracts/\{contractId\}| 
+|GetUnarrangedAccountsOverdraftContractWarranties|/unarranged-accounts-overdraft/\{versionPath\}/contracts/\{contractId\}/warranties| 
+|GetUnarrangedAccountsOverdraftContractPayments|/unarranged-accounts-overdraft/\{versionPath\}/contracts/\{contractId\}/payments| 
+|GetUnarrangedAccountsOverdraftContractScheduledInstalments|/unarranged-accounts-overdraft/\{versionPath\}/contracts/\{contractId\}/payments| 
+|GetInvoiceFinancingsContractsList|/invoice-financings/\{versionPath\}/contracts| 
+|GetInvoiceFinancingsContractIdentification|/invoice-financings/\{versionPath\}/contracts/\{contractId\}| 
+|GetInvoiceFinancingsContractWarranties|/invoice-financings/\{versionPath\}/contracts/\{contractId\}/warranties| 
+|GetInvoiceFinancingsContractPayments|/invoice-financings/\{versionPath\}/contracts/\{contractId\}/payments| 
+|GetInvoiceFinancingsContractScheduledInstalments|/invoice-financings/\{versionPath\}/contracts/\{contractId\}/scheduled-instalments| 
+|GetBankFixedIncomesInvestmentsList|/bank-fixed-incomes/\{versionPath\}/investments| 
+|GetBankFixedIncomesInvestmentIdentification|/bank-fixed-incomes/\{versionPath\}/investments/\{investmentId\}| 
+|GetBankFixedIncomesInvestmentBalances|/bank-fixed-incomes/\{versionPath\}/investments/\{investmentId\}/balances| 
+|GetBankFixedIncomesInvestmentTransactions|/bank-fixed-incomes/\{versionPath\}/investments/\{investmentId\}/transactions| 
+|GetBankFixedIncomesInvestmentTransactionsCurrent|/bank-fixed-incomes/\{versionPath\}/investments/\{investmentId\}/transactions-current| 
+|GetCreditFixedIncomesInvestmentsList|/credit-fixed-incomes/\{versionPath\}/investments| 
+|GetCreditFixedIncomesInvestmentIdentification|/credit-fixed-incomes/\{versionPath\}/investments/\{investmentId\}| 
+|GetCreditFixedIncomesInvestmentBalances|/credit-fixed-incomes/\{versionPath\}/investments/\{investmentId\}/balances| 
+|GetCreditFixedIncomesInvestmentTransactions|/credit-fixed-incomes/\{versionPath\}/investments/\{investmentId\}/transactions| 
+|GetCreditFixedIncomesInvestmentTransactionsCurrent|/credit-fixed-incomes/\{versionPath\}/investments/\{investmentId\}/transactions-current| 
+|GetVariableIncomesInvestmentsList|/variable-incomes/\{versionPath\}/investments| 
+|GetVariableIncomesInvestmentIdentification|/variable-incomes/\{versionPath\}/investments/\{investmentId\}| 
+|GetVariableIncomesInvestmentBalances|/variable-incomes/\{versionPath\}/investments/\{investmentId\}/balances| 
+|GetVariableIncomesInvestmentTransactions|/variable-incomes/\{versionPath\}/investments/\{investmentId\}/transactions| 
+|GetVariableIncomesInvestmentTransactionsCurrent|/variable-incomes/\{versionPath\}/investments/\{investmentId\}/transactions-current| 
+|GetVariableIncomesBrokerNoteDetails|/variable-incomes/\{versionPath\}/broker-notes/\{brokerNoteId\}| 
+|GetTreasureTitlesInvestmentsList|/treasure-titles/\{versionPath\}/investments| 
+|GetTreasureTitlesInvestmentIdentification|/treasure-titles/\{versionPath\}/investments/\{investmentId\}| 
+|GetTreasureTitlesInvestmentBalances|/treasure-titles/\{versionPath\}/investments/\{investmentId\}/balances| 
+|GetTreasureTitlesInvestmentTransactions|/treasure-titles/\{versionPath\}/investments/\{investmentId\}/transactions| 
+|GetTreasureTitlesInvestmentTransactionsCurrent|/treasure-titles/\{versionPath\}/investments/\{investmentId\}/transactions-current| 
+|GetFundsInvestmentsList|/funds/\{versionPath\}/investments| 
+|GetFundsInvestmentIdentification|/funds/\{versionPath\}/investments/\{investmentId\}| 
+|GetFundsInvestmentBalances|/funds/\{versionPath\}/investments/\{investmentId\}/balances| 
+|GetFundsInvestmentTransactions|/funds/\{versionPath\}/investments/\{investmentId\}/transactions| 
+|GetFundsInvestmentTransactionsCurrent|/funds/\{versionPath\}/investments/\{investmentId\}/transactions-current| 
+|GetExchangesOperationsList|/exchanges/\{versionPath\}/operations| 
+|GetExchangesOperationIdentification|/exchanges/\{versionPath\}/operations/\{operationId\}| 
+|GetExchangesOperationEvents|/exchanges/\{versionPath\}/operations/\{operationId\}/events| 
+
+The versionPath is the Open Finance version of the API.
+
+When the request status is ERROR, there will be an errorCode and an errorDescription, which can be:
+    
+
+| Error Code | Error Description |
+|----------|:-------------|
+|PBE1411|Unexpected Http Status Code|
+|PBE1412|Request timed out|
+|PBE1413|Malformed Response|
+|PBE1414|Wrong Status|
+|PIE002|Error calling internal api|
+
+You can sign this webhook in the logged area of this portal or via [API](https://developer.btgpactual.com/doccm#tag/Webhook), with the entity ```ObkRecData```. You can also configure the security validation method for the requests, which can be either ```mTLS Certificate``` or ```Hash Signature (HMAC SHA256 Hash)```.
+
+For more information on the security validation methods, check the ```AUTHORIZATIONS``` section below.
+
+For more information on webhooks, see the [Webhook Documentation](https://developer.btgpactual.com/doccm#tag/Webhook).
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"description":"Data webhook body.","type":"object","properties":{"pactualId":{"description":"Unique resource Identifier (Uuid) generated by api.","type":"string","title":"PactualId"},"clientRequestId":{"description":"The unique transaction identification given by the client side. This value can't be repeated.","type":"string","title":"ClientRequestId"},"createTimestamp":{"description":"Entity's creation timestamp.","type":"string","title":"CreateTimestamp"},"lastUpdateTimestamp":{"description":"Entity's last update timestamp.","type":"string","title":"LastUpdateTimestamp"},"entity":{"description":"Entity's name.","type":"string","title":"Entity"},"status":{"description":"The state of the data request, which at the time of its creation will be PROCESSING.\nThis status will be changed after the request is complete, to COMPLETED or ERROR.  \n","enum":["PROCESSING","COMPLETED","ERROR"],"type":"string","title":"DataStatus"},"body":{"type":"object","properties":{"completeRequestPath":{"description":"The request path with the query params","type":"string","title":"CompleteRequestPath"},"apiVersion":{"description":"Open Finance API Version","type":"string","title":"ApiVersion"},"fapiInteractionId":{"description":"FAPI Interaction Id","type":"string","title":"FapiInteractionId"},"consentPactualId":{"description":"The PactualId that represents the Consent","type":"string","title":"ConsentPactualId"},"authorizationServerId":{"format":"uuid","description":"Authorization Server Id","type":"string","title":"AuthorizationServerId"},"consentId":{"description":"Consent unique identifier for the payment initiation\n","type":"string","title":"ConsentId"},"canonicalRequestPath":{"description":"The base request path in the canonical","type":"string","title":"CanonicalRequestPath"},"requestType":{"description":"The type of the data request","type":"string","enum":["GetResources","GetPersonalIdentifications","GetPersonalQualifications","GetPersonalFinancialRelations","GetBusinessIdentifications","GetBusinessQualifications","GetBusinessFinancialRelations","GetCreditCardsList","GetCreditCardsAccountIdentification","GetCreditCardsAccountLimits","GetCreditCardsAccountTransactions","GetCreditCardsAccountTransactionsCurrent","GetCreditCardsAccountBills","GetCreditCardsAccountBillTransactions","GetAccountsList","GetAccountIdentification","GetAccountBalances","GetAccountTransactions","GetAccountTransactionsCurrent","GetAccountOverdraftLimit","GetLoansContractsList","GetLoanContractIdentification","GetLoanContractWarranties","GetLoanContractPayments","GetLoanContractScheduledInstallments","GetFinancingsContractsList","GetFinancingContractIdentification","GetFinancingContractWarranties","GetFinancingContractPayments","GetFinancingContractScheduledInstallments","GetUnarrangedAccountsOverdraftContractsList","GetUnarrangedAccountsOverdraftContractIdentification","GetUnarrangedAccountsOverdraftContractWarranties","GetUnarrangedAccountsOverdraftContractPayments","GetUnarrangedAccountsOverdraftContractScheduledInstalments","GetInvoiceFinancingsContractsList","GetInvoiceFinancingsContractIdentification","GetInvoiceFinancingsContractWarranties","GetInvoiceFinancingsContractPayments","GetInvoiceFinancingsContractScheduledInstalments","GetBankFixedIncomesInvestmentsList","GetBankFixedIncomesInvestmentIdentification","GetBankFixedIncomesInvestmentBalances","GetBankFixedIncomesInvestmentTransactions","GetBankFixedIncomesInvestmentTransactionsCurrent","GetCreditFixedIncomesInvestmentsList","GetCreditFixedIncomesInvestmentIdentification","GetCreditFixedIncomesInvestmentBalances","GetCreditFixedIncomesInvestmentTransactions","GetCreditFixedIncomesInvestmentTransactionsCurrent","GetVariableIncomesInvestmentsList","GetVariableIncomesInvestmentIdentification","GetVariableIncomesInvestmentBalances","GetVariableIncomesInvestmentTransactions","GetVariableIncomesInvestmentTransactionsCurrent","GetVariableIncomesBrokerNoteDetails","GetTreasureTitlesInvestmentsList","GetTreasureTitlesInvestmentIdentification","GetTreasureTitlesInvestmentBalances","GetTreasureTitlesInvestmentTransactions","GetTreasureTitlesInvestmentTransactionsCurrent","GetFundsInvestmentsList","GetFundsInvestmentIdentification","GetFundsInvestmentBalances","GetFundsInvestmentTransactions","GetFundsInvestmentTransactionsCurrent","GetExchangesOperationsList","GetExchangesOperationIdentification","GetExchangesOperationEvents"],"title":"RequestType"},"errors":{"description":"Open Finance errors list","type":"array","items":{"description":"Open Finance error object","type":"object","properties":{"code":{"type":"string","description":"Error code"},"title":{"type":"string","description":"Error title"},"detail":{"type":"string","description":"Error detail"}},"title":"ObkResponseError"},"title":"ObkResponseErrors"},"integrationError":{"description":"Customer Integration Error","type":"object","properties":{"requestContent":{"description":"Request Content","type":"string","title":"RequestContent"},"responseContent":{"description":"Response Content","type":"string","title":"ResponseContent"},"requestURL":{"description":"Request URL","type":"string","title":"RequestUrl"},"shouldConsumeConsent":{"description":"Indicates wether or not the response consumed the Payment Initiation Consent","type":"boolean","title":"ShouldConsumeConsent"},"httpStatusCode":{"description":"Response HTTP Status Code","type":"string","title":"HttpStatusCode"},"shouldManuallyCreateErrorResponse":{"description":"Indicates wether or not a manual response was created to answer the request","type":"boolean","title":"ShouldManuallyCreateErrorResponse"},"httpMethod":{"description":"Integration HTTP Method","type":"object","properties":{"method":{"description":"Http Method","type":"string","title":"Method"}},"title":"HttpMethod"}},"title":"IntegrationError"}},"title":"DataWebhookBody"},"tags":{"description":"Tags that can be sent by the client, it will be saved on the Entity, use as a metadata field","type":"array","items":{"type":"string"},"example":["tag1","tag2"],"title":"Tags"},"errorCode":{"description":"The code for the error. This is only present if the status of the request is ERROR","type":"string"},"errorDescription":{"description":"The code for the error. This is only present if the status of the request is ERROR","type":"string"}},"title":"DataWebhook"},"examples":{"PROCESSING":{"value":{"pactualId":"e10b452e-5164-4ee1-a4a9-77244b40c947","clientRequestId":"268dc1c5-7dc3-4fca-b472-f72caf700145","createTimestamp":"2023-06-13T12:40:33.2189796+00:00","lastUpdateTimestamp":"2023-06-13T12:40:33.2190176+00:00","entity":"ObkRecData","status":"PROCESSING","body":{"completeRequestPath":"/customers/v2/personal/identifications?page=1&page-size=25","apiVersion":"2.0.1","fapiInteractionId":"e10b452e-5164-4ee1-a4a9-77244b40c947","consentPactualId":"c47a896d-81fb-4a33-b04a-2d8114f930a3","authorizationServerId":"ffa73973-f4c5-448b-a838-d801f4f0b54a","consentId":"urn:btgpactual:d9da4614-5dc5-4834-b039-ba6891c3693b","canonicalRequestPath":"/customers/v2/personal/identifications","requestType":"GetPersonalIdentifications"},"tags":[]}},"COMPLETED":{"value":{"pactualId":"e10b452e-5164-4ee1-a4a9-77244b40c947","clientRequestId":"268dc1c5-7dc3-4fca-b472-f72caf700145","createTimestamp":"2023-06-13T12:40:33.2189796+00:00","lastUpdateTimestamp":"2023-06-13T12:40:47.523146+00:00","entity":"ObkRecData","status":"COMPLETED","body":{"completeRequestPath":"/customers/v2/personal/identifications?page=1&page-size=25","apiVersion":"2.0.1","fapiInteractionId":"e10b452e-5164-4ee1-a4a9-77244b40c947","consentPactualId":"c47a896d-81fb-4a33-b04a-2d8114f930a3","authorizationServerId":"ffa73973-f4c5-448b-a838-d801f4f0b54a","consentId":"urn:btgpactual:d9da4614-5dc5-4834-b039-ba6891c3693b","canonicalRequestPath":"/customers/v2/personal/identifications","requestType":"GetPersonalIdentifications"},"tags":[]}},"ERROR":{"value":{"pactualId":"e10b452e-5164-4ee1-a4a9-77244b40c947","clientRequestId":"d07fc40a-b061-4b50-8ee2-25dc679a2ce8","createTimestamp":"2023-06-09T18:07:21.9225011+00:00","lastUpdateTimestamp":"2023-06-09T18:07:21.9225298+00:00","entity":"ObkRecData","status":"ERROR","errorCode":"PBE1411","errorDescription":"Unexpected Http Status Code","body":{"completeRequestPath":"/customers/v2/personal/identifications?page=1&page-size=25","apiVersion":"2.0.1","fapiInteractionId":"e10b452e-5164-4ee1-a4a9-77244b40c947","consentPactualId":"c47a896d-81fb-4a33-b04a-2d8114f930a3","authorizationServerId":"ffa73973-f4c5-448b-a838-d801f4f0b54a","integrationError":{"responseContent":"{\\\"errors\\\":[{\\\"code\\\":\\\"ERRO_INTERNO\\\",\\\"title\\\":\\\"ERRO_INTERNO\\\",\\\"detail\\\":\\\"Ocorreu um erro interno no sistema. Por favor, aguarde uns instantes e refaça a operação.\\\"}],\\\"meta\\\":{\\\"totalRecords\\\":1,\\\"totalPages\\\":1,\\\"requestDateTime\\\":\\\"2023-06-13T07:53:59Z\\\"}}","requestURL":"/resources/v2/resources","httpStatusCode":"500","shouldConsumeConsent":false,"httpMethod":{"method":"GET"},"shouldManuallyCreateErrorResponse":false},"consentId":"urn:btgpactual:d9da4614-5dc5-4834-b039-ba6891c3693b","canonicalRequestPath":"/customers/v2/personal/identifications","requestType":"GetPersonalIdentifications"},"tags":[]}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"2XX":{"description":"Return any 2XX status to indicate that the data was received successfully"}}}
+>
+  
+</StatusCodes>
+
+
+      

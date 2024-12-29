@@ -1,0 +1,60 @@
+---
+id: receiver-payment-report-error-logs
+title: "Error Log Report"
+description: "Endpoint to generate a report containing an error log for payment initiation endpoints. The log will return all information about what provider endpoint returned an error, along with request and response information, everything needed to open a ticket in the open finance service desk."
+sidebar_label: "Error Log Report"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: reference/open-finance/btg-pactual-banking-as-a-service-openfinance
+custom_edit_url: null
+proxy: https://proxy.writechoice.io/
+---
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Error Log Report"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/receiver/payment/report/logs"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Endpoint to generate a report containing an error log for payment initiation endpoints. The log will return all information about what provider endpoint returned an error, along with request and response information, everything needed to open a ticket in the open finance service desk.
+
+This endpoint receives a Payment Consent PactualId or a Payment Initiation PactualId. After calling it, a report will be generated asynchronously, and a download link will be sent via webhook  ([OBK Report Webhook](https://developer.btgpactual.com/docbk#operation/receiver-payment-webhook)). To download it, do a GET request to the download link, using a token. The download link has a 60 seconds expiration,  after that time another report must be generated.
+
+Obs: this endpoint is exclusive for customers using their own Open Finance license. 
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"content":{"application/json":{"schema":{"type":"object","properties":{"version":{"nullable":true,"type":"string"},"status":{"description":"","type":"integer"},"body":{"type":"object","properties":{"clientRequestId":{"nullable":true,"type":"string"},"pactualId":{"nullable":true,"type":"string"}},"additionalProperties":false,"title":"SingleBodyResponse"}},"additionalProperties":false,"title":"ObkReportResponse"}}},"description":"Success"},"400":{"content":{"application/json":{"schema":{"title":"PactualErrorResponse","description":"Default response body in case of any errors.","type":"object","properties":{"version":{"description":"Api version.","type":"string"},"status":{"description":"Http status code.","type":"string"},"errors":{"description":"Array of errors.","type":"array","items":{"type":"object","properties":{"errorCode":{"type":"string"},"message":{"type":"string"}}}}},"example":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is required."},{"errorCode":"PCE002","message":"The field 'taxId' is incorrect."}]}},"examples":{"BadRequestExample":{"value":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is mandatory."},{"errorCode":"PCE001","message":"The field 'accountNumber' is mandatory."}]}}}}},"description":"A BadRequest response."},"401":{"description":"Response when a request is not authorized for the user."},"500":{"content":{"application/json":{"schema":{"title":"PactualErrorResponse","description":"Default response body in case of any errors.","type":"object","properties":{"version":{"description":"Api version.","type":"string"},"status":{"description":"Http status code.","type":"string"},"errors":{"description":"Array of errors.","type":"array","items":{"type":"object","properties":{"errorCode":{"type":"string"},"message":{"type":"string"}}}}},"example":{"version":"1.0.0","status":400,"errors":[{"errorCode":"PCE001","message":"The field 'name' is required."},{"errorCode":"PCE002","message":"The field 'taxId' is incorrect."}]}},"examples":{"InternalServerErrorExample":{"value":{"version":"1.0.0","status":500,"errors":[{"errorCode":"PIE001","message":"Internal server error"}]}}}}},"description":"Internal server error responses."}}}
+>
+  
+</StatusCodes>
+
+
+      
