@@ -84,9 +84,11 @@ paths:
 
         Sample request:
 
+            ```
             POST /Token
              Content-Type: application/x-www-form-urlencoded
              client_id=[YourClientId]&client_secret=[YourSecret]&grant_type=client_credentials
+            ```
   /account:
     get:
       tags:
