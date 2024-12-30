@@ -1,0 +1,90 @@
+---
+title: Introduction
+---
+
+The BTG Bank as a Service API is built around RESTful principles. Our API utilizes standard HTTP protocols, returning JSON payloads in response to HTTP requests. 
+
+## API Services
+
+Our offers a wide range of functionalities through its API. Below are links to every API service available in the documentation:
+
+<CardList cols={4}>
+
+<Card 
+  title="KYC"
+  icon="lock"
+  iconType='regular'
+  link="/reference/onboarding/get-kyc-check"
+/>
+
+<Card 
+  title="Onboarding" 
+  icon="soccer-ball"
+  iconType='regular'
+  link="/reference/onboarding/get-onb-application"
+  />
+
+<Card 
+  title="PMF Transactions" 
+  icon="money"
+  iconType='regular'
+  link="/reference/onboarding/get-account-transaction"
+  />
+</CardList>
+
+
+## URLs
+The following table lists the base URLs for the different environments available:
+
+| Environment            | URL                                            |
+|-------------------------|------------------------------------------------|
+| Sandbox                | https://api.sandbox.developer.btgpactual.com/cm |
+| Sandbox (with mTLS)    | https://sandbox.developer.api.btgpactual.com/cm |
+| Production             | https://api.developer.btgpactual.com/cm         |
+| Production (with mTLS) | https://developer.api.btgpactual.com/cm         |
+
+
+## Response Envelopes
+All our responses follow the same pattern. They are sent respecting a default response envelope as shown bellow.
+
+```JSON
+# Default Envelope
+{
+    "status": 404,
+    "version": "1.0.0"
+}
+
+# Envelope with optional error codes
+{
+    "version": "1.0.0",
+    "status": 400,
+    "errors": [
+        {
+            "errorCode": "PCE001",
+            "message": "The field 'name' is mandatory."
+        }
+    ]
+}
+```
+
+## Error Message
+
+```json
+# Default Envelope
+{
+    "status": 404,
+    "version": "1.0.0"
+}
+
+# Envelope with optional error codes
+{
+    "version": "1.0.0",
+    "status": 400,
+    "errors": [
+        {
+            "errorCode": "PCE001",
+            "message": "The field 'name' is mandatory."
+        }
+    ]
+}
+```

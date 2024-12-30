@@ -1,0 +1,18 @@
+---
+title: Authentication
+---
+
+The Onboarding APIs use the **BaaSAuthorizer** for authorization, which is a simple and secure method to authenticate API requests using JSON Web Tokens (JWT). This method ensures that only authorized clients can access the API endpoints.
+
+## **Overview**
+- **Authorization Header**: JWT tokens are included in the HTTP request header.
+- **Scheme**: Bearer token.
+- **Purpose**: Validates the caller's credentials to grant access to API resources.
+
+## Example Request
+
+```json
+curl -L 'https://api.sandbox.developer.btgpactual.com/ob/kyc/check/1ac938d0-fced-45be-9a91-084be913c1c9' \
+-H 'Accept: application/json' \
+-H 'Authorization: Bearer 97c938d0-fced-45be-9a91-084be913c1c4'
+```

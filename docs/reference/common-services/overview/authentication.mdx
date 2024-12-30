@@ -1,0 +1,62 @@
+---
+title: Authentication
+---
+
+This page provides details on the various authentication methods available for accessing and securely interacting with the BaaS API. Authentication ensures that only authorized users and systems can access the services and data.
+
+## **Authentication Methods**
+
+The BTG BaaS API supports the following authentication methods:
+
+### **1. BaaSAuthorizer**
+- **Description**: Utilizes a JWT (JSON Web Token) for authorization.
+- **Authorization Header**: Include the JWT token in the request header using the Bearer scheme.
+  - **Example**:  
+    ```http
+    Authorization: Bearer {token}
+    ```
+- **Security Scheme Type**: API Key
+- **Header Parameter Name**: `Authorization`
+
+### **2. mTLS (Mutual TLS)**
+- **Description**: Enables secure communication through mTLS protocol when a certificate is enabled for webhook subscriptions.
+- **Process**:
+  - Obtain the client certificate from the developer portal or API.
+  - Use the certificate to establish a secure mTLS connection.
+- **Security Scheme Type**: API Key
+- **Header Parameter Name**: None (authentication handled via the certificate).
+
+### **3. Hash Signature**
+- **Description**: Provides an HMAC SHA256 Hash signature for webhook subscriptions to validate the authenticity of the messages sent by the API.
+- **Header Parameter**: `x-webhook-baas-signature`
+- **Process**:
+  1. When enabled, each webhook includes a `x-webhook-baas-signature` header.
+  2. The value is the HMAC-SHA256 hash of the request body content using the configured secret key.
+  3. To validate:
+     - Hash the raw request body content using the same secret key.
+     - Compare the generated hash with the value in the `x-webhook-baas-signature` header.
+     - If they match, the webhook is trusted.
+- **Important**: Ensure to hash the **raw body content** without any modifications or formatting.
+
+
+### **4. OAuth2 Pattern**
+- **Description**: Uses the OAuth 2.0 Client Authentication standard with JWT for secure access.
+- **Process**:
+  1. Authorize the API to access your account.
+  2. Obtain the access token by using the `/authentication/token` endpoint.
+  3. Apply the access token in the HTTP Authorization Header for subsequent requests.
+     - **Example**:
+       ```http
+       Authorization: Bearer {access_token}
+       ```
+  4. If using a Swagger interface:
+     - Retrieve the token via the `/authentication/token` method.
+     - Save the token in the "Authorize" option for use in future requests.
+
+## **Best Practices**
+- Regularly refresh tokens and securely store them.
+- Always validate webhook signatures when using Hash Signature authentication.
+- Ensure the client certificate is securely stored and rotated periodically when using mTLS.
+- Follow secure programming practices to protect your API Key and Secret Key from unauthorized access.
+
+This document covers the key aspects of securing communication and authentication for your interactions with the BaaS API. Use the method(s) best suited to your application's security and functional requirements.

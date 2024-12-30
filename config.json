@@ -1,6 +1,6 @@
 {
-  "websiteName": "WriteDocs Documentation",
-  "description": "Explore our documentation to learn how to create beautiful, scalable developer portals with WriteDocs.",
+  "websiteName": "BTG BaaS Documentation",
+  "description": "Explore our documentation to learn how to integrate with the BTG BaaS APIs.",
   "images": {
     "logo": "media/logo-btg-white.svg",
     "favicon": "media/logo-btg-blue.ico"  
@@ -44,10 +44,12 @@
       "sidebarRef": "common-services",
       "categories": [
         {
-          "categoryName": "Security and Authentication",
+          "categoryName": "Overview",
           "pages": [
+            "reference/common-services/overview/introduction",            
             {
               "groupName": "Authentication",
+              "page": "reference/common-services/overview/authentication",   
               "subpages": [
                 "reference/common-services/authentication-token"
               ]
@@ -167,6 +169,13 @@
     {
       "sidebarRef": "onboarding",
       "categories": [
+        {
+          "categoryName": "Overview",
+          "pages": [
+            "reference/onboarding/overview/introduction",        
+            "reference/onboarding/overview/authentication"
+          ]
+        },
         {
           "categoryName": "Know Your Client",
           "pages": [
