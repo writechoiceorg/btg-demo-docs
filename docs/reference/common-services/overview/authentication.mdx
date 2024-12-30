@@ -12,7 +12,7 @@ The BTG BaaS API supports the following authentication methods:
 - **Description**: Utilizes a JWT (JSON Web Token) for authorization.
 - **Authorization Header**: Include the JWT token in the request header using the Bearer scheme.
   - **Example**:  
-    ```http
+    ```
     Authorization: Bearer {token}
     ```
 - **Security Scheme Type**: API Key
@@ -46,7 +46,7 @@ The BTG BaaS API supports the following authentication methods:
   2. Obtain the access token by using the `/authentication/token` endpoint.
   3. Apply the access token in the HTTP Authorization Header for subsequent requests.
      - **Example**:
-       ```http
+       ```
        Authorization: Bearer {access_token}
        ```
   4. If using a Swagger interface:
@@ -58,5 +58,3 @@ The BTG BaaS API supports the following authentication methods:
 - Always validate webhook signatures when using Hash Signature authentication.
 - Ensure the client certificate is securely stored and rotated periodically when using mTLS.
 - Follow secure programming practices to protect your API Key and Secret Key from unauthorized access.
-
-This document covers the key aspects of securing communication and authentication for your interactions with the BaaS API. Use the method(s) best suited to your application's security and functional requirements.
